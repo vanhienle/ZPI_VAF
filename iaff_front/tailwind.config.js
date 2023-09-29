@@ -8,6 +8,7 @@ module.exports = {
       text: "#040604",
       background: "#FFF8F5",
       accent: "#48261E",
+      footerBackground: "#FFE6D9",
     },
     extend: {},
   },
