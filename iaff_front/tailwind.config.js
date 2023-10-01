@@ -3,12 +3,41 @@ module.exports = {
   content: ["./src/***/**/*.{html,js,jsx}"],
   theme: {
     colors: {
-      primary: "#EB0000",
-      secondary: "#59B7D4",
-      text: "#040604",
-      background: "#FFF8F5",
-      accent: "#48261E",
-      footerBackground: "#FFE6D9",
+      // Blue
+      primary: {
+        500: "#4446EF",
+        700: "#0000AE",
+        900: "#000072",
+      },
+      // Beige
+      secondary: {
+        500: "#FFEED1",
+        900: "#E8D5B5",
+      },
+      // Grey
+      accent: {
+        500: "#F1F1F1",
+        900: "#D9D9D9",
+      },
+      // Black
+      "text-color": "#000000",
+      // White
+      "background-color": "#ffffff",
+      "footer-background": "#FFE6D9",
+    },
+    keyframes: {
+      "open-menu": {
+        "0%": { transform: "translateX(100%)" },
+        "100%": { transform: "translateX(0)" },
+      },
+      appearance: {
+        "0%": { opacity: 0 },
+        "100%": { opacity: 1 },
+      },
+    },
+    animation: {
+      "open-menu": "open-menu 0.5s ease-in-out forwards",
+      appearance: "appearance 0.5s ease-in-out forwards",
     },
     extend: {},
   },

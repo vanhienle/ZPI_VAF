@@ -1,14 +1,20 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Documents from "./pages/Documents/Documents";
+import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
 
 const App = () => {
   return (
-    <Routes>
-      <Route element={<Home />} path="/" />
-      <Route element={<Documents />} path="/documents" />
-    </Routes>
+    <>
+      <Navbar />
+      <Routes>
+        <Route element={<Home />} path="/" />
+        <Route element={<Documents />} path="/documents" />
+      </Routes>
+      <Footer />
+    </>
   );
 };
 
