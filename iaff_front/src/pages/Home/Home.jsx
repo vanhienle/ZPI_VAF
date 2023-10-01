@@ -1,12 +1,12 @@
 import React from "react";
-import Navbar from "../../components/Navbar/Navbar";
+
 const Home = () => {
   return (
-    <main className="relative">
-      <div className="bg-background">
-        <h1 className="text-text">HOME</h1>
+    <>
+      <div className="py-6 px-6 text-center">
+        <h1 className="text-text_color">HOMEHOME</h1>
       </div>
-    </main>
+    </>
   );
 };
 
