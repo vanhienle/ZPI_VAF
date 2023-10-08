@@ -26,18 +26,18 @@ module.exports = {
       "footer-background": "#FFE6D9",
     },
     keyframes: {
-      "open-menu": {
+      "slide-right-to-left": {
         "0%": { transform: "translateX(100%)" },
         "100%": { transform: "translateX(0)" },
       },
-      appearance: {
+      "fade-in": {
         "0%": { opacity: 0 },
         "100%": { opacity: 1 },
       },
     },
     animation: {
-      "open-menu": "open-menu 0.5s ease-in-out forwards",
-      appearance: "appearance 0.5s ease-in-out forwards",
+      "slide-right-to-left": "slide-right-to-left 0.5s ease-in-out forwards",
+      "fade-in": "fade-in 0.5s ease-in-out forwards",
     },
     extend: {},
   },
