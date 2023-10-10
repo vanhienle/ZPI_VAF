@@ -11,6 +11,7 @@ module.exports = {
       },
       // Beige
       secondary: {
+        300: "#FFDFA8",
         500: "#FFEED1",
         900: "#E8D5B5",
       },
@@ -39,7 +40,20 @@ module.exports = {
       "slide-right-to-left": "slide-right-to-left 0.5s ease-in-out forwards",
       "fade-in": "fade-in 0.5s ease-in-out forwards",
     },
-    extend: {},
+    extend: {
+      opacity: {
+        10: "0.1",
+        20: "0.2",
+        30: "0.3",
+        40: "0.4",
+        50: "0.5",
+        60: "0.6",
+        70: "0.7",
+        80: "0.8",
+        90: "0.9",
+        100: "1",
+      },
+    },
   },
   plugins: [],
 };
