@@ -68,7 +68,7 @@ const Navbar = () => {
 
             {/* Toggle Menu */}
             {toggleMenu && (
-              <div className="bg-background-color py-4 px-4 rounded-md shadow-md top-20 right-0 absolute w-80 border-t-2 border-accent-900 overflow:hidden animate-slide-right-to-left">
+              <div className="bg-background-color py-4 px-4 rounded-md shadow-md top-20 right-0 absolute z-10 w-80 border-t-2 border-accent-900 overflow:hidden animate-slide-right-to-left">
                 <ul className="ml-0 px-0 space-y-6 text-center">
                   {navLinks.map((item) => (
                     <li key={item.label}>
