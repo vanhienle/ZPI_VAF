@@ -21,7 +21,9 @@ module.exports = {
         900: "#D9D9D9",
       },
       // Red
-      red: "#FF0000",
+      error: {
+        900: "#FF0000",
+      },
       // Black
       "text-color": "#000000",
       // White

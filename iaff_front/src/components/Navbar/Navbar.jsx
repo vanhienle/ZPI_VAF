@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import logo from "../../assets/images/logo.png";
 import { HiOutlineMenu } from "react-icons/hi";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
-import { navLinks } from "../../constants";
+import { navLinks } from "../../constants/navbar";
 import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
@@ -38,7 +38,7 @@ const Navbar = () => {
         {/* Navbar sign in / sing up links*/}
         <div className="flex gap-3 max-2xl:gap-2 text-sm leading-normal">
           <Link
-            to="/singin"
+            to="/login"
             className="text-primary-500 text-base max-2xl:text-sm px-2 py-2 rounded-md hover:bg-secondary-500 hover:text-primary-900 transition-all duration-200 ease-out max-md:hidden animate-fade-in"
           >
             SIGN IN
@@ -68,7 +68,7 @@ const Navbar = () => {
 
             {/* Toggle Menu */}
             {toggleMenu && (
-              <div className="bg-background-color py-4 px-4 rounded-md shadow-md top-20 right-0 absolute z-10 w-80 border-t-2 border-accent-900 overflow:hidden animate-slide-right-to-left">
+              <div className="bg-background-color py-4 px-4 rounded-md shadow-md top-24 right-0 absolute z-10 w-80 border-t-2 border-accent-900 overflow:hidden animate-slide-right-to-left">
                 <ul className="ml-0 px-0 space-y-6 text-center">
                   {navLinks.map((item) => (
                     <li key={item.label}>
@@ -91,7 +91,7 @@ const Navbar = () => {
                   <li>
                     <div className="space-x-4 hidden max-md:block">
                       <Link
-                        to="/singin"
+                        to="/login"
                         className="text-primary-500 text-md px-3 py-3 rounded-md hover:bg-secondary-500 hover:text-primary-900 transition-all duration-200 ease-out"
                       >
                         SIGN IN

@@ -12,7 +12,7 @@ import {
   modulesInfo,
   signInTitle,
   signInDescription,
-} from "../../constants";
+} from "../../constants/home";
 
 import assistantImage from "../../assets/images/assistant.jpg";
 import signInImage from "../../assets/images/signin.jpg";
@@ -112,7 +112,7 @@ const Home = () => {
               Sign In
             </Link>
             <Link
-              to="/registration"
+              to="/signup"
               className="bg-primary-900 text-md px-4 py-2 text-background-color rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out"
             >
               Sign Up
