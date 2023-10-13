@@ -14,7 +14,7 @@ const Navbar = () => {
       <nav className="flex justify-between items-center max-container">
         {/* Navbar Logo of Application */}
         <a href="/">
-          <img src={logo} alt="Logo" width={160} />
+          <img className="w-52 max-2xl:w-48" src={logo} alt="Logo" />
         </a>
 
         {/* Navbar Menu list */}
@@ -27,7 +27,7 @@ const Navbar = () => {
                   location.pathname === item.href
                     ? "text-primary-500"
                     : "text-text-color hover:text-primary-500"
-                } leading-normal text-sm transition duration-100 ease-out hover:ease-in`}
+                } leading-normal text-base max-2xl:text-sm transition duration-100 ease-out hover:ease-in`}
               >
                 {item.label}
               </Link>
@@ -36,16 +36,16 @@ const Navbar = () => {
         </ul>
 
         {/* Navbar sign in / sing up links*/}
-        <div className="flex gap-2 text-sm leading-normal">
+        <div className="flex gap-3 max-2xl:gap-2 text-sm leading-normal">
           <Link
-            to="/login"
-            className="text-primary-500 px-2 py-2 rounded-md hover:bg-secondary-500 hover:text-primary-900 transition-all duration-200 ease-out max-md:hidden animate-fade-in"
+            to="/singin"
+            className="text-primary-500 text-base max-2xl:text-sm px-2 py-2 rounded-md hover:bg-secondary-500 hover:text-primary-900 transition-all duration-200 ease-out max-md:hidden animate-fade-in"
           >
             SIGN IN
           </Link>
           <Link
-            to="/registration"
-            className="bg-primary-900 text-background-color px-2 py-2 rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out max-md:hidden animate-fade-in"
+            to="/signup"
+            className="bg-primary-900 text-base max-2xl:text-sm text-background-color px-2 py-2 rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out max-md:hidden animate-fade-in"
           >
             SIGN UP
           </Link>
@@ -91,13 +91,13 @@ const Navbar = () => {
                   <li>
                     <div className="space-x-4 hidden max-md:block">
                       <Link
-                        to="/login"
+                        to="/singin"
                         className="text-primary-500 text-md px-3 py-3 rounded-md hover:bg-secondary-500 hover:text-primary-900 transition-all duration-200 ease-out"
                       >
                         SIGN IN
                       </Link>
                       <Link
-                        to="/registration"
+                        to="/signup"
                         className="bg-primary-900 text-md px-3 py-3 text-background-color rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out"
                       >
                         SIGN UP

@@ -7,7 +7,9 @@ import Footer from "./components/Footer/Footer";
 import Assistant from "./pages/Assistant/Assistant";
 import Accommodation from "./pages/Accommodation/Accommodation";
 import Map from "./pages/Map/Map";
+import Registration from "./pages/Registration/Registration";
 import Login from "./pages/Login/Login";
+
 
 const App = () => {
   return (
@@ -19,6 +21,7 @@ const App = () => {
         <Route element={<Assistant />} path="/assistant" />
         <Route element={<Accommodation />} path="/accommodation" />
         <Route element={<Map />} path="/map" />
+        <Route element={<Registration />} path="/signup" />
         <Route element={<Login />} path="/login" />
       </Routes>
     </>
