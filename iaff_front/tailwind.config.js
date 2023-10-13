@@ -20,6 +20,8 @@ module.exports = {
         500: "#F1F1F1",
         900: "#D9D9D9",
       },
+      // Red
+      red: "#FF0000",
       // Black
       "text-color": "#000000",
       // White
