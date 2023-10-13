@@ -19,7 +19,20 @@ export const assistantDescription =
 
 export const qAndATitle = "Q&A Module";
 
-export const qAndA = [];
+export const qAndA = [
+  { id: 1, question: "How to get PESEL?", image: "HOME" },
+  { id: 2, question: "Where can i find accommodation?", image: "DOCUMENTS" },
+  { id: 3, question: "What i need to study in Poland?", image: "ASSISTANT" },
+  {
+    id: 4,
+    question: "Are there any student programs?",
+    image: "ACCOMMODATION",
+  },
+  { id: 5, question: "What do you need to go to the hospital?", image: "MAP" },
+  { id: 6, question: "What I need to work", image: "MAP" },
+];
+
+export const modulesTitle = "Modules";
 
 export const modulesInfo = [];
 
