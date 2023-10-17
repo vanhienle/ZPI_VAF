@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import logo from "../../assets/images/logo.png";
 import { login } from "../../utils/User/loginAPI";
 
@@ -8,74 +6,86 @@ const Login = () => {
   const [formData, setFormData] = useState({
     email_address: "",
     password: "",
+    login_failed: false,
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [name]: value, login_failed: false });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { email_address, password } = formData;
-    if (await login(email_address, password)) {
+    if (
+      !formData.login_failed &&
+      formData.password !== "" &&
+      (await login(email_address, password))
+    ) {
       alert("Login successful");
     } else {
-      alert("Login failed");
+      setFormData({ ...formData, login_failed: true });
     }
   };
-
   return (
-    <div className="flex flex-col items-center justify-center pt-4">
-      <div className="w-1/4 min-w-max d-flex flex-col justify-content-center align-items-center p-18 border-2 rounded-md border-solid border-primary-900 mt-12">
+    <div className="flex flex-col items-center justify-center pt-4 mb-6">
+      <div className="flex flex-col items-center justify-center border-2 rounded-md border-solid border-primary-900 p-18 mt-10">
         <img
           className="relative z-0 -top-7 h-16 border-2 rounded-md border-solid border-accent-500 "
           alt="logoImage"
           src={logo}
         />
-        <Form className="p-14 pt-0" onSubmit={handleSubmit}>
-          <h3 className="d-flex justify-content-center text-text-color mb-6 font-bold">
+        <form className="p-12 pt-0" onSubmit={handleSubmit}>
+          <p className="text-text-color text-center mb-6 font-bold text-xl">
             SIGN IN
-          </h3>
-          <Form.Group className="mb-4 w-96" controlId="formBasicEmail">
-            <Form.Control
+          </p>
+          <p
+            className={`text-red mb-5 ${
+              !formData.login_failed ? "hidden" : ""
+            }`}
+          >
+            Email or password is not correct!
+          </p>
+          <div className="mb-4">
+            <input
               type="text"
               name="email_address"
               placeholder="Enter email"
-              minLength={3}
-              maxLength={100}
+              minLength="3"
+              maxLength="100"
               value={formData.email_address}
               onChange={handleChange}
+              className="appearance-none border rounded w-full py-2 px-3 text-text-color leading-tight focus:outline-none focus:shadow-outline mb-4"
             />
-            <Form.Text className="text-muted"></Form.Text>
-          </Form.Group>
-          <Form.Group className="mb-4" controlId="formBasicPassword">
-            <Form.Control
+          </div>
+          <div className="mb-4">
+            <input
               type="password"
               name="password"
               placeholder="Password"
-              minLength={8}
-              maxLength={30}
+              minLength="8"
+              maxLength="30"
               value={formData.password}
               onChange={handleChange}
+              className="appearance-none border rounded w-full py-2 px-3 text-text-color leading-tight focus:outline-none focus:shadow-outline"
             />
-            <Form.Control.Feedback type="valid">
-              Wrong password{" "}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Text className="d-flex justify-content-center">
+          </div>
+          <div className="flex text-center mb-5">
             <p>Have not got an account? &nbsp;</p>
-            <a href="/registration">Sign Up here</a>
-          </Form.Text>
-          <Button className="w-100 mb-2" variant="primary" type="submit">
-            SIGN IN
-          </Button>
-          <Form.Text className="d-flex justify-content-center">
-            <p className="font-bold text-xs">
-              Copyright @ Politechnika Wrocławska
-            </p>
-          </Form.Text>
-        </Form>
+            <a className="text-primary-700" href="/registration">
+              Sign Up here
+            </a>
+          </div>
+          <button
+            className="bg-primary-900 w-full hover:bg-primary-500 text-background-color font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4"
+            type="submit"
+          >
+            Log In
+          </button>
+          <div className="text-center text-accent-900">
+            Copyright @ Politechnika Wrocławska
+          </div>
+        </form>
       </div>
     </div>
   );
