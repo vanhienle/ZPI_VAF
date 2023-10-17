@@ -38,7 +38,7 @@ const Navbar = () => {
         {/* Navbar sign in / sing up links*/}
         <div className="flex gap-3 max-2xl:gap-2 text-sm leading-normal">
           <Link
-            to="/singin"
+            to="/login"
             className="text-primary-500 text-base max-2xl:text-sm px-2 py-2 rounded-md hover:bg-secondary-500 hover:text-primary-900 transition-all duration-200 ease-out max-md:hidden animate-fade-in"
           >
             SIGN IN
@@ -91,7 +91,7 @@ const Navbar = () => {
                   <li>
                     <div className="space-x-4 hidden max-md:block">
                       <Link
-                        to="/singin"
+                        to="/login"
                         className="text-primary-500 text-md px-3 py-3 rounded-md hover:bg-secondary-500 hover:text-primary-900 transition-all duration-200 ease-out"
                       >
                         SIGN IN

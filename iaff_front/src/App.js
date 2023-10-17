@@ -9,7 +9,8 @@ import Accommodation from "./pages/Accommodation/Accommodation";
 import Map from "./pages/Map/Map";
 import Registration from "./pages/Registration/Registration";
 import Login from "./pages/Login/Login";
-
+import ChangeProfile from "./pages/Profile/ChangeProfile";
+import ChangePassword from "./pages/Profile/ChangePassword";
 
 const App = () => {
   return (
@@ -23,7 +24,10 @@ const App = () => {
         <Route element={<Map />} path="/map" />
         <Route element={<Registration />} path="/signup" />
         <Route element={<Login />} path="/login" />
+        <Route element={<ChangeProfile />} path="/changeprofile" />
+        <Route element={<ChangePassword />} path="/changepassword" />
       </Routes>
+      <Footer />
     </>
   );
 };
