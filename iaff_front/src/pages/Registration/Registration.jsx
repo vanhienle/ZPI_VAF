@@ -41,7 +41,7 @@ const Registration = () => {
   };
 
   const validateName = (value) => {
-    const pattern = /^[A-Za-z\-]+$/;
+    const pattern = /^[A-Za-z-]+$/;
     if (value.length < 2 || value.length > 100 || !pattern.test(value)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -274,12 +274,17 @@ const Registration = () => {
             <div>
               <p className="text-center">
                 {haveAnAccountMessage}
-                <a href="/login">Sign In Here</a>
+                <a
+                  href="/login"
+                  className="hover:text-primary-900 ease-in-out duration-150"
+                >
+                  Sign In Here
+                </a>
               </p>
             </div>
             <div className="flex items-center justify-between">
               <button
-                className="bg-primary-900 w-full hover:bg-primary-700 text-background-color py-2 px-4 rounded-lg focus:drop-shadow-sm-primary-900 focus:outline-none focus:shadow-outline"
+                className="bg-primary-900 w-full hover:bg-primary-700 text-background-color py-2 px-4 rounded-lg ease-in-out duration-150 focus:drop-shadow-sm-primary-900 focus:outline-none focus:shadow-outline"
                 type="submit"
                 onClick={handleSubmit}
               >

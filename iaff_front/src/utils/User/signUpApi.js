@@ -2,7 +2,7 @@ const apiUrl = process.env.BACK_END_URL;
 
 export const signUp = async (data) => {
   try {
-    const response = await fetch(apiUrl + "/api/signup", {
+    const response = await fetch(apiUrl + "/api/user/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
