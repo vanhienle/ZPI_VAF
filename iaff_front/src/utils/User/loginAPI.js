@@ -24,7 +24,10 @@ export async function login(email_address, password) {
   }*/
 
   try {
-    const response = await fetch("https://91.195.53.69/login", {
+    return false;
+    console.log(process.env.BACK_END_URL + "/login");
+
+    const response = await fetch(process.env.BACK_END_URL + "/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,12 +38,11 @@ export async function login(email_address, password) {
     if (response.ok) {
       const data = await response.json();
       console.log(data);
-      return data;
+      return true;
     } else {
-      throw new Error("Login failed");
+      return false;
     }
   } catch (error) {
-    console.error("Login error:", error);
-    throw error;
+    return false;
   }
 }
