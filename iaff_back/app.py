@@ -1,13 +1,13 @@
 from flask import Flask
 from flask_login import LoginManager
-from main import main as main_blueprint
+# from main import main as main_blueprint
 from auth import auth as auth_blueprint
 from userAccess import Access, User
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'Accordingtoallknownlawsofaviationthereisnowayabeeshouldbeabletofly'
-    app.register_blueprint(main_blueprint)
+    # app.register_blueprint(main_blueprint)
     app.register_blueprint(auth_blueprint)
     access = Access()
 
@@ -29,4 +29,4 @@ def create_app():
 app= create_app()
 
 if __name__ == '__main__':
-    app.run(host='10.182.10.71', port=5000, debug=True) #Remove debug on production
+    app.run(host='0.0.0.0', port=5000, debug=True)
