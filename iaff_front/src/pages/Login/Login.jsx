@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import logo from "../../assets/images/logo.png";
-import { login } from "../../services/loginAPI";
+import { login } from "../../utils/User/loginAPI";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -27,9 +27,9 @@ const Login = () => {
 
   return (
     <div className="flex flex-col items-center justify-center pt-4">
-      <div className="d-flex flex-col justify-content-center align-items-center p-18 border-2 rounded-md border-solid border-primary-900 mt-12">
+      <div className="w-1/4 min-w-max d-flex flex-col justify-content-center align-items-center p-18 border-2 rounded-md border-solid border-primary-900 mt-12">
         <img
-          className="relative z-0 -top-7 h-14 border-2 rounded-md border-solid border-accent-500 "
+          className="relative z-0 -top-7 h-16 border-2 rounded-md border-solid border-accent-500 "
           alt="logoImage"
           src={logo}
         />
@@ -37,7 +37,7 @@ const Login = () => {
           <h3 className="d-flex justify-content-center text-text-color mb-6 font-bold">
             SIGN IN
           </h3>
-          <Form.Group className="mb-4" controlId="formBasicEmail">
+          <Form.Group className="mb-4 w-96" controlId="formBasicEmail">
             <Form.Control
               type="text"
               name="email_address"
@@ -71,7 +71,9 @@ const Login = () => {
             SIGN IN
           </Button>
           <Form.Text className="d-flex justify-content-center">
-            <p className="font-bold">Copyright @ Politechnika Wrocławska</p>
+            <p className="font-bold text-xs">
+              Copyright @ Politechnika Wrocławska
+            </p>
           </Form.Text>
         </Form>
       </div>
