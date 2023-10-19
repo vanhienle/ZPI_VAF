@@ -1,16 +1,15 @@
-export async function login(email, password) {
+export async function logout() {
   try {
     const response = await Promise.race([
-      fetch("http://91.195.53.69:5000/users/login", {
-        method: "POST",
+      fetch("http://91.195.53.69:5000/users/logout", {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
       }),
       new Promise((_, reject) => {
         setTimeout(() => {
-          reject(new Error("Login request timed out after 3 seconds"));
+          reject(new Error("logout request timed out after 3 seconds"));
         }, 3000);
       }),
     ]);

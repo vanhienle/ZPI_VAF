@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import logo from "../../assets/images/logo.png";
-import { HiOutlineMenu } from "react-icons/hi";
-import { HiOutlineMenuAlt3 } from "react-icons/hi";
+import { HiOutlineMenu, HiOutlineMenuAlt3, HiUser } from "react-icons/hi";
 import { navLinks } from "../../constants/navbar";
 import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const location = useLocation();
 
   return (
@@ -36,19 +37,51 @@ const Navbar = () => {
         </ul>
 
         {/* Navbar sign in / sing up links*/}
+
         <div className="flex gap-3 max-2xl:gap-2 text-sm leading-normal">
-          <Link
-            to="/login"
-            className="text-primary-500 text-base max-2xl:text-sm px-2 py-2 rounded-md hover:bg-secondary-500 hover:text-primary-900 transition-all duration-200 ease-out max-md:hidden animate-fade-in"
-          >
-            SIGN IN
-          </Link>
-          <Link
-            to="/signup"
-            className="bg-primary-900 text-base max-2xl:text-sm text-background-color px-2 py-2 rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out max-md:hidden animate-fade-in"
-          >
-            SIGN UP
-          </Link>
+          {isLogin ? (
+            <div className="relative">
+              <HiUser
+                size={38}
+                className=" text-primary-900 cursor-pointer rounded-full bg-background-color border-2 border-solid border-primary-900 p-1 hover:text-primary-500 hover:border-primary-500 ease-in-out duration-200"
+                onClick={() => setIsOpen(!isOpen)}
+              />
+              {isOpen && (
+                <div className="absolute z-10 right-0 top-10 w-40 bg-background-color border border-solid border-primary-900 rounded-md shadow-md">
+                  <ul className="py-2">
+                    <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+                      <Link className="text-text-color text-xl hover:text-primary-500 ease-in-out">
+                        Settings
+                      </Link>
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+                      <p
+                        className="text-text-color text-xl hover:text-primary-500 ease-in-out duration-200"
+                        onClick={() => setIsLogin(false)}
+                      >
+                        Logout
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="text-primary-500 text-base max-2xl:text-sm px-2 py-2 rounded-md hover:bg-secondary-500 hover:text-primary-900 transition-all duration-200 ease-out max-md:hidden animate-fade-in"
+              >
+                SIGN IN
+              </Link>
+              <Link
+                to="/signup"
+                className="bg-primary-900 text-base max-2xl:text-sm text-background-color px-2 py-2 rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out max-md:hidden animate-fade-in"
+              >
+                SIGN UP
+              </Link>
+            </>
+          )}
 
           {/* Toggle Icons */}
           <div className="ml-6 hidden max-lg:block">
@@ -89,20 +122,24 @@ const Navbar = () => {
                     <hr />
                   </li>
                   <li>
-                    <div className="space-x-4 hidden max-md:block">
-                      <Link
-                        to="/login"
-                        className="text-primary-500 text-md px-3 py-3 rounded-md hover:bg-secondary-500 hover:text-primary-900 transition-all duration-200 ease-out"
-                      >
-                        SIGN IN
-                      </Link>
-                      <Link
-                        to="/signup"
-                        className="bg-primary-900 text-md px-3 py-3 text-background-color rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out"
-                      >
-                        SIGN UP
-                      </Link>
-                    </div>
+                    {isLogin ? (
+                      <></>
+                    ) : (
+                      <div className="space-x-4 hidden max-md:block">
+                        <Link
+                          to="/login"
+                          className="text-primary-500 text-md px-3 py-3 rounded-md hover:bg-secondary-500 hover:text-primary-900 transition-all duration-200 ease-out"
+                        >
+                          SIGN IN
+                        </Link>
+                        <Link
+                          to="/signup"
+                          className="bg-primary-900 text-md px-3 py-3 text-background-color rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out"
+                        >
+                          SIGN UP
+                        </Link>
+                      </div>
+                    )}
                   </li>
                 </ul>
               </div>

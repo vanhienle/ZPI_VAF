@@ -40,7 +40,7 @@ const Login = () => {
             SIGN IN
           </p>
           <p
-            className={`text-red mb-5 ${
+            className={`text-error-900 mb-5 ${
               !formData.login_failed ? "hidden" : ""
             }`}
           >
@@ -72,7 +72,7 @@ const Login = () => {
           </div>
           <div className="flex text-center mb-5">
             <p>Have not got an account? &nbsp;</p>
-            <a className="text-primary-700" href="/registration">
+            <a className="text-primary-700" href="/signup">
               Sign Up here
             </a>
           </div>

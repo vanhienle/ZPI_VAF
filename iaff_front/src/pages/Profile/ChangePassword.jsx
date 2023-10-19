@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { login } from "../../services/loginAPI";
+import { login } from "../../utils/User/loginAPI";
 
 const ChangePassword = () => {
   const [formData, setFormData] = useState({
@@ -32,20 +32,20 @@ const ChangePassword = () => {
   };
   return (
     <div className="flex flex-col items-center justify-center mb-6">
-      <div className="flex flex-col border-2 rounded-md border-solid border-accent-900 mt-8">
+      <div className="flex flex-col border-2 rounded-md border-solid border-accent-900 w-2/5 max-sm:w-3/4 mt-8">
         <div className="flex flex-col items-center justify-center">
-          <div className="flex w-full px-6 pt-6 border-b mb-4">
+          <div className="flex w-full px-5 pt-6 border-b mb-4">
             <p className="grow text-xl text-primary-500 mb-4">
               Change Password
             </p>
             <a
-              className="w-18 h-8 p-1 text-base font-bold bg-secondary-300 hover:bg-secondary-900 text-text-color rounded focus:outline-none focus:shadow-outline"
+              className="w-18 h-8 p-1 text-base font-bold  bg-primary-900 hover:bg-primary-500 text-background-color  rounded focus:outline-none focus:shadow-outline"
               href="/#"
             >
               Survey &#8594;
             </a>
           </div>
-          <div className="px-16">
+          <div className="w-1/2 max-sm:w-3/4">
             <form className="" onSubmit={handleSubmit}>
               <p className="mb-2">Current Password</p>
               <div className="mb-4">
@@ -87,7 +87,7 @@ const ChangePassword = () => {
                 </div>
               </div>
               <p
-                className={`text-red mb-5 ${
+                className={`text-error-900 mb-5 ${
                   !formData.change_failed ? "hidden" : ""
                 }`}
               >
