@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import logo from "../../assets/images/logo.png";
 import { HiOutlineMenu, HiOutlineMenuAlt3, HiUser } from "react-icons/hi";
 import { navLinks } from "../../constants/navbar";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
+
+  const isLogin = localStorage.getItem("isLogin") === "true";
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <header className="py-3 px-4 z-10 w-full bg-background-color shadow-md">
@@ -50,14 +52,22 @@ const Navbar = () => {
                 <div className="absolute z-10 right-0 top-10 w-40 bg-background-color border border-solid border-primary-900 rounded-md shadow-md">
                   <ul className="py-2">
                     <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-                      <Link className="text-text-color text-xl hover:text-primary-500 ease-in-out">
+                      <Link
+                        to="/changeprofile"
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="text-text-color text-xl hover:text-primary-500 ease-in-out"
+                      >
                         Settings
                       </Link>
                     </li>
                     <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
                       <p
                         className="text-text-color text-xl hover:text-primary-500 ease-in-out duration-200"
-                        onClick={() => setIsLogin(false)}
+                        onClick={() => {
+                          localStorage.setItem("isLogin", false);
+                          setIsOpen(!isOpen);
+                          navigate(0);
+                        }}
                       >
                         Logout
                       </p>
@@ -70,12 +80,14 @@ const Navbar = () => {
             <>
               <Link
                 to="/login"
+                onClick={() => setToggleMenu(false)}
                 className="text-primary-500 text-base max-2xl:text-sm px-2 py-2 rounded-md hover:bg-secondary-500 hover:text-primary-900 transition-all duration-200 ease-out max-md:hidden animate-fade-in"
               >
                 SIGN IN
               </Link>
               <Link
                 to="/signup"
+                onClick={() => setToggleMenu(false)}
                 className="bg-primary-900 text-base max-2xl:text-sm text-background-color px-2 py-2 rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out max-md:hidden animate-fade-in"
               >
                 SIGN UP
@@ -128,12 +140,14 @@ const Navbar = () => {
                       <div className="space-x-4 hidden max-md:block">
                         <Link
                           to="/login"
+                          onClick={() => setToggleMenu(false)}
                           className="text-primary-500 text-md px-3 py-3 rounded-md hover:bg-secondary-500 hover:text-primary-900 transition-all duration-200 ease-out"
                         >
                           SIGN IN
                         </Link>
                         <Link
                           to="/signup"
+                          onClick={() => setToggleMenu(false)}
                           className="bg-primary-900 text-md px-3 py-3 text-background-color rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out"
                         >
                           SIGN UP

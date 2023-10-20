@@ -1,7 +1,8 @@
 export async function logout() {
+  return true;
   try {
     const response = await Promise.race([
-      fetch("http://91.195.53.69:5000/users/logout", {
+      fetch(window.env.BACK_END_URL + "/users/logout", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

@@ -1,29 +1,41 @@
 import React, { useState } from "react";
-import { login } from "../../utils/User/loginAPI";
+import { Navigate, useNavigate } from "react-router-dom";
+import { changeProfile } from "../../utils/User/changeProfileAPI";
 
 const ChangeProfile = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    email_address: "",
-    login_failed: false,
+    name: localStorage.getItem("name"),
+    email_address: localStorage.getItem("email"),
+    password: "",
+    change_failed: false,
   });
+
+  const isLogin = localStorage.getItem("isLogin") === "true";
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value, login_failed: false });
+    setFormData({ ...formData, [name]: value, change_failed: false });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email_address, password } = formData;
+    const { name, email_address, password } = formData;
     if (
-      !formData.login_failed &&
+      !formData.change_failed &&
       formData.password !== "" &&
-      (await login(email_address, password))
+      (await changeProfile(
+        name,
+        localStorage.getItem("email"),
+        email_address,
+        password
+      ))
     ) {
-      alert("Login successful");
+      alert("Profile updated successfully");
+      navigate(0);
     } else {
-      setFormData({ ...formData, login_failed: true });
+      console.log("failed");
+      setFormData({ ...formData, change_failed: true });
     }
   };
   return (
@@ -47,7 +59,7 @@ const ChangeProfile = () => {
               <input
                 type="text"
                 name="name"
-                placeholder="Hien"
+                placeholder=""
                 minLength="1"
                 maxLength="30"
                 value={formData.name}
@@ -67,6 +79,26 @@ const ChangeProfile = () => {
                   className="appearance-none border rounded w-full py-2 px-3 text-text-color leading-tight focus:outline-none focus:shadow-outline"
                 />
               </div>
+              <p className="mb-2">Current password</p>
+              <div className="mb-4">
+                <input
+                  type="password"
+                  name="password"
+                  placeholder=""
+                  minLength="8"
+                  maxLength="100"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="appearance-none border rounded w-full py-2 px-3 text-text-color leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <p
+                className={`text-error-900 mb-5 ${
+                  !formData.change_failed ? "hidden" : ""
+                }`}
+              >
+                Current password is incorrect!
+              </p>
             </div>
             <div className="flex text-center mb-5">
               <a className="text-primary-700" href="/changepassword">
@@ -85,6 +117,7 @@ const ChangeProfile = () => {
           Copyright @ Politechnika Wrocławska
         </div>
       </div>
+      <>{!isLogin && <Navigate to="/" />}</>
     </div>
   );
 };
