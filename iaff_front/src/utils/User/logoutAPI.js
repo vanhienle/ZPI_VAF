@@ -1,5 +1,4 @@
 export async function logout() {
-  return true;
   try {
     const response = await Promise.race([
       fetch(window.env.BACK_END_URL + "/users/logout", {
@@ -10,18 +9,11 @@ export async function logout() {
       }),
       new Promise((_, reject) => {
         setTimeout(() => {
-          reject(new Error("logout request timed out after 3 seconds"));
+          reject(new Error("Logout request timed out after 3 seconds"));
         }, 3000);
       }),
     ]);
-
-    if (response.ok) {
-      const data = await response.json();
-      if (data === "True") return true;
-      else return false;
-    } else {
-      return false;
-    }
+    return true;
   } catch (error) {
     return false;
   }

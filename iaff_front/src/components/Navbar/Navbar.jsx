@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import logo from "../../assets/images/logo.png";
-import { HiOutlineMenu, HiOutlineMenuAlt3, HiUser } from "react-icons/hi";
+import {
+  HiOutlineMenu,
+  HiOutlineMenuAlt3,
+  HiUser,
+  HiOutlineLogout,
+  HiOutlineCog,
+} from "react-icons/hi";
 import { navLinks } from "../../constants/navbar";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -11,6 +17,10 @@ const Navbar = () => {
   const isLogin = localStorage.getItem("isLogin") === "true";
   const location = useLocation();
   const navigate = useNavigate();
+
+  window.addEventListener("click", (e) => {
+    console.log(e.target);
+  });
 
   return (
     <header className="py-3 px-4 z-10 w-full bg-background-color shadow-md">
@@ -49,29 +59,27 @@ const Navbar = () => {
                 onClick={() => setIsOpen(!isOpen)}
               />
               {isOpen && (
-                <div className="absolute z-10 right-0 top-10 w-40 bg-background-color border border-solid border-primary-900 rounded-md shadow-md">
-                  <ul className="py-2">
-                    <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-                      <Link
-                        to="/changeprofile"
-                        onClick={() => setIsOpen(!isOpen)}
-                        className="text-text-color text-xl hover:text-primary-500 ease-in-out"
-                      >
-                        Settings
-                      </Link>
-                    </li>
-                    <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-                      <p
-                        className="text-text-color text-xl hover:text-primary-500 ease-in-out duration-200"
-                        onClick={() => {
-                          localStorage.setItem("isLogin", false);
-                          setIsOpen(!isOpen);
-                          navigate(0);
-                        }}
-                      >
-                        Logout
-                      </p>
-                    </li>
+                <div className="absolute z-10 right-0 top-11 w-32 bg-background-color border border-solid border-primary-900 rounded-md shadow-md">
+                  <ul className="py-1">
+                    <Link
+                      to="/changeprofile"
+                      onClick={() => setIsOpen(!isOpen)}
+                      className="px-2 py-1 flex items-center justify-start cursor-pointer text-text-color text-base hover:text-primary-500 hover:bg-accent-500 ease-in-out"
+                    >
+                      <HiOutlineCog size={30} className="mr-2" />
+                      Settings
+                    </Link>
+                    <p
+                      className="px-2 py-1 flex items-center justify-start cursor-pointer text-text-color text-base hover:text-primary-500 hover:bg-accent-500 ease-in-out duration-200"
+                      onClick={() => {
+                        localStorage.setItem("isLogin", false);
+                        setIsOpen(!isOpen);
+                        navigate(0);
+                      }}
+                    >
+                      <HiOutlineLogout size={30} className="mr-2" />
+                      Logout
+                    </p>
                   </ul>
                 </div>
               )}
