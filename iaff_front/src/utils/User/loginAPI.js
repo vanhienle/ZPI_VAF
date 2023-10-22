@@ -1,7 +1,7 @@
 export async function login(email, password) {
   try {
     const response = await Promise.race([
-      fetch("http://91.195.53.69:5000/users/login", {
+      fetch(window.env.BACK_END_URL + "/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,51 +1,72 @@
 import React, { useState } from "react";
 import { login } from "../../utils/User/loginAPI";
+import { changePassword } from "../../utils/User/changePasswordAPI";
+import { Navigate, useNavigate } from "react-router-dom";
+
 
 const ChangePassword = () => {
   const [formData, setFormData] = useState({
     current_password: "",
     new_password: "",
     repeat_new_password: "",
-    change_failed: false,
+    password_incorrect: false,
+    password_mismatch: false,
   });
+
+  const isLogin = localStorage.getItem("isLogin") === "true";
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value, change_failed: false });
+    setFormData({
+      ...formData,
+      [name]: value,
+      password_mismatch: false,
+      password_incorrect: false,
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email_address, password } = formData;
+    const { current_password, new_password } = formData;
     if (
-      !formData.change_failed &&
-      formData.password !== "" &&
+      !formData.password_incorrect &&
+      formData.current_password !== "" &&
       formData.new_password !== "" &&
       formData.repeat_new_password !== "" &&
       formData.new_password === formData.repeat_new_password &&
-      (await login(email_address, password))
+      (await changePassword(
+        localStorage.getItem("email"),
+        current_password,
+        new_password
+      ))
     ) {
-      alert("Password changed successful");
+      alert("Password changed successfully");
+      navigate(0);
     } else {
-      setFormData({ ...formData, change_failed: true });
+      if (formData.new_password !== formData.repeat_new_password) {
+        setFormData({ ...formData, password_mismatch: true });
+      } else {
+        setFormData({ ...formData, password_incorrect: true });
+      }
     }
   };
   return (
     <div className="flex flex-col items-center justify-center mb-6">
-      <div className="flex flex-col border-2 rounded-md border-solid border-accent-900 mt-8">
+      <div className="flex flex-col border-2 rounded-md border-solid border-accent-900 w-2/5 max-sm:w-3/4 mt-8">
         <div className="flex flex-col items-center justify-center">
-          <div className="flex w-full px-6 pt-6 border-b mb-4">
+          <div className="flex w-full px-5 pt-6 border-b mb-4">
             <p className="grow text-xl text-primary-500 mb-4">
               Change Password
             </p>
             <a
-              className="w-18 h-8 p-1 text-base font-bold bg-secondary-300 hover:bg-secondary-900 text-text-color rounded focus:outline-none focus:shadow-outline"
+              className="w-18 h-8 p-1 text-base font-bold  bg-primary-900 hover:bg-primary-500 text-background-color  rounded focus:outline-none focus:shadow-outline"
               href="/#"
             >
               Survey &#8594;
             </a>
           </div>
-          <div className="px-16">
+          <div className="w-1/2 max-sm:w-3/4">
             <form className="" onSubmit={handleSubmit}>
               <p className="mb-2">Current Password</p>
               <div className="mb-4">
@@ -87,8 +108,15 @@ const ChangePassword = () => {
                 </div>
               </div>
               <p
-                className={`text-red mb-5 ${
-                  !formData.change_failed ? "hidden" : ""
+                className={`text-error-900 mb-5 ${
+                  !formData.password_incorrect ? "hidden" : ""
+                }`}
+              >
+                Current Password is incorrect!
+              </p>
+              <p
+                className={`text-error-900 mb-5 ${
+                  !formData.password_mismatch ? "hidden" : ""
                 }`}
               >
                 New Password and Repeat New Password must match!
@@ -111,6 +139,7 @@ const ChangePassword = () => {
           Copyright @ Politechnika Wrocławska
         </div>
       </div>
+      <>{!isLogin && <Navigate to="/" />}</>
     </div>
   );
 };

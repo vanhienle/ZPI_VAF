@@ -84,7 +84,6 @@ const Login = () => {
               className="border-2 border-accent-900 text-text-color rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900"
             />
           </div>
-
           <div>
             <div>
               <p className="text-center text-sm">

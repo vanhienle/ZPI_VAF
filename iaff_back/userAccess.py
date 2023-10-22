@@ -26,29 +26,61 @@ class Access:
         return connection, channel
 
     def getUser(self, email, password):
+        print('Inside get user: email=', email,' password=',password)
         self.DBCursor.execute(
             """SELECT * 
             FROM users 
             WHERE UserEmail = %(UserEmail)s AND UserPass = %(UserPass)s""",
             {'UserEmail': email, 'UserPass': password})
         result = self.DBCursor.fetchone()
+        print('After query=', result)
+        return result
+
+    def getUserFromID(self, id):
+        print('Inside get user from ID: id=', id)
+        self.DBCursor.execute(
+            """SELECT * 
+            FROM users 
+            WHERE UserID = %(UserID)s""",
+            {'UserID': id})
+        result = self.DBCursor.fetchone()
+        print('After query=', result)
         return result
 
 
-    def getUser(self, email):
-        self.DBCursor.execute("""SELECT * FROM users WHERE UserEmail = %(UserEmail)s""", {'UserEmail': email})
+    def getFromUser(self, email):
+        self.DBCursor.execute("""SELECT UserID,UserPass FROM users WHERE UserEmail = %(UserEmail)s""", {'UserEmail': email})
         result = self.DBCursor.fetchone()
         return result
 
+    def deleteUser(self, email):
+        self.DBCursor.execute("""DELETE * FROM users WHERE UserEmail = %(UserEmail)s""", {'UserEmail': email})
+        result = self.DBCursor.fetchone()
+        return result
 
-    def signin(self, email, password):
-        if self.checkExistence(email, False) or self.checkExistence(password, True):
-            return False
+    def updateUserPassword(self, email, password):
+        self.DBCursor.execute("""UPDATE users SET UserPass = %(UserPass)s WHERE UserEmail = %(UserEmail)s""",
+                              {'UserEmail': email, 'UserPass': password})
+        result = self.DBCursor.fetchone()
+        return result
 
-        self.DBCursor.execute("""INSERT INTO users (UserEmail,UserPass) VALUES (%(UserEmail)s,%(UserPass)s)""",
-                              {'UserEmail': email, 'UserPass': password});
+    def new_id(self):
+        query = f"SELECT max(UserID) FROM users"
+        self.DBCursor.execute(query)
+        last_id = self.DBCursor.fetchone()[0]
+        return last_id + 1
+
+    def signup(self, email, password,name):
+        if self.checkExistence(email, False):
+            print('User with mail: ', email, ' already exists')
+            return None
+
+        id = self.new_id()
+
+        self.DBCursor.execute("""INSERT INTO users (UserID,UserEmail,UserPass,UserName) VALUES (%(UserID)s,%(UserEmail)s,%(UserPass)s, %(UserName)s)""",
+                              {'UserID': id, 'UserEmail': email, 'UserPass': password, 'UserName': name})
         self.DBConnection.commit()
-        return True
+        return self.getUser(email, password)
 
 
     def checkExistence(self, email, password):
