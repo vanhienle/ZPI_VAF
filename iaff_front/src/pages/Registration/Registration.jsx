@@ -139,7 +139,7 @@ const Registration = () => {
           alt="logoImage"
           src={logo}
         />
-        <div className="text-center text-text-color">
+        <div className="text-center">
           <h1 className="text-primary-900 text-2xl max-2xl:text-xl font-bold">
             SIGN UP
           </h1>
