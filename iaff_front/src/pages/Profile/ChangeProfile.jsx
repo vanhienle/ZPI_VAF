@@ -3,7 +3,6 @@ import { login } from "../../utils/User/loginAPI";
 import { Navigate, useNavigate } from "react-router-dom";
 import { changeProfile } from "../../utils/User/changeProfileAPI";
 
-
 const ChangeProfile = () => {
   const [formData, setFormData] = useState({
     name: localStorage.getItem("name"),
@@ -50,7 +49,7 @@ const ChangeProfile = () => {
             </p>
             <a
               className="w-18 h-8 p-1 text-base font-bold bg-primary-900 hover:bg-primary-500 text-background-color rounded focus:outline-none focus:shadow-outline"
-              href="/#"
+              href="/survey"
             >
               Survey &#8594;
             </a>
