@@ -11,6 +11,9 @@ import Registration from "./pages/Registration/Registration";
 import Login from "./pages/Login/Login";
 import ChangeProfile from "./pages/Profile/ChangeProfile";
 import ChangePassword from "./pages/Profile/ChangePassword";
+import Survey from "./pages/Survey/Survey";
+// import LoggedUserRoutes from "./routes/LoggedUserRoutes";
+// import GuestRoutes from "./routes/GuestRoutes";
 
 const App = () => {
   return (
@@ -22,10 +25,20 @@ const App = () => {
         <Route element={<Assistant />} path="/assistant" />
         <Route element={<Accommodation />} path="/accommodation" />
         <Route element={<Map />} path="/map" />
+        {/* <Route element={<LoggedUserRoutes />}>
+          <Route element={<ChangeProfile />} path="/changeprofile" />
+          <Route element={<ChangePassword />} path="/changepassword" />
+          <Route element={<Survey />} path="/survey" />
+        </Route>
+        <Route element={<GuestRoutes />}>
+          <Route element={<Registration />} path="/signup" />
+          <Route element={<Login />} path="/login" />
+        </Route> */}
         <Route element={<Registration />} path="/signup" />
         <Route element={<Login />} path="/login" />
         <Route element={<ChangeProfile />} path="/changeprofile" />
         <Route element={<ChangePassword />} path="/changepassword" />
+        <Route element={<Survey />} path="/survey" />
       </Routes>
       <Footer />
     </>

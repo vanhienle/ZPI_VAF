@@ -1,11 +1,10 @@
-export const signUp = async (data) => {
+export const isLogged = async () => {
   try {
-    const response = await fetch("http://91.195.53.69:5000/users/signup", {
-      method: "POST",
+    const response = await fetch("http://91.195.53.69:5000/users/is_logged", {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
     });
 
     if (response.ok) {
