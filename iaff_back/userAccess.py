@@ -47,6 +47,10 @@ class Access:
         print('After query=', result)
         return result
 
+    def getUserName(self, email):
+        self.DBCursor.execute("""SELECT UserName FROM users WHERE UserEmail = %(UserEmail)s""", {'UserEmail': email})
+        result = self.DBCursor.fetchone()
+        return result
 
     def getFromUser(self, email):
         self.DBCursor.execute("""SELECT UserID,UserPass FROM users WHERE UserEmail = %(UserEmail)s""", {'UserEmail': email})
@@ -61,8 +65,12 @@ class Access:
     def updateUserPassword(self, email, password):
         self.DBCursor.execute("""UPDATE users SET UserPass = %(UserPass)s WHERE UserEmail = %(UserEmail)s""",
                               {'UserEmail': email, 'UserPass': password})
-        result = self.DBCursor.fetchone()
-        return result
+        self.DBConnection.commit()
+
+    def updateUserAccount(self, email, name, oldEmail):
+        self.DBCursor.execute("""UPDATE users SET UserEmail = %(UserEmail)s, UserName = %(UserName)s WHERE UserEmail = %(OldEmail)s""",
+                              {'UserEmail': email, 'UserName': name, 'OldEmail': oldEmail})
+        self.DBConnection.commit()
 
     def new_id(self):
         query = f"SELECT max(UserID) FROM users"
