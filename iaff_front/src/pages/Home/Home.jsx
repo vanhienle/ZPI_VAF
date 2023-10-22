@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -12,40 +12,53 @@ import {
   modulesInfo,
   signInTitle,
   signInDescription,
+  surveyTitle,
+  surveyDescription,
 } from "../../constants/home";
 
 import assistantImage from "../../assets/images/assistant.jpg";
 import signInImage from "../../assets/images/signin.jpg";
+import surveyImage from "../../assets/images/survey.jpg";
 
 const Home = () => {
+  const [isLogged, setIsLogged] = useState(true);
+  const [isFilledSurvey, setIsFilledSurvey] = useState(false);
+
   return (
-    <div className="flex flex-col space-y-4 items-center justify-center">
+    <div className="flex flex-col items-center justify-center mt-6">
       {/* Application  Block */}
-      <div className="text-center w-1/2 max-xl:w-3/4 p-6">
-        <h3 className="text-primary-900 mb-0">{appTitle}</h3>
-        <p className="mb-0 text-lg max-sm:text-sm p-4">{appDescription}</p>
+      <div className="text-center w-1/2 max-xl:w-3/4 py-6">
+        <h1 className="text-primary-900 text-2xl font-semibold">{appTitle}</h1>
+        <p className="text-lg max-sm:text-sm mt-6 font-semibold">
+          {appDescription}
+        </p>
       </div>
 
       {/* Delimiter */}
-      <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-1/2 max-xl:w-3/4 mt-0 mb-6" />
+      <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-1/2 max-xl:w-3/4 my-6" />
 
       {/* Assistant  Block */}
       <div
-        className="bg-no-repeat bg-center bg-cover w-1/2 max-xl:w-3/4 rounded-md mt-0 mb-6"
+        className="bg-no-repeat bg-center bg-cover w-1/2 max-xl:w-3/4 rounded-md my-6"
         style={{ backgroundImage: `url(${assistantImage})` }}
       >
-        <div className="bg-primary-900 text-center bg-opacity-80 flex max-xl:flex-col justify-between max-xl:justify-center rounded-md p-8 w-full">
+        <div className="bg-primary-900 text-center bg-opacity-80 flex justify-between rounded-md p-14 w-full max-md:p-4 max-xl:flex-col max-xl:justify-center">
           <div className="w-1/2 max-xl:w-full">
-            <h3 className="text-background-color">{assistantTitle}</h3>
-            <p className="text-background-color p-4 text-lg">
+            <h2 className="text-background-color text-2xl font-semibold">
+              {assistantTitle}
+            </h2>
+            <p className="text-background-color p-2 text-lg mt-2 max-sm:text-sm font-semibold whitespace-pre-line">
               {assistantDescription}
             </p>
           </div>
-          <div className="flex flex-col items-center justify-center w-1/2 max-xl:w-full">
-            <input className="p-1 w-100 m-4 rounded-md" />
+          <div className="flex flex-col items-center justify-center w-1/2 max-xl:w-full p-6">
+            <input
+              className="border-box px-4 py-2 w-full max-xl:w-1/2 max-md:w-full m-4 rounded-md focus:outline-none"
+              placeholder="Ask a question..."
+            />
             <Link
               to="/assistant"
-              className="px-4 py-2 rounded-md border-none text-primary-900 bg-secondary-300 hover:bg-secondary-500 hover:text-text-color ease-in-out duration-150"
+              className="px-4 py-2 text-xl rounded-md border-none text-primary-900 bg-secondary-300 hover:bg-secondary-500 hover:text-text-color ease-in-out duration-150"
             >
               Ask me
             </Link>
@@ -54,18 +67,19 @@ const Home = () => {
       </div>
 
       {/* Delimiter */}
-      <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-1/2 max-xl:w-3/4 mt-0 mb-6" />
+      <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-1/2 max-xl:w-3/4 my-6" />
 
-      <div className="w-1/2 flex flex-col items-center justify-center">
-        <h3>{qAndATitle}</h3>
-        <div className="flex flex-wrap gap-0 justify-center">
+      {/* Questions and Answers */}
+      <div className="w-1/2 max-xl:w-3/4 flex flex-col items-center justify-center my-6">
+        <h2 className="text-2xl text-primary-900">{qAndATitle}</h2>
+        <div className="flex flex-wrap justify-center mt-6">
           {qAndA.map((item) => (
-            <div className="w-1/3 p-2">
-              <div
-                className="text-center border-solid border-2 border-accent-900 rounded p-4"
-                key={item.id}
-              >
-                <p className="mb-0 text-sm">{item.question}</p>
+            <div
+              className="w-1/3 h-32 max-lg:w-1/2 max-md:w-full p-2"
+              key={item.id}
+            >
+              <div className="cursor-pointer ease-in-out duration-150 text-center text-lg h-full w-full border-solid border-2 border-accent-900 bg-accent-500 rounded-md p-2 hover:bg-accent-900">
+                <p className="text-primary-900">{item.question}</p>
               </div>
             </div>
           ))}
@@ -73,53 +87,109 @@ const Home = () => {
       </div>
 
       {/* Delimiter */}
-      <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-1/2 max-xl:w-3/4 mt-0 mb-6" />
+      <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-1/2 max-xl:w-3/4 my-6" />
 
-      <div className="w-1/2 flex flex-col items-center justify-center">
-        <h3>{modulesTitle}</h3>
-        <div className="flex flex-wrap gap-0 justify-center">
-          {qAndA.map((item) => (
-            <div className="w-1/3 p-2">
-              <div
-                className="text-center border-solid border-2 border-accent-900 rounded p-4"
-                key={item.id}
-              >
-                <p className="mb-0 text-sm">{item.question}</p>
+      {/* Modules block */}
+      <div className="w-1/2 max-sm:w-3/4 flex flex-col items-center justify-center my-6">
+        {modulesInfo.map((item) => (
+          <div
+            className="bg-no-repeat bg-center bg-cover rounded-md my-6"
+            style={{ backgroundImage: `url(${item.image})` }}
+            key={item.id}
+          >
+            <div
+              className={`bg-accent-900 hover:bg-secondary-300 hover:bg-opacity-50 ease-in-out duration-300 text-center bg-opacity-70 flex flex-col justify-between rounded-md p-8`}
+            >
+              <div>
+                <h2 className="text-2xl font-semibold">{item.title}</h2>
+                <p className="text-lg px-4 my-6 max-sm:text-sm font-semibold">
+                  {item.description}
+                </p>
+              </div>
+              <div className="flex justify-evenly">
+                <Link
+                  to={item.link}
+                  className="bg-primary-900 text-background-color text-xl px-4 py-2 rounded-md hover:bg-primary-500 transition-all duration-200 ease-out"
+                >
+                  Try It!
+                </Link>
               </div>
             </div>
-          ))}
-        </div>
+            <div
+              className="bg-no-repeat bg-center bg-cover rounded-md"
+              style={{ backgroundImage: `url(${item.image})` }}
+            ></div>
+          </div>
+        ))}
       </div>
 
-      {/* Delimiter */}
-      <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-1/2 max-xl:w-3/4 mt-6 mb-6" />
+      {isLogged ? (
+        isFilledSurvey ? (
+          <></>
+        ) : (
+          <>
+            {/* Delimiter */}
+            <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-1/2 max-xl:w-3/4 my-6" />
 
-      {/* Sign In-Up Block */}
-      <div
-        className="bg-no-repeat bg-center bg-cover w-1/2 max-xl:w-3/4 rounded-md mt-0 mb-6"
-        style={{ backgroundImage: `url(${signInImage})` }}
-      >
-        <div className="bg-accent-900 text-center bg-opacity-80 flex flex-col justify-between rounded-md p-8">
-          <div>
-            <h2 className="">{signInTitle}</h2>
-            <p className="text-lg p-4">{signInDescription}</p>
-          </div>
-          <div className="flex justify-evenly">
-            <Link
-              to="/login"
-              className="bg-secondary-300 text-primary-900 text-md px-4 py-2 rounded-md hover:bg-secondary-500  hover:text-text-color transition-all duration-200 ease-out"
+            {/* Survey Block */}
+            <div
+              className="bg-no-repeat bg-center bg-cover w-1/2 max-xl:w-3/4 rounded-md my-6"
+              style={{ backgroundImage: `url(${surveyImage})` }}
             >
-              Sign In
-            </Link>
-            <Link
-              to="/signup"
-              className="bg-primary-900 text-md px-4 py-2 text-background-color rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out"
-            >
-              Sign Up
-            </Link>
+              <div className="bg-secondary-300 text-center bg-opacity-50 flex flex-col justify-between rounded-md p-8">
+                <div>
+                  <h2 className="text-2xl font-semibold">{surveyTitle}</h2>
+                  <p className="text-lg px-4 my-6 max-sm:text-sm font-semibold">
+                    {surveyDescription}
+                  </p>
+                </div>
+                <div className="flex justify-center">
+                  <Link
+                    to="/login"
+                    className="bg-primary-900 text-background-color text-xl px-4 py-2 rounded-md hover:bg-primary-700 transition-all duration-200 ease-out"
+                  >
+                    Fill Survey
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </>
+        )
+      ) : (
+        <>
+          {/* Delimiter */}
+          <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-1/2 max-xl:w-3/4 my-6" />
+
+          {/* SingIn / SignUp Block */}
+          <div
+            className="bg-no-repeat bg-center bg-cover w-1/2 max-xl:w-3/4 rounded-md my-6"
+            style={{ backgroundImage: `url(${signInImage})` }}
+          >
+            <div className="bg-accent-900 text-center bg-opacity-80 flex flex-col justify-between rounded-md p-8">
+              <div>
+                <h2 className="text-2xl font-semibold">{signInTitle}</h2>
+                <p className="text-lg px-4 my-6 max-sm:text-sm font-semibold">
+                  {signInDescription}
+                </p>
+              </div>
+              <div className="flex justify-evenly">
+                <Link
+                  to="/login"
+                  className="bg-secondary-300 text-primary-900 text-xl px-4 py-2 rounded-md hover:bg-secondary-500  hover:text-text-color transition-all duration-200 ease-out"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/signup"
+                  className="bg-primary-900 text-xl px-4 py-2 text-background-color rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 };
