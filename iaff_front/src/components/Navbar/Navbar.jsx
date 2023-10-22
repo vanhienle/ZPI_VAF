@@ -17,7 +17,7 @@ const Navbar = () => {
       <nav className="flex justify-between items-center max-container">
         {/* Navbar Logo of Application */}
         <a href="/">
-          <img className="w-52 max-2xl:w-48" src={logo} alt="Logo" />
+          <img className="w-56 max-2xl:w-52" src={logo} alt="Logo" />
         </a>
 
         {/* Navbar Menu list */}
@@ -30,7 +30,7 @@ const Navbar = () => {
                   location.pathname === item.href
                     ? "text-primary-500"
                     : "text-text-color hover:text-primary-500"
-                } leading-normal text-base max-2xl:text-sm transition duration-100 ease-out hover:ease-in`}
+                } leading-normal text-lg max-2xl:text-base transition duration-100 ease-in-out`}
               >
                 {item.label}
               </Link>
@@ -81,14 +81,14 @@ const Navbar = () => {
               <Link
                 to="/login"
                 onClick={() => setToggleMenu(false)}
-                className="text-primary-500 text-base max-2xl:text-sm px-2 py-2 rounded-md hover:bg-secondary-500 hover:text-primary-900 transition-all duration-200 ease-out max-md:hidden animate-fade-in"
+                className="text-primary-500 text-lg max-2xl:text-base px-2 py-2 rounded-md hover:bg-secondary-500 hover:text-primary-900 transition-all duration-200 ease-out max-md:hidden animate-fade-in"
               >
                 SIGN IN
               </Link>
               <Link
                 to="/signup"
                 onClick={() => setToggleMenu(false)}
-                className="bg-primary-900 text-base max-2xl:text-sm text-background-color px-2 py-2 rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out max-md:hidden animate-fade-in"
+                className="bg-primary-900 text-lg max-2xl:text-base text-background-color px-2 py-2 rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out max-md:hidden animate-fade-in"
               >
                 SIGN UP
               </Link>
@@ -99,13 +99,13 @@ const Navbar = () => {
           <div className="ml-6 hidden max-lg:block">
             {toggleMenu ? (
               <HiOutlineMenuAlt3
-                className="text-primary-900 hover:text-primary-500 transition-all duration-200 ease-out animate-fade-in"
+                className="text-primary-900 hover:text-primary-500 transition-all duration-200 ease-in-out animate-fade-in"
                 size={37}
                 onClick={() => setToggleMenu(false)}
               />
             ) : (
               <HiOutlineMenu
-                className="text-primary-900 hover:text-primary-500 transition-all duration-200 ease-out animate-fade-in"
+                className="text-primary-900 hover:text-primary-500 transition-all duration-200 ease-in-out animate-fade-in"
                 size={37}
                 onClick={() => setToggleMenu(true)}
               />
@@ -113,8 +113,8 @@ const Navbar = () => {
 
             {/* Toggle Menu */}
             {toggleMenu && (
-              <div className="bg-background-color py-4 px-4 rounded-md shadow-md top-24 right-0 absolute z-10 w-80 border-t-2 border-accent-900 overflow:hidden animate-slide-right-to-left">
-                <ul className="ml-0 px-0 space-y-6 text-center">
+              <div className="bg-background-color py-6 px-6 rounded-md shadow-md top-24 right-0 absolute z-10 w-80 border-t-2 border-accent-900 overflow:hidden animate-slide-right-to-left">
+                <ul className="ml-0 px-0 space-y-6 mt-6 text-center">
                   {navLinks.map((item) => (
                     <li key={item.label}>
                       <Link
@@ -123,7 +123,7 @@ const Navbar = () => {
                           location.pathname === item.href
                             ? "text-primary-500"
                             : "text-text-color hover:text-primary-500"
-                        } leading-normal text-lg transition duration-200 ease-out`}
+                        } leading-normal text-lg transition duration-200 ease-in-out`}
                         onClick={() => setToggleMenu(false)}
                       >
                         {item.label}
@@ -137,18 +137,18 @@ const Navbar = () => {
                     {isLogin ? (
                       <></>
                     ) : (
-                      <div className="space-x-4 hidden max-md:block">
+                      <div className="space-x-4 my-6 hidden max-md:block">
                         <Link
                           to="/login"
                           onClick={() => setToggleMenu(false)}
-                          className="text-primary-500 text-md px-3 py-3 rounded-md hover:bg-secondary-500 hover:text-primary-900 transition-all duration-200 ease-out"
+                          className="text-primary-500 text-lg px-3 py-3 rounded-md hover:bg-secondary-500 hover:text-primary-900 transition-all duration-200 ease-out"
                         >
                           SIGN IN
                         </Link>
                         <Link
                           to="/signup"
                           onClick={() => setToggleMenu(false)}
-                          className="bg-primary-900 text-md px-3 py-3 text-background-color rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out"
+                          className="bg-primary-900 text-lg px-3 py-3 text-background-color rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out"
                         >
                           SIGN UP
                         </Link>
