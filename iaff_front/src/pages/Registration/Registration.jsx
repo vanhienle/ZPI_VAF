@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { signUp } from "../../utils/User/signUpApi";
 import logo from "../../assets/images/logo.png";
 import {
@@ -19,6 +20,8 @@ const Registration = () => {
   const [repeatPassword, setRepeatPassword] = useState("");
 
   const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate;
 
   const isFieldsFilledValidate = () => {
     if (
@@ -111,9 +114,10 @@ const Registration = () => {
 
       try {
         const response = await signUp(data);
-
         console.log("Sign Up success", response);
+        navigate("/survey");
       } catch (error) {
+        console.log(error);
         setErrors((prevErrors) => ({
           ...prevErrors,
           form: errorFormRequest,
@@ -128,27 +132,34 @@ const Registration = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-14">
-      <div className="flex items-center flex-col bg-white drop-shadow-md rounded-xl border-primary-900 border-2 px-14 pt-0 pb-0 m-4">
+    <div className="max-w-md mx-auto my-14">
+      <div className="flex items-center flex-col bg-white drop-shadow-md rounded-xl border-primary-900 border-2 px-10 pt-0 pb-0 m-4">
         <img
-          className="relative z-0 h-16 w-52 -top-8 rounded-xl drop-shadow-lg "
+          className="relative z-0 h-16 -top-8 rounded-xl drop-shadow-lg "
           alt="logoImage"
           src={logo}
         />
         <div className="text-center text-text-color">
-          <h3 className="text-primary-900">SIGN UP</h3>
+          <h1 className="text-primary-900 text-2xl max-2xl:text-xl font-bold">
+            SIGN UP
+          </h1>
           {errors.form && (
-            <p className="text-error-900 text-sm text-center">{errors.form}</p>
+            <p className="text-error-900 text-base max-2xl:text-sm text-center mt-2">
+              {errors.form}
+            </p>
           )}
         </div>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-6 w-full mt-4"
+        >
           <div>
             <input
               className={`border-2 ${
                 errors.name
                   ? "border-error-900 text-error-900"
                   : "border-accent-900 text-text-color"
-              } rounded-lg w-full py-2 px-4 leading-tight focus:outline-none focus:border-primary-900`}
+              } rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
               id="name"
               type="text"
               placeholder="Name"
@@ -169,7 +180,7 @@ const Registration = () => {
               }}
             />
             {errors.name && (
-              <p className="text-error-900 text-xs mb-0 text-center">
+              <p className="text-error-900 text-base max-2xl:text-sm mb-0 text-center">
                 {errors.name}
               </p>
             )}
@@ -180,7 +191,7 @@ const Registration = () => {
                 errors.email
                   ? "border-error-900 text-error-900"
                   : "border-accent-900 text-text-color"
-              } rounded-lg w-full py-2 px-4 leading-tight focus:outline-none focus:border-primary-900`}
+              } rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
               id="email"
               type="email"
               placeholder="Email"
@@ -201,7 +212,7 @@ const Registration = () => {
               }}
             />
             {errors.email && (
-              <p className="text-error-900 text-xs mb-0 text-center">
+              <p className="text-error-900 text-base max-2xl:text-sm mb-0 text-center">
                 {errors.email}
               </p>
             )}
@@ -212,7 +223,7 @@ const Registration = () => {
                 errors.password
                   ? "border-error-900 text-error-900"
                   : "border-accent-900 text-text-color"
-              } rounded-lg w-full py-2 px-4 leading-tight focus:outline-none focus:border-primary-900`}
+              } rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
               id="password"
               type="password"
               placeholder="Password"
@@ -233,7 +244,7 @@ const Registration = () => {
               }}
             />
             {errors.password && (
-              <p className="text-error-900 text-xs mb-0 text-center">
+              <p className="text-error-900 text-base max-2xl:text-sm mb-0 text-center">
                 {errors.password}
               </p>
             )}
@@ -244,7 +255,7 @@ const Registration = () => {
                 errors.repeatPassword
                   ? "border-error-900 text-error-900"
                   : "border-accent-900 text-text-color"
-              } rounded-lg w-full py-2 px-4 leading-tight focus:outline-none focus:border-primary-900`}
+              } rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
               id="password"
               type="password"
               placeholder="Repeat Password"
@@ -265,26 +276,26 @@ const Registration = () => {
               }}
             />
             {errors.repeatPassword && (
-              <p className="text-error-900 text-xs mb-0 text-center">
+              <p className="text-error-900 text-base max-2xl:text-sm mb-0 text-center">
                 {errors.repeatPassword}
               </p>
             )}
           </div>
           <div>
             <div>
-              <p className="text-center">
+              <p className="text-center text-sm">
                 {haveAnAccountMessage}
                 <a
                   href="/login"
-                  className="hover:text-primary-900 ease-in-out duration-150"
+                  className="text-primary-500 hover:text-primary-900 ease-in-out duration-150"
                 >
                   Sign In Here
                 </a>
               </p>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mt-4">
               <button
-                className="bg-primary-900 w-full hover:bg-primary-700 text-background-color py-2 px-4 rounded-lg ease-in-out duration-150 focus:drop-shadow-sm-primary-900 focus:outline-none focus:shadow-outline"
+                className="bg-primary-900 w-full hover:bg-primary-700 text-background-color py-2 px-4 text-lg max-2xl:text-base rounded-lg ease-in-out duration-150 focus:drop-shadow-sm-primary-900 focus:outline-none focus:shadow-outline"
                 type="submit"
                 onClick={handleSubmit}
               >
@@ -294,7 +305,9 @@ const Registration = () => {
           </div>
         </form>
         <div className="mt-2">
-          <p className="text-center text-xs">{copyright}</p>
+          <p className="text-center text-sm max-2xl:text-xs mb-8 mt-6">
+            {copyright}
+          </p>
         </div>
       </div>
     </div>

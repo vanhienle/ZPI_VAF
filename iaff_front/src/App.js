@@ -11,6 +11,7 @@ import Registration from "./pages/Registration/Registration";
 import Login from "./pages/Login/Login";
 import ChangeProfile from "./pages/Profile/ChangeProfile";
 import ChangePassword from "./pages/Profile/ChangePassword";
+import Survey from "./pages/Survey/Survey";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Route element={<Login />} path="/login" />
         <Route element={<ChangeProfile />} path="/changeprofile" />
         <Route element={<ChangePassword />} path="/changepassword" />
+        <Route element={<Survey />} path="/survey" />
       </Routes>
       <Footer />
     </>

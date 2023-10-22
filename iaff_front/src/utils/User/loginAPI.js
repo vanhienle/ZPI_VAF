@@ -1,44 +1,28 @@
-export async function login(email_address, password) {
-  const users = {
-    "a@gmail.com": {
-      password: "12345678@",
-    },
-    "b@gmail.com": {
-      password: "12121212@",
-    },
-  };
-
-  function checkLogin(email_address, password) {
-    if (users[email_address]) {
-      if (users[email_address].password === password) {
-        return true;
-      }
-    }
-    return false;
-  }
-  /*
-  if (checkLogin(email_address, password)) {
-    return true;
-  } else {
-    return false;
-  }*/
-
+export async function login(email, password) {
   try {
-    return false;
-    console.log(process.env.BACK_END_URL + "/login");
-
-    const response = await fetch(process.env.BACK_END_URL + "/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email_address, password }),
-    });
-
+    const response = await Promise.race([
+      fetch("http://91.195.53.69:5000/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      }),
+      new Promise((_, reject) => {
+        setTimeout(() => {
+          reject(new Error("Login request timed out after 3 seconds"));
+        }, 3000);
+      }),
+    ]);
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
-      return true;
+      if (data === "False") {
+        return false;
+      } else {
+        localStorage.setItem("email", data.email);
+        localStorage.setItem("name", data.name);
+        return true;
+      }
     } else {
       return false;
     }

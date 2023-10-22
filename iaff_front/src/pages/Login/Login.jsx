@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+
 import logo from "../../assets/images/logo.png";
 import { login } from "../../utils/User/loginAPI";
 
@@ -8,6 +10,9 @@ const Login = () => {
     password: "",
     login_failed: false,
   });
+
+  const isLogin = localStorage.getItem("isLogin") === "true";
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,13 +27,15 @@ const Login = () => {
       formData.password !== "" &&
       (await login(email_address, password))
     ) {
-      alert("Login successful");
+      localStorage.setItem("isLogin", true);
+      console.log("SUCCESS");
+      navigate(0);
     } else {
       setFormData({ ...formData, login_failed: true });
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center pt-4 mb-6">
+    <div className="flex flex-col items-center justify-center pt-4">
       <div className="flex flex-col items-center justify-center border-2 rounded-md border-solid border-primary-900 p-18 mt-10">
         <img
           className="relative z-0 -top-7 h-16 border-2 rounded-md border-solid border-accent-500 "
@@ -40,7 +47,7 @@ const Login = () => {
             SIGN IN
           </p>
           <p
-            className={`text-red mb-5 ${
+            className={`text-error-900 mb-5 ${
               !formData.login_failed ? "hidden" : ""
             }`}
           >
@@ -72,7 +79,7 @@ const Login = () => {
           </div>
           <div className="flex text-center mb-5">
             <p>Have not got an account? &nbsp;</p>
-            <a className="text-primary-700" href="/registration">
+            <a className="text-primary-700" href="/signup">
               Sign Up here
             </a>
           </div>
@@ -87,6 +94,7 @@ const Login = () => {
           </div>
         </form>
       </div>
+      <>{isLogin && <Navigate to="/" />}</>
     </div>
   );
 };
