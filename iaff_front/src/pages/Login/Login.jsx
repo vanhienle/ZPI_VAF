@@ -29,8 +29,6 @@ const Login = () => {
       formData.password !== "" &&
       (await login(email_address, password))
     ) {
-      localStorage.setItem("isLogin", true);
-      console.log("SUCCESS");
       navigate(0);
     } else {
       setFormData({ ...formData, login_failed: true });
@@ -46,7 +44,7 @@ const Login = () => {
         />
         <div className="text-center">
           <h1 className="text-primary-900 text-2xl max-2xl:text-xl font-bold">
-            SIGN UP
+            SIGN IN
           </h1>
         </div>
         <form
@@ -89,10 +87,10 @@ const Login = () => {
               <p className="text-center text-sm">
                 Don't have an account?
                 <a
-                  href="/login"
+                  href="/signup"
                   className="text-primary-500 hover:text-primary-900 ease-in-out duration-150 ml-2"
                 >
-                  Sign In Here
+                  Sign Up Here
                 </a>
               </p>
             </div>

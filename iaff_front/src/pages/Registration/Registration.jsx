@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signUp } from "../../utils/User/signUpApi";
+import { login } from "../../utils/User/loginAPI";
 import logo from "../../assets/images/logo.png";
 import {
   haveAnAccountMessage,
@@ -21,7 +22,7 @@ const Registration = () => {
 
   const [errors, setErrors] = useState({});
 
-  const navigate = useNavigate;
+  const navigate = useNavigate();
 
   const isFieldsFilledValidate = () => {
     if (
@@ -115,7 +116,9 @@ const Registration = () => {
       try {
         const response = await signUp(data);
         console.log("Sign Up success", response);
-        navigate("/survey");
+        if (response === "True" && (await login(data.email, data.password))) {
+          navigate("/survey");
+        }
       } catch (error) {
         console.log(error);
         setErrors((prevErrors) => ({

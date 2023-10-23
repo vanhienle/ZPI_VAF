@@ -21,6 +21,7 @@ export async function login(email, password) {
       } else {
         localStorage.setItem("email", data.email);
         localStorage.setItem("name", data.name);
+        localStorage.setItem("isLogin", true);
         return true;
       }
     } else {

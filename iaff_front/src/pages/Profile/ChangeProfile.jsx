@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { login } from "../../utils/User/loginAPI";
 import { Navigate, useNavigate } from "react-router-dom";
 import { changeProfile } from "../../utils/User/changeProfileAPI";
 
