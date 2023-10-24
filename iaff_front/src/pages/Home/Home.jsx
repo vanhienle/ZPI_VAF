@@ -78,7 +78,7 @@ const Home = () => {
               className="w-1/3 h-32 max-lg:w-1/2 max-md:w-full p-2"
               key={item.id}
             >
-              <div className="cursor-pointer ease-in-out duration-150 text-center text-lg h-full w-full border-solid border-2 border-accent-900 bg-accent-500 rounded-md p-2 hover:bg-accent-900">
+              <div className="flex justify-center items-center cursor-pointer ease-in-out duration-150 text-center text-lg h-full w-full border-solid border-2 border-accent-900 bg-accent-500 rounded-md p-2 hover:bg-accent-900">
                 <p className="text-primary-900">{item.question}</p>
               </div>
             </div>
