@@ -5,8 +5,6 @@ import App from "./App";
 import "./index.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "react-chat-elements/dist/main.css";
-// import dotenv from "dotenv";
-// dotenv.config();
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);

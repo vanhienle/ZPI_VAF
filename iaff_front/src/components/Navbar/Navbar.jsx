@@ -17,10 +17,6 @@ const Navbar = () => {
   const isLogin = localStorage.getItem("isLogin") === "true";
   const location = useLocation();
   const navigate = useNavigate();
-  
-  window.addEventListener("click", (e) => {
-    console.log(e.target);
-  });
 
   return (
     <header className="py-3 px-4 z-10 w-full bg-background-color shadow-md">

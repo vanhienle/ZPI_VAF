@@ -1,7 +1,7 @@
 export async function changeProfile(name, current_email, new_email, password) {
   try {
     const response = await Promise.race([
-      fetch(window.env.BACK_END_URL + "/users/change_account", {
+      fetch(process.env.REACT_APP_BACK_END_URL + "users/change_account", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

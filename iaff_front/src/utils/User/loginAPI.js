@@ -1,7 +1,7 @@
 export async function login(email, password) {
   try {
     const response = await Promise.race([
-      fetch(window.env.BACK_END_URL + "/users/login", {
+      fetch(process.env.REACT_APP_BACK_END_URL + "users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
