@@ -1,9 +1,9 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { isLogged } from "../utils/User/isLoggedApi";
+import { isFilledSurvey } from "../utils/User/isFilledSurveyAPI";
 
 const GuestRoutes = () => {
-  return !isLogged() ? <Outlet /> : <Navigate to="/" />;
+  return isFilledSurvey() ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default GuestRoutes;

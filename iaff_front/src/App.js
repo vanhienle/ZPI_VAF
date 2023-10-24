@@ -14,6 +14,7 @@ import ChangePassword from "./pages/Profile/ChangePassword";
 import Survey from "./pages/Survey/Survey";
 // import LoggedUserRoutes from "./routes/LoggedUserRoutes";
 // import GuestRoutes from "./routes/GuestRoutes";
+// import SurveyRoutes from "./routes/SurveyRoutes";
 
 const App = () => {
   return (
@@ -28,8 +29,10 @@ const App = () => {
         {/* <Route element={<LoggedUserRoutes />}>
           <Route element={<ChangeProfile />} path="/changeprofile" />
           <Route element={<ChangePassword />} path="/changepassword" />
-          <Route element={<Survey />} path="/survey" />
-        </Route>
+          <Route element={<SurveyRoutes />}>
+            <Route element={<Survey />} path="/survey" />
+          </Route>
+        </Route>  
         <Route element={<GuestRoutes />}>
           <Route element={<Registration />} path="/signup" />
           <Route element={<Login />} path="/login" />
