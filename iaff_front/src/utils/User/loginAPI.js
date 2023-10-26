@@ -1,8 +1,9 @@
-export async function login(email, password) {
+export const login = async (email, password) => {
   try {
     const response = await Promise.race([
-      fetch(window.env.BACK_END_URL + "/users/login", {
+      fetch(process.env.REACT_APP_BACK_END_URL + "users/login", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -11,23 +12,17 @@ export async function login(email, password) {
       new Promise((_, reject) => {
         setTimeout(() => {
           reject(new Error("Login request timed out after 3 seconds"));
-        }, 3000);
+        }, 5000);
       }),
     ]);
     if (response.ok) {
       const data = await response.json();
-      if (data === "False") {
-        return false;
-      } else {
-        localStorage.setItem("email", data.email);
-        localStorage.setItem("name", data.name);
-        localStorage.setItem("isLogin", true);
-        return true;
-      }
+      localStorage.setItem("token", data.token);
+      return true;
     } else {
       return false;
     }
   } catch (error) {
     return false;
   }
-}
+};

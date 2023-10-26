@@ -1,7 +1,7 @@
-export const isLogged = async () => {
+export const isFilledSurvey = async () => {
   try {
     const response = await fetch(
-      process.env.REACT_APP_BACK_END_URL + "users/is_logged",
+      process.env.REACT_APP_BACK_END_URL + "surveys/is_filled_survey",
       {
         method: "GET",
         credentials: "include",
@@ -15,7 +15,7 @@ export const isLogged = async () => {
     if (response.ok) {
       return response.json();
     } else {
-      throw new Error("Failed checking is the User is logged!");
+      throw new Error("Failed checking is the User filled survey!");
     }
   } catch (error) {
     throw error;

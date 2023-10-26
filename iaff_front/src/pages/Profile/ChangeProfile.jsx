@@ -10,7 +10,6 @@ const ChangeProfile = () => {
     change_failed: false,
   });
 
-  const isLogin = localStorage.getItem("isLogin") === "true";
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -117,7 +116,6 @@ const ChangeProfile = () => {
           Copyright @ Politechnika Wrocławska
         </div>
       </div>
-      <>{!isLogin && <Navigate to="/" />}</>
     </div>
   );
 };

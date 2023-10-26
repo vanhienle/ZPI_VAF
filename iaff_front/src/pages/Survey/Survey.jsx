@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { welcomeDescription, targets } from "../../constants/survey";
-import { sendSurveyAPI } from "../../utils/Survey/sendSurveyAPI";
 import { useNavigate } from "react-router-dom";
+
+import { sendSurveyAPI } from "../../utils/Survey/sendSurveyAPI";
 
 function SurveyForm() {
   const [step, setStep] = useState(1);

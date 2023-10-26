@@ -1,30 +1,24 @@
-export async function changePassword(email, password, newpassword) {
+export const changePassword = async (email, password, newpassword) => {
   try {
-    const response = await Promise.race([
-      fetch(window.env.BACK_END_URL + "/users/change_password", {
+    const response = await fetch(
+      process.env.REACT_APP_BACK_END_URL + "users/change_password",
+      {
         method: "PUT",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({ email, password, newpassword }),
-      }),
-      new Promise((_, reject) => {
-        setTimeout(() => {
-          reject(
-            new Error("Password change request timed out after 3 seconds")
-          );
-        }, 3000);
-      }),
-    ]);
+      }
+    );
     if (response.ok) {
-      const data = await response.json();
-      if (data === "True") {
-        return true;
-      } else return false;
-    } else {
+      //const data = await response.json();
       return false;
+    } else {
+      throw new Error("Failed to change user password!");
     }
   } catch (error) {
     return false;
   }
-}
+};
