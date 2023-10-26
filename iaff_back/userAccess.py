@@ -62,14 +62,14 @@ class Access:
         result = self.DBCursor.fetchone()
         return result
 
-    def updateUserPassword(self, email, password):
-        self.DBCursor.execute("""UPDATE users SET UserPass = %(UserPass)s WHERE UserEmail = %(UserEmail)s""",
-                              {'UserEmail': email, 'UserPass': password})
+    def updateUserPassword(self, id, password):
+        self.DBCursor.execute("""UPDATE users SET UserPass = %(UserPass)s WHERE UserID = %(UserID)s""",
+                              {'UserID': id, 'UserPass': password})
         self.DBConnection.commit()
 
-    def updateUserAccount(self, email, name, oldEmail):
-        self.DBCursor.execute("""UPDATE users SET UserEmail = %(UserEmail)s, UserName = %(UserName)s WHERE UserEmail = %(OldEmail)s""",
-                              {'UserEmail': email, 'UserName': name, 'OldEmail': oldEmail})
+    def updateUserAccount(self, email, name, id):
+        self.DBCursor.execute("""UPDATE users SET UserEmail = %(UserEmail)s, UserName = %(UserName)s WHERE UserID = %(UserID)s""",
+                              {'UserEmail': email, 'UserName': name, 'UserID': id})
         self.DBConnection.commit()
 
     def new_id(self):
