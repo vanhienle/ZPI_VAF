@@ -3,6 +3,7 @@ from flask_login import LoginManager
 from flask_cors import CORS
 # from main import main as main_blueprint
 from auth import auth as auth_blueprint
+from RestSurvey import surv as surv_blueprint
 from userAccess import Access, User
 
 def create_app():
@@ -10,8 +11,10 @@ def create_app():
     app.config['SECRET_KEY'] = 'Accordingtoallknownlawsofaviationthereisnowayabeeshouldbeabletofly'
     cors = CORS(app)
     app.config['CORS_HEADERS'] = 'Content-Type'
-    # app.register_blueprint(main_blueprint)
+
     app.register_blueprint(auth_blueprint)
+    app.register_blueprint(surv_blueprint)
+
     access = Access()
 
     login_manager = LoginManager()

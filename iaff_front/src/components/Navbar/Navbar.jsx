@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import logo from "../../assets/images/logo.png";
 import { navLinks } from "../../constants/navbar";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -19,6 +19,28 @@ const Navbar = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
+
+  const menuRef = useRef();
+  const dropdownRef = useRef();
+
+  const handleOutsideClick = useCallback(
+    (e) => {
+      if (toggleMenu && !menuRef.current.contains(e.target)) {
+        setToggleMenu(false);
+      }
+      if (isOpen && !dropdownRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    },
+    [toggleMenu, isOpen]
+  );
+
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick);
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [handleOutsideClick]);
 
   return (
     <header className="py-3 px-4 z-10 w-full bg-background-color shadow-md">
@@ -50,7 +72,7 @@ const Navbar = () => {
 
         <div className="flex gap-3 max-2xl:gap-2 text-sm leading-normal">
           {isLogin ? (
-            <div className="relative">
+            <div ref={dropdownRef} className="relative">
               <HiUser
                 size={38}
                 className=" text-primary-900 cursor-pointer rounded-full bg-background-color border-2 border-solid border-primary-900 p-1 hover:text-primary-500 hover:border-primary-500 ease-in-out duration-200"
@@ -101,20 +123,21 @@ const Navbar = () => {
           )}
 
           {/* Toggle Icons */}
-          <div className="ml-6 hidden max-lg:block">
-            {toggleMenu ? (
-              <HiOutlineMenuAlt3
-                className="text-primary-900 hover:text-primary-500 transition-all duration-200 ease-in-out animate-fade-in"
-                size={37}
-                onClick={() => setToggleMenu(false)}
-              />
-            ) : (
-              <HiOutlineMenu
-                className="text-primary-900 hover:text-primary-500 transition-all duration-200 ease-in-out animate-fade-in"
-                size={37}
-                onClick={() => setToggleMenu(true)}
-              />
-            )}
+          <div ref={menuRef} className="ml-6 hidden max-lg:block">
+            <HiOutlineMenuAlt3
+              className={`${
+                !toggleMenu && "hidden"
+              } text-primary-900 hover:text-primary-500 transition-all duration-200 ease-in-out animate-fade-in`}
+              size={37}
+              onClick={() => setToggleMenu(false)}
+            />
+            <HiOutlineMenu
+              className={`${
+                toggleMenu && "hidden"
+              } text-primary-900 hover:text-primary-500 transition-all duration-200 ease-in-out animate-fade-in`}
+              size={37}
+              onClick={() => setToggleMenu(true)}
+            />
 
             {/* Toggle Menu */}
             {toggleMenu && (
