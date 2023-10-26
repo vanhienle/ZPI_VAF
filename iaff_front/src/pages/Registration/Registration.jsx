@@ -22,7 +22,7 @@ const Registration = () => {
 
   const [errors, setErrors] = useState({});
 
-  const navigate = useNavigate;
+  const navigate = useNavigate();
 
   const isFieldsFilledValidate = () => {
     if (
@@ -116,7 +116,9 @@ const Registration = () => {
       try {
         const response = await signUp(data);
         console.log("Sign Up success", response);
-        navigate("/survey");
+        if (response === "True" && (await login(data.email, data.password))) {
+          navigate("/survey");
+        }
       } catch (error) {
         console.log(error);
         setErrors((prevErrors) => ({

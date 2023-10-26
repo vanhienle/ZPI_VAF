@@ -13,10 +13,27 @@ auth = Blueprint('auth', __name__)
 
 access = Access()
 
+def verify(email, password):
+    result = access.getFromUser(email)
+    if not result:
+        print('User email not found: ', email)
+        return None
+
+    hashed_password = result[1]
+
+    if not check_password_hash(hashed_password, password):
+        print('User password:', password, ' does not encrypt into hashed password: ', hashed_password)
+        return None
+
+    print('Verified user: ', email)
+    return result
+
+
 @auth.route('/ab',methods=['GET'])
 def ab():
     test = {"key": "data"}
     return jsonify(test)
+
 
 @auth.route('/users/login',methods=['POST'])
 @cross_origin()
@@ -25,20 +42,18 @@ def login_post():
     print(request_data)
     email = request_data['email']
     password = request_data['password']
-    result = access.getFromUser(email)
+
+    result = verify(email, password)
     if not result:
-        return jsonify("False")
-
-    hashed_password = result[1]
-    print('Extracted hashed password: ',hashed_password)
-
-    if not check_password_hash(hashed_password, password):
-        print('User password:', password,' does not encrypt into hashed password: ', hashed_password)
         return jsonify("False")
 
     user = User()
     user.id = result[0]
-    return jsonify("True") if login_user(user) else jsonify("False")
+
+    name = access.getUserName(email)[0]
+    ujson = {"email": email, "name": name}
+
+    return jsonify(ujson) if login_user(user) else jsonify("False")
 
 @auth.route('/users/signup',methods=['POST'])
 @cross_origin()
@@ -66,3 +81,41 @@ def logout():
         return jsonify("True")
     else:
         return jsonify("False")
+
+
+@auth.route('/users/change_password',methods=['PUT'])
+@cross_origin()
+def changepassword():
+    request_data = request.get_json()
+    print(request_data)
+    email = request_data['email']
+    password = request_data['password']
+    newpassword = request_data['newpassword']
+
+    result = verify(email, password)
+    if not result:
+        return jsonify("False")
+
+    newpassword = generate_password_hash(newpassword, method='sha256')
+    access.updateUserPassword(email, newpassword)
+
+    return jsonify("True")
+
+
+@auth.route('/users/change_account',methods=['PUT'])
+@cross_origin()
+def changeaccount():
+    request_data = request.get_json()
+    print(request_data)
+    email = request_data['new_email']
+    oldemail = request_data['current_email']
+    name = request_data['name']
+    password = request_data['password']
+
+    result = verify(oldemail, password)
+    if not result:
+        return jsonify("False")
+
+    access.updateUserAccount(email, name, oldemail)
+
+    return jsonify("True")
