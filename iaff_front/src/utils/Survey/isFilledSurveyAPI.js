@@ -3,7 +3,7 @@ export const isFilledSurvey = async () => {
     const response = await fetch(
       process.env.REACT_APP_BACK_END_URL + "surveys/is_filled_survey",
       {
-        method: "GET",
+        method: "POST",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",

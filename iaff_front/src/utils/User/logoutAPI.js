@@ -3,7 +3,7 @@ export const logout = async () => {
     const response = await fetch(
       process.env.REACT_APP_BACK_END_URL + "users/logout",
       {
-        method: "GET",
+        method: "POST",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
