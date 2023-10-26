@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signUp } from "../../utils/User/signUpApi";
 import logo from "../../assets/images/logo.png";
+import { copyright } from "../../constants/main";
 import {
   haveAnAccountMessage,
   errorNameValidation,
@@ -11,7 +11,8 @@ import {
   errorFormRequest,
   errorFormValidation,
 } from "../../constants/signUp";
-import { copyright } from "../../constants/main";
+
+import { signUp } from "../../utils/User/signupApi";
 
 const Registration = () => {
   const [name, setName] = useState("");

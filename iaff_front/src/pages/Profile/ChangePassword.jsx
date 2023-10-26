@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { login } from "../../utils/User/loginAPI";
-import { changePassword } from "../../utils/User/changePasswordAPI";
 import { Navigate, useNavigate } from "react-router-dom";
 
+import { changePassword } from "../../utils/User/changePasswordAPI";
 
 const ChangePassword = () => {
   const [formData, setFormData] = useState({
@@ -12,8 +11,6 @@ const ChangePassword = () => {
     password_incorrect: false,
     password_mismatch: false,
   });
-
-  const isLogin = localStorage.getItem("isLogin") === "true";
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -139,7 +136,6 @@ const ChangePassword = () => {
           Copyright @ Politechnika Wrocławska
         </div>
       </div>
-      <>{!isLogin && <Navigate to="/" />}</>
     </div>
   );
 };

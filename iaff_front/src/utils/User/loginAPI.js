@@ -1,4 +1,4 @@
-export async function login(email, password) {
+export const login = async (email, password) => {
   try {
     const response = await Promise.race([
       fetch(process.env.REACT_APP_BACK_END_URL + "users/login", {
@@ -12,20 +12,17 @@ export async function login(email, password) {
       new Promise((_, reject) => {
         setTimeout(() => {
           reject(new Error("Login request timed out after 3 seconds"));
-        }, 3000);
+        }, 5000);
       }),
     ]);
     if (response.ok) {
       const data = await response.json();
-      if (data === "False") {
-        return false;
-      } else {
-        return true;
-      }
+      localStorage.setItem("token", data.token);
+      return true;
     } else {
       return false;
     }
   } catch (error) {
     return false;
   }
-}
+};

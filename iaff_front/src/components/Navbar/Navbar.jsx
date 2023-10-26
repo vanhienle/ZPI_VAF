@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import logo from "../../assets/images/logo.png";
+import { navLinks } from "../../constants/navbar";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   HiOutlineMenu,
   HiOutlineMenuAlt3,
@@ -7,14 +9,14 @@ import {
   HiOutlineLogout,
   HiOutlineCog,
 } from "react-icons/hi";
-import { navLinks } from "../../constants/navbar";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+
+import { isLogged } from "../../utils/User/isLoggedAPI";
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
 
-  const isLogin = localStorage.getItem("isLogin") === "true";
   const location = useLocation();
   const navigate = useNavigate();
 

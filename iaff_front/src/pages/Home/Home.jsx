@@ -19,12 +19,14 @@ import {
 import assistantImage from "../../assets/images/assistant.jpg";
 import signInImage from "../../assets/images/signin.jpg";
 import surveyImage from "../../assets/images/survey.jpg";
-import { getIsLogged } from "../../utils/User/isLoggedApi";
+
+import { isLogged } from "../../utils/User/isLoggedApi";
+import { isFilledSurvey } from "../../utils/Survey/isFilledSurveyAPI";
 
 const Home = () => {
   // console.log(getIsLogged());
 
-  const [isLogged, setIsLogged] = useState(true);
+  const [isLogged, setIsLogged] = useState(false);
   const [isFilledSurvey, setIsFilledSurvey] = useState(false);
 
   return (
