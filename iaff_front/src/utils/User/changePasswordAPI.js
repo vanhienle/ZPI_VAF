@@ -3,6 +3,7 @@ export async function changePassword(email, password, newpassword) {
     const response = await Promise.race([
       fetch(process.env.REACT_APP_BACK_END_URL + "users/change_password", {
         method: "PUT",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },

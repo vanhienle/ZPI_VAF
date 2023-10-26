@@ -4,6 +4,7 @@ export const signUp = async (data) => {
       process.env.REACT_APP_BACK_END_URL + "users/signup",
       {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },

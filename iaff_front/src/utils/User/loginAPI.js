@@ -3,6 +3,7 @@ export async function login(email, password) {
     const response = await Promise.race([
       fetch(process.env.REACT_APP_BACK_END_URL + "users/login", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -19,8 +20,6 @@ export async function login(email, password) {
       if (data === "False") {
         return false;
       } else {
-        localStorage.setItem("email", data.email);
-        localStorage.setItem("name", data.name);
         return true;
       }
     } else {
