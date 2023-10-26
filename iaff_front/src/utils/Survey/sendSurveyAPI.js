@@ -1,7 +1,7 @@
 export const sendSurvey = async (data) => {
   try {
     const response = await fetch(
-      process.env.REACT_APP_BACK_END_URL + "users/signup",
+      process.env.REACT_APP_BACK_END_URL + "survey/add_survey",
       {
         method: "POST",
         credentials: "include",

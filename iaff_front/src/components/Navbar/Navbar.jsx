@@ -15,7 +15,7 @@ import { isLogged } from "../../utils/User/isLoggedAPI";
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -70,7 +70,6 @@ const Navbar = () => {
                     <p
                       className="px-2 py-1 flex items-center justify-start cursor-pointer text-text-color text-base hover:text-primary-500 hover:bg-accent-500 ease-in-out duration-200"
                       onClick={() => {
-                        localStorage.setItem("isLogin", false);
                         setIsOpen(!isOpen);
                         navigate(0);
                       }}

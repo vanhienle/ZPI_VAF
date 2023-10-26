@@ -26,7 +26,7 @@ import { isFilledSurvey } from "../../utils/Survey/isFilledSurveyAPI";
 const Home = () => {
   // console.log(getIsLogged());
 
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(true);
   const [isFilledSurvey, setIsFilledSurvey] = useState(false);
 
   return (
