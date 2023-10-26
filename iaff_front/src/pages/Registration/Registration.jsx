@@ -12,7 +12,7 @@ import {
   errorFormValidation,
 } from "../../constants/signUp";
 
-import { signUp } from "../../utils/User/signupApi";
+import { signup } from "../../utils/User/signupAPI";
 
 const Registration = () => {
   const [name, setName] = useState("");
@@ -114,7 +114,7 @@ const Registration = () => {
       };
 
       try {
-        const response = await signUp(data);
+        const response = await signup(data);
         console.log("Sign Up success", response);
         navigate("/survey");
       } catch (error) {
