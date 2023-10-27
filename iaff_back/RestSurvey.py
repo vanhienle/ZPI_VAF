@@ -16,15 +16,20 @@ def filled_survey():
     try:
         id = check_token(token)
         if not id:
-            return jsonify('False')
+            return jsonify('false'), 401
 
         result = survey.getSurvey(id)
-        return jsonify("True") if result else jsonify("False")
+        return (jsonify("true"), 200) if result else (jsonify("false"), 401)
 
     except jwt.ExpiredSignatureError:
-        return jsonify({'Error': 'Token has expired'})
+        return jsonify('false'), 401
     except jwt.InvalidTokenError:
-        return jsonify({'Error': 'Invalid token'})
+        return jsonify('false'), 401
+    except psycopg2.Error as e:
+        error_message = str(e)
+        print("SQL error:", error_message)
+        survey.DBConnection.commit()
+        return jsonify('false'), 500
 
 
 @surv.route('/survey/add_survey',methods=['POST'])
@@ -34,7 +39,7 @@ def add_survey():
     try:
         id = check_token(token)
         if not id:
-            return jsonify('False')
+            return jsonify({'Error': 'Id not found'}), 401
 
         request_data = request.get_json()
 
@@ -61,17 +66,17 @@ def add_survey():
             print('Failed to add data')
 
         print('Returned as a result: ', result)
-        return jsonify("True") if result else jsonify("False")
+        return (jsonify("true"), 200) if result else (jsonify({'Error': 'Failed to add data'}), 500)
 
     except jwt.ExpiredSignatureError:
-        return jsonify({'Error': 'Token has expired'})
+        return jsonify({'Error': 'Token has expired'}), 401
     except jwt.InvalidTokenError:
-        return jsonify({'Error': 'Invalid token'})
+        return jsonify({'Error': 'Invalid token'}), 401
     except psycopg2.Error as e:
         error_message = str(e)
         print("SQL error:", error_message)
         survey.DBConnection.commit()
-        return jsonify({"SQL error": error_message})
+        return jsonify({"Error": error_message}), 500
 
 
 @surv.route('/survey/update_survey',methods=['PUT'])
@@ -81,7 +86,7 @@ def update_survey():
     try:
         id = check_token(token)
         if not id:
-            return jsonify('False')
+            return jsonify({'Error': 'Id not found'}), 401
 
         request_data = request.get_json()
 
@@ -103,14 +108,14 @@ def update_survey():
         survey.updateSurvey(id, age, kids, baby, teen, adult, accom, insure, study, job, live, refugee, other,
                                   documenttype)
         print('Updated sql database')
-        return jsonify("True")
+        return jsonify("true"), 200
 
     except jwt.ExpiredSignatureError:
-        return jsonify({'Error': 'Token has expired'})
+        return jsonify({'Error': 'Token has expired'}), 401
     except jwt.InvalidTokenError:
-        return jsonify({'Error': 'Invalid token'})
+        return jsonify({'Error': 'Invalid token'}), 401
     except psycopg2.Error as e:
         error_message = str(e)
         print("SQL error:", error_message)
         survey.DBConnection.commit()
-        return jsonify({"SQL error": error_message})
+        return jsonify({"Error": error_message}), 500

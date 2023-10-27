@@ -5,7 +5,8 @@ from flask import  request, jsonify, Blueprint, current_app, session, make_respo
 from flask_login import login_user, login_required, logout_user, current_user, login_remembered
 from flask_cors import cross_origin
 from werkzeug.security import generate_password_hash, check_password_hash
-from userAccess import Access, User
+from userAccess import Access
+import psycopg2
 import jwt
 
 auth = Blueprint('auth', __name__)
@@ -68,7 +69,7 @@ def login_post():
 
     result = verify(email, password)
     if not result:
-        return jsonify({'Error': 'Invalid credentials'})
+        return jsonify({'Error': 'Invalid credentials'}), 401
 
     print('user verified with id: ', result[0], ', creating token...')
     token = create_token(result[0])
@@ -76,7 +77,7 @@ def login_post():
     print('saving token in the database')
     access.DBCursor.execute("UPDATE users SET Token = %s WHERE UserID = %s", (token, result[0]))
     access.DBConnection.commit()
-    return jsonify({'token': token})
+    return jsonify({'token': token}), 200
 
 
 @auth.route('/users/signup',methods=['POST'])
@@ -93,7 +94,7 @@ def signup_post():
     password = generate_password_hash(password, method='sha256')
     result = access.signup(email=email, password=password, name=name)
     if not result:
-        return jsonify("False")
+        return jsonify({'Error': 'Failed to sign up'}), 500
 
     print('user verified with id: ', result[0], ', creating token...')
     token = create_token(result[0])
@@ -101,7 +102,7 @@ def signup_post():
     print('saving token in the database')
     access.DBCursor.execute("UPDATE users SET Token = %s WHERE UserID = %s", (token, result[0]))
     access.DBConnection.commit()
-    return jsonify({'token': token})
+    return jsonify({'token': token}), 200
 
 
 def check_token(token):
@@ -121,12 +122,19 @@ def is_logged():
     print('checking authorization of a token')
     token = request.headers.get('token')
     print('received token: ', token)
+    if token is None:
+        return jsonify('false'), 401
     try:
-        return jsonify('True') if check_token(token) else jsonify('False')
+        return (jsonify('true'), 200) if check_token(token) else (jsonify('false'), 401)
     except jwt.ExpiredSignatureError:
-        return jsonify({'Error': 'Token has expired'})
+        return jsonify('false'), 401
     except jwt.InvalidTokenError:
-        return jsonify({'Error': 'Invalid token'})
+        return jsonify('false'), 401
+    except psycopg2.Error as e:
+        error_message = str(e)
+        print("SQL error:", error_message)
+        access.DBConnection.commit()
+        return jsonify('false'), 500
 
 
 @auth.route('/users/logout', methods=['POST'])
@@ -140,14 +148,18 @@ def logout():
     try:
         id = check_token(token)
         if not id:
-            return jsonify('False')
+            return jsonify('false'), 401
 
         access.DBCursor.execute("UPDATE users SET Token = NULL WHERE UserID = %s", (id,))
         access.DBConnection.commit()
 
-        return jsonify('True')
+        return jsonify('true'), 200
     except jwt.InvalidTokenError:
-        return jsonify({'Error': 'Invalid token'})
+        print('invalid token: ', token)
+        return jsonify('false'), 401
+    except:
+        print('Unknown error')
+        return jsonify('false'), 500
 
 @auth.route('/users/get_user_data', methods=['POST'])
 @cross_origin(supports_credentials=True)
@@ -158,79 +170,25 @@ def get_user_data():
     try:
         id = check_token(token)
         if not id:
-            return jsonify('False')
+            return jsonify({"Error": 'Invalid user'}), 401
         re = access.getUserFromID(id)
-        return jsonify({'email': re[1], 'name': re[3]})
+        return jsonify({'email': re[1], 'name': re[3]}), 200
 
     except jwt.ExpiredSignatureError:
-        return jsonify({'Error': 'Token has expired'})
+        return jsonify({'Error': 'Token has expired'}), 401
     except jwt.InvalidTokenError:
-        return jsonify({'Error': 'Invalid token'})
+        return jsonify({'Error': 'Invalid token'}), 401
+    except psycopg2.Error as e:
+        error_message = str(e)
+        print("SQL error:", error_message)
+        access.DBConnection.commit()
+        return jsonify({"Error": error_message}), 500
 
 
 @auth.route('/ab',methods=['GET'])
 def ab():
     test = {"key": "data"}
-    return jsonify(test)
-
-#
-# @auth.route('/users/is_logged')
-# @cross_origin(supports_credentials=True)
-# def is_logged():
-#     return jsonify("True") if current_user.is_authenticated else jsonify("False")
-#
-#
-# @auth.route('/users/login', methods=['POST'])
-# @cross_origin(supports_credentials=True)
-# def login_post():
-#     request_data = request.get_json()
-#     print(request_data)
-#     email = request_data['email']
-#     password = request_data['password']
-#
-#     result = verify(email, password)
-#     if not result:
-#         return jsonify("False")
-#
-#     user = User()
-#     user.id = result[0]
-#
-#     name = access.getUserName(email)[0]
-#     ujson = {"email": email, "name": name}
-#
-#     res = login_user(user)
-#
-#     if res:
-#         return jsonify(ujson)
-#     return jsonify("False")
-
-# @auth.route('/users/signup',methods=['POST'])
-# @cross_origin(supports_credentials=True)
-# def signup_post():
-#     print('somebody tried to sign up')
-#     # args = userPostArgs.parse_args()
-#     request_data = request.get_json()
-#     email = request_data['email']
-#     password = request_data['password']
-#     name = request_data['name']
-#     password = generate_password_hash(password, method='sha256')
-#     result = access.signup(email=email, password=password, name=name)
-#     if not result:
-#         return jsonify("False")
-#     user = User()
-#     user.id = result[0]
-#     print('logging user to session')
-#     return jsonify("True") if login_user(user) else jsonify("False")
-#
-# @auth.route('/users/logout')
-# @cross_origin(supports_credentials=True)
-# def logout():
-#     if current_user.is_authenticated:  # Check if the user is logged in
-#         logout_user()
-#         return jsonify("True")
-#     else:
-#         return jsonify("False")
-
+    return jsonify(test), 200
 
 @auth.route('/users/change_password',methods=['PUT'])
 @cross_origin()
@@ -244,20 +202,25 @@ def change_password():
     try:
         id = check_token(token)
         if not id:
-            return jsonify('False')
+            return jsonify({'Error': 'Id not found'}), 401
 
         if not verifyId(id, password):
-            return jsonify({'Error': 'Invalid password'})
+            return jsonify({'Error': 'Invalid password'}), 401
 
         newpassword = generate_password_hash(newpassword, method='sha256')
         access.updateUserPassword(id, newpassword)
 
-        return jsonify("True")
+        return jsonify('true'), 200
 
     except jwt.ExpiredSignatureError:
-        return jsonify({'Error': 'Token has expired'})
+        return jsonify({'Error': 'Token has expired'}), 401
     except jwt.InvalidTokenError:
-        return jsonify({'Error': 'Invalid token'})
+        return jsonify({'Error': 'Invalid token'}), 401
+    except psycopg2.Error as e:
+        error_message = str(e)
+        print("SQL error:", error_message)
+        access.DBConnection.commit()
+        return jsonify({"Error": error_message}), 500
 
 
 @auth.route('/users/change_account',methods=['PUT'])
@@ -273,15 +236,20 @@ def change_account():
     try:
         id = check_token(token)
         if not id:
-            return jsonify('False')
+            return jsonify({'Error': 'Id not found'}), 401
 
         if not verifyId(id, password):
-            return jsonify({'Error': 'Invalid password'})
+            return jsonify({'Error': 'Invalid password'}), 401
 
         access.updateUserAccount(email, name, id)
-        return jsonify("True")
+        return jsonify('true'), 200
 
     except jwt.ExpiredSignatureError:
-        return jsonify({'Error': 'Token has expired'})
+        return jsonify({'Error': 'Token has expired'}), 401
     except jwt.InvalidTokenError:
-        return jsonify({'Error': 'Invalid token'})
+        return jsonify({'Error': 'Invalid token'}), 401
+    except psycopg2.Error as e:
+        error_message = str(e)
+        print("SQL error:", error_message)
+        access.DBConnection.commit()
+        return jsonify({"Error": error_message}), 500
