@@ -4,7 +4,6 @@ import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import "react-chat-elements/dist/main.css";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
