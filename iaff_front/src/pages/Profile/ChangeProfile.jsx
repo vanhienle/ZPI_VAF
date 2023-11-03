@@ -20,18 +20,18 @@ const ChangeProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, email_address, password } = formData;
-    if (
-      !formData.change_failed &&
-      formData.password !== "" &&
-      (await changeProfile(
-        name,
-        localStorage.getItem("email"),
-        email_address,
-        password
-      ))
-    ) {
-      alert("Profile updated successfully");
-      navigate(0);
+    if (!formData.change_failed && formData.password !== "") {
+      try {
+        const result = await changeProfile(name, email_address, password);
+        if (result) {
+          alert("Profile updated successfully");
+          navigate(0);
+        } else {
+          console.log("Account change failed!");
+        }
+      } catch (error) {
+        console.error("Error: ", error.message);
+      }
     } else {
       console.log("failed");
       setFormData({ ...formData, change_failed: true });

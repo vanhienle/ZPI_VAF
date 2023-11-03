@@ -23,12 +23,18 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { email_address, password } = formData;
-    if (
-      !formData.login_failed &&
-      formData.password !== "" &&
-      (await login(email_address, password))
-    ) {
-      navigate(0);
+    if (!formData.login_failed && formData.password !== "") {
+      try {
+        const result = await login(email_address, password);
+        if (result) {
+          navigate("/");
+        } else {
+          console.log("Login failed!");
+          setFormData({ ...formData, login_failed: true });
+        }
+      } catch (error) {
+        console.error("Error: ", error.message);
+      }
     } else {
       setFormData({ ...formData, login_failed: true });
     }

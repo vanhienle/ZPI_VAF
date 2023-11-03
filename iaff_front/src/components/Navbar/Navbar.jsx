@@ -11,17 +11,49 @@ import {
 } from "react-icons/hi";
 
 import { isLogged } from "../../utils/User/isLoggedAPI";
+import { logout } from "../../utils/User/logoutAPI";
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
 
   const menuRef = useRef();
   const dropdownRef = useRef();
+
+  const handleLogout = async () => {
+    try {
+      const result = await logout();
+      if (result) {
+        console.log("Logout successful");
+      } else {
+        console.log("Unauthorized or error occurred");
+      }
+      setIsOpen(!isOpen);
+    } catch (error) {
+      console.error("Error: ", error.message);
+    }
+  };
+
+  useEffect(() => {
+    async function fetchIsLogged() {
+      try {
+        const result = await isLogged();
+        if (result) {
+          console.log("User is logged in");
+        } else {
+          console.log("User is not logged in");
+        }
+        setIsLogin(result);
+      } catch (error) {
+        console.error("Error: " + error.message);
+      }
+    }
+    fetchIsLogged();
+  }, []);
 
   const handleOutsideClick = useCallback(
     (e) => {
@@ -92,8 +124,7 @@ const Navbar = () => {
                     <p
                       className="px-2 py-1 flex items-center justify-start cursor-pointer text-text-color text-base hover:text-primary-500 hover:bg-accent-500 ease-in-out duration-200"
                       onClick={() => {
-                        setIsOpen(!isOpen);
-                        navigate(0);
+                        handleLogout();
                       }}
                     >
                       <HiOutlineLogout size={30} className="mr-2" />

@@ -77,12 +77,15 @@ function SurveyForm() {
     console.log(surveyData);
 
     try {
-      const response = await sendSurvey(surveyData);
-      console.log(response);
-      console.log("SUCCESS");
-      navigate("/");
+      const result = await sendSurvey(surveyData);
+      if (result) {
+        console.log("Survey addition successful");
+        navigate("/");
+      } else {
+        console.log("Survey addition failed");
+      }
     } catch (error) {
-      console.log(error);
+      console.error("Error:", error.message);
     }
   };
 

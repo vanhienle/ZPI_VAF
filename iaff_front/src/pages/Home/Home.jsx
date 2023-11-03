@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -24,10 +24,41 @@ import { isLogged } from "../../utils/User/isLoggedAPI";
 import { isFilledSurvey } from "../../utils/Survey/isFilledSurveyAPI";
 
 const Home = () => {
-  // console.log(getIsLogged());
+  const [isLog, setIsLog] = useState(false);
+  const [isSurvey, setIsSurvey] = useState(false);
 
-  const [isLogged, setIsLogged] = useState(true);
-  const [isFilledSurvey, setIsFilledSurvey] = useState(false);
+  useEffect(() => {
+    async function fetchIsFilledSurvey() {
+      try {
+        const resultSurvey = await isFilledSurvey();
+        if (resultSurvey) {
+          setIsSurvey(true);
+          console.log("Survey is filled");
+        } else {
+          console.log("Survey is not filled");
+        }
+      } catch (error) {
+        console.error("Error: " + error.message);
+      }
+    }
+
+    async function fetchIsLogged() {
+      try {
+        const result = await isLogged();
+        if (result) {
+          console.log("User is logged in");
+          fetchIsFilledSurvey();
+        } else {
+          console.log("User is not logged in");
+        }
+        setIsLog(result);
+      } catch (error) {
+        console.error("Error: " + error.message);
+      }
+    }
+
+    fetchIsLogged();
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center mt-6">
@@ -128,14 +159,12 @@ const Home = () => {
         ))}
       </div>
 
-      {isLogged ? (
-        isFilledSurvey ? (
-          <></>
-        ) : (
+      {isLog ? (
+        isSurvey ? (
           <>
+            {" "}
             {/* Delimiter */}
             <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-1/2 max-xl:w-3/4 my-6" />
-
             {/* Survey Block */}
             <div
               className="bg-no-repeat bg-center bg-cover w-1/2 max-xl:w-3/4 rounded-md my-6"
@@ -159,6 +188,8 @@ const Home = () => {
               </div>
             </div>
           </>
+        ) : (
+          <></>
         )
       ) : (
         <>

@@ -114,13 +114,18 @@ const Registration = () => {
       };
 
       try {
-        const response = await signup(data);
-        console.log("Sign Up success", response);
-        if (response === "True" && (await login(data.email, data.password))) {
+        const result = await signup(data);
+        if (result) {
           navigate("/survey");
+        } else {
+          console.log("Sign Up failed!");
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            form: errorFormValidation,
+          }));
         }
       } catch (error) {
-        console.log(error);
+        console.error("Error: ", error.message);
         setErrors((prevErrors) => ({
           ...prevErrors,
           form: errorFormRequest,

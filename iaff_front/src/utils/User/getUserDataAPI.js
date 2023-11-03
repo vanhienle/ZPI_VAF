@@ -1,22 +1,26 @@
-export const getUserData = async () => {
+export async function getUserData() {
   try {
     const response = await fetch(
       process.env.REACT_APP_BACK_END_URL + "users/get_user_data",
       {
         method: "GET",
-        credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          token: `${localStorage.getItem("token")}`,
         },
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
       }
     );
-    if (response.ok) {
-      return response.json();
+
+    if (response.status === 200) {
+      const data = await response.json();
+      return data;
+    } else if (response.status === 401) {
+      const error = await response.json();
+      throw new Error(error.Error);
     } else {
-      throw new Error("Failed getting the user data!");
+      throw new Error("Internal server error");
     }
   } catch (error) {
     throw error;
   }
-};
+}
