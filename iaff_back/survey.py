@@ -37,7 +37,7 @@ class Survey:
     def addSurvey(self, id, age, kids, baby, teen, adult, accom, insure, study, job, live, refugee, other, documenttype):
         print('inside add survey')
         self.DBCursor.execute(
-            """INSERT INTO users (UserID,Age,Kids,Baby,Teen,Adult,Accom,Insure,Study,Job,Live,Refugee,Other,DocumentType) 
+            """INSERT INTO survey (UserID,Age,Kids,Baby,Teen,Adult,Accom,Insure,Study,Job,Live,Refugee,Other,DocumentType) 
             VALUES (%(UserID)s,%(Age)s,%(Kids)s,%(Baby)s,%(Teen)s,%(Adult)s,%(Accom)s,%(Insure)s,%(Study)s,%(Job)s,%(Live)s,%(Refugee)s,%(Other)s,%(DocumentType)s)""",
             {'UserID': id,
              'Age': age,
@@ -55,6 +55,41 @@ class Survey:
              'DocumentType': documenttype})
         self.DBConnection.commit()
         return self.getSurvey(id)
+
+
+    def updateSurvey(self, id, age, kids, baby, teen, adult, accom, insure, study, job, live, refugee, other, documenttype):
+        print('inside update survey')
+        self.DBCursor.execute(
+            """UPDATE survey SET Age=%(Age)s,
+            Kids=%(Kids)s,
+            Baby=%(Baby)s,
+            Teen=%(Teen)s,
+            Adult=%(Adult)s,
+            Accom=%(Accom)s,
+            Insure=%(Insure)s,
+            Study=%(Study)s,
+            Job=%(Job)s,
+            Live=%(Live)s,
+            Refugee=%(Refugee)s,
+            Other=%(Other)s,
+            DocumentType=%(DocumentType)s
+            WHERE UserID=%(UserID)s""",
+            {'UserID': id,
+             'Age': age,
+             'Kids': kids,
+             'Baby': baby,
+             'Teen': teen,
+             'Adult': adult,
+             'Accom': accom,
+             'Insure': insure,
+             'Study': study,
+             'Job': job,
+             'Live': live,
+             'Refugee': refugee,
+             'Other': other,
+             'DocumentType': documenttype})
+        self.DBConnection.commit()
+        return True
 
 
     def fin(self):
