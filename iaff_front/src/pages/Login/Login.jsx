@@ -27,7 +27,7 @@ const Login = () => {
       try {
         const result = await login(email_address, password);
         if (result) {
-          navigate("/");
+          window.location.href = "/";
         } else {
           console.log("Login failed!");
           setFormData({ ...formData, login_failed: true });
@@ -58,7 +58,7 @@ const Login = () => {
         >
           <p
             className={`text-error-900 mb-5 ${
-              !formData.login_failed ? "hidden" : ""
+              !formData.login_failed ? "hidden" : "text-center"
             }`}
           >
             Email or password is not correct!

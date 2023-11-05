@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import logo from "../../assets/images/logo.png";
 import { navLinks } from "../../constants/navbar";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   HiOutlineMenu,
   HiOutlineMenuAlt3,
@@ -17,7 +17,7 @@ const Navbar = ({ isLogin, handleIsLogged }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const location = useLocation();
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const menuRef = useRef();
   const dropdownRef = useRef();
@@ -31,6 +31,7 @@ const Navbar = ({ isLogin, handleIsLogged }) => {
         console.log("Unauthorized or error occurred");
       }
       setIsOpen(!isOpen);
+      navigate(0);
     } catch (error) {
       console.error("Error: ", error.message);
     }
@@ -165,7 +166,7 @@ const Navbar = ({ isLogin, handleIsLogged }) => {
 
             {/* Toggle Menu */}
             {toggleMenu && (
-              <div className="bg-background-color py-6 px-6 max-md:py-4 max-md:px-4 max-sm:py-2 max-sm:px-2 rounded-md shadow-lg top-20 right-0 absolute z-10 w-80 border-t-2 border-accent-900 overflow:hidden animate-slide-right-to-left ease-in-out duration-300">
+              <div className="bg-background-color py-6 px-6 max-md:py-4 max-md:px-4 max-sm:py-2 max-sm:px-2 rounded-md shadow-lg top-20 right-0 absolute z-10 w-80 border-t-2 border-accent-900 animate-slide-right-to-left ease-in-out duration-300">
                 <ul className="ml-0 px-0 space-y-6 max-md:space-y-4 mt-6 text-center">
                   {navLinks.map((item) => (
                     <li key={item.label}>
