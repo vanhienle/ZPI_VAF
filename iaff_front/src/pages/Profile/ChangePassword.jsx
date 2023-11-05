@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { changePassword } from "../../utils/User/changePasswordAPI";
 
@@ -31,15 +31,24 @@ const ChangePassword = () => {
       formData.current_password !== "" &&
       formData.new_password !== "" &&
       formData.repeat_new_password !== "" &&
-      formData.new_password === formData.repeat_new_password &&
-      (await changePassword(
-        localStorage.getItem("email"),
-        current_password,
-        new_password
-      ))
+      formData.new_password === formData.repeat_new_password
     ) {
-      alert("Password changed successfully");
-      navigate(0);
+      try {
+        const result = await changePassword(
+          localStorage.getItem("email"),
+          current_password,
+          new_password
+        );
+
+        if (result) {
+          alert("Password changed successfully");
+          navigate(0);
+        } else {
+          console.log("Password change failed");
+        }
+      } catch (error) {
+        console.error("Error: ", error);
+      }
     } else {
       if (formData.new_password !== formData.repeat_new_password) {
         setFormData({ ...formData, password_mismatch: true });

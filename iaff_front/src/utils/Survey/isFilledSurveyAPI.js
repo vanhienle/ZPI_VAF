@@ -1,23 +1,24 @@
-export const isFilledSurvey = async () => {
+export async function isFilledSurvey() {
   try {
     const response = await fetch(
       process.env.REACT_APP_BACK_END_URL + "surveys/is_filled_survey",
       {
-        method: "GET",
-        credentials: "include",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
+          token: `${localStorage.getItem("token")}`,
         },
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
       }
     );
 
-    if (response.ok) {
-      return response.json();
+    if (response.status === 200) {
+      return true;
+    } else if (response.status === 401) {
+      return false;
     } else {
-      throw new Error("Failed checking is the User filled survey!");
+      throw new Error("Internal server error");
     }
   } catch (error) {
     throw error;
   }
-};
+}

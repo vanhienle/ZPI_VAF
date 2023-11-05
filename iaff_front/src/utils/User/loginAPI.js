@@ -1,28 +1,27 @@
-export const login = async (email, password) => {
+export async function login(email, password) {
   try {
-    const response = await Promise.race([
-      fetch(process.env.REACT_APP_BACK_END_URL + "users/login", {
+    const response = await fetch(
+      process.env.REACT_APP_BACK_END_URL + "users/login",
+      {
         method: "POST",
-        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
-      }),
-      new Promise((_, reject) => {
-        setTimeout(() => {
-          reject(new Error("Login request timed out after 3 seconds"));
-        }, 5000);
-      }),
-    ]);
-    if (response.ok) {
+      }
+    );
+
+    if (response.status === 200) {
       const data = await response.json();
       localStorage.setItem("token", data.token);
       return true;
+    } else if (response.status === 401) {
+      const error = await response.json();
+      throw new Error(error.Error);
     } else {
-      return false;
+      throw new Error("Internal server error");
     }
   } catch (error) {
-    return false;
+    throw error;
   }
-};
+}

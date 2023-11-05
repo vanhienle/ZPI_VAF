@@ -1,29 +1,26 @@
-export const changeProfile = async (
-  name,
-  current_email,
-  new_email,
-  password
-) => {
+export async function changeProfile(name, email, password) {
   try {
     const response = await fetch(
       process.env.REACT_APP_BACK_END_URL + "users/change_account",
       {
         method: "PUT",
-        credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          token: `${localStorage.getItem("token")}`,
         },
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        body: JSON.stringify({ name, current_email, new_email, password }),
+        body: JSON.stringify({ email, name, password }),
       }
     );
-    if (response.ok) {
-      //const data = response.json();
+
+    if (response.status === 200) {
       return true;
+    } else if (response.status === 401) {
+      const error = await response.json();
+      throw new Error(error.Error);
     } else {
-      throw new Error("Failed to change user data!");
+      throw new Error("Internal server error");
     }
   } catch (error) {
-    return false;
+    throw error;
   }
-};
+}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { welcomeDescription, targets } from "../../constants/survey";
 import { useNavigate } from "react-router-dom";
 
-import { sendSurveyAPI } from "../../utils/Survey/sendSurveyAPI";
+import { sendSurvey } from "../../utils/Survey/sendSurveyAPI";
 
 function SurveyForm() {
   const [step, setStep] = useState(1);
@@ -35,7 +35,7 @@ function SurveyForm() {
     } else if (type === "radio") {
       setFormData((prevData) => ({
         ...prevData,
-        [name]: value === "true", // Convert "true" or "false" to boolean
+        [name]: value === "true",
       }));
     } else {
       setFormData({ ...formData, [name]: value });
@@ -52,39 +52,41 @@ function SurveyForm() {
 
   const handleSubmit = async () => {
     if (formData.age === "" || formData.documents === "") {
-      // Display an error message or prevent form submission
       console.log("Please fill in all required fields.");
       setError(true);
       handleBack();
       return;
     }
-    console.log(formData);
-    // const surveyData = {
-    //   age: formData.age,
-    //   kids: formData.hasKids, // Use boolean values directly
-    //   baby: formData.hasBaby,
-    //   teen: formData.hasTeen,
-    //   adult: formData.hasAdult,
-    //   accom: formData.hasAccommodation, // Use boolean values directly
-    //   insure: formData.needsInsurance, // Use boolean values directly
-    //   study: formData.isTargetStudy,
-    //   job: formData.isTargetJob,
-    //   live: formData.isTargetLive,
-    //   refugee: formData.isTargetRefugee,
-    //   other: formData.isTargetOther,
-    //   documenttype: formData.documents,
-    // };
 
-    // console.log(surveyData);
+    const surveyData = {
+      age: formData.age,
+      kids: formData.hasKids,
+      baby: formData.hasBaby,
+      teen: formData.hasTeen,
+      adult: formData.hasAdult,
+      accom: formData.hasAccommodation,
+      insure: formData.needsInsurance,
+      study: formData.isTargetStudy,
+      job: formData.isTargetJob,
+      live: formData.isTargetLive,
+      refugee: formData.isTargetRefugee,
+      other: formData.isTargetOther,
+      documenttype: formData.documents,
+    };
 
-    // try {
-    //   const response = await sendSurveyAPI(surveyData);
-    //   console.log(response);
-    //   console.log("SUCCESS");
-    //   navigate('/');
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    console.log(surveyData);
+
+    try {
+      const result = await sendSurvey(surveyData);
+      if (result) {
+        console.log("Survey addition successful");
+        navigate("/");
+      } else {
+        console.log("Survey addition failed");
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
   };
 
   return (

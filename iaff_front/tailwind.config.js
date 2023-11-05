@@ -18,6 +18,7 @@ module.exports = {
       // Grey
       accent: {
         500: "#F1F1F1",
+        700: "#B7B7B7",
         900: "#D9D9D9",
       },
       // Red
@@ -28,7 +29,6 @@ module.exports = {
       "text-color": "#000000",
       // White
       "background-color": "#ffffff",
-      "footer-background": "#FFE6D9",
     },
     keyframes: {
       "slide-right-to-left": {
