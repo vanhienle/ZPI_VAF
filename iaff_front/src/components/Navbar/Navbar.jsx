@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import logo from "../../assets/images/logo.png";
 import { navLinks } from "../../constants/navbar";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   HiOutlineMenu,
   HiOutlineMenuAlt3,
@@ -10,16 +10,14 @@ import {
   HiOutlineCog,
 } from "react-icons/hi";
 
-import { isLogged } from "../../utils/User/isLoggedAPI";
 import { logout } from "../../utils/User/logoutAPI";
 
-const Navbar = () => {
+const Navbar = ({ isLogin, handleIsLogged }) => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
 
   const location = useLocation();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const menuRef = useRef();
   const dropdownRef = useRef();
@@ -39,20 +37,8 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    async function fetchIsLogged() {
-      try {
-        const result = await isLogged();
-        if (result) {
-          console.log("User is logged in");
-        } else {
-          console.log("User is not logged in");
-        }
-        setIsLogin(result);
-      } catch (error) {
-        console.error("Error: " + error.message);
-      }
-    }
-    fetchIsLogged();
+    handleIsLogged();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleOutsideClick = useCallback(

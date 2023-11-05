@@ -20,11 +20,9 @@ import assistantImage from "../../assets/images/assistant.jpg";
 import signInImage from "../../assets/images/signin.jpg";
 import surveyImage from "../../assets/images/survey.jpg";
 
-import { isLogged } from "../../utils/User/isLoggedAPI";
 import { isFilledSurvey } from "../../utils/Survey/isFilledSurveyAPI";
 
-const Home = () => {
-  const [isLog, setIsLog] = useState(false);
+const Home = ({ isLogin }) => {
   const [isSurvey, setIsSurvey] = useState(false);
 
   useEffect(() => {
@@ -41,24 +39,10 @@ const Home = () => {
         console.error("Error: " + error.message);
       }
     }
-
-    async function fetchIsLogged() {
-      try {
-        const result = await isLogged();
-        if (result) {
-          console.log("User is logged in");
-          fetchIsFilledSurvey();
-        } else {
-          console.log("User is not logged in");
-        }
-        setIsLog(result);
-      } catch (error) {
-        console.error("Error: " + error.message);
-      }
+    if (isLogin) {
+      fetchIsFilledSurvey();
     }
-
-    fetchIsLogged();
-  }, []);
+  }, [isLogin]);
 
   return (
     <div className="flex flex-col items-center justify-center mt-6">
@@ -133,6 +117,9 @@ const Home = () => {
 
       {/* Modules block */}
       <div className="w-1/2 max-2xl:w-3/4 flex flex-col space-y-6 items-center justify-center my-6 max-sm:my-4">
+        <h2 className="text-2xl max-xl:text-xl max-md:text-base text-primary-900">
+          {modulesTitle}
+        </h2>
         {modulesInfo.map((item) => (
           <div
             className="bg-no-repeat bg-center bg-cover rounded-md"
@@ -167,7 +154,7 @@ const Home = () => {
         ))}
       </div>
 
-      {isLog ? (
+      {isLogin ? (
         isSurvey ? (
           <>
             {" "}
