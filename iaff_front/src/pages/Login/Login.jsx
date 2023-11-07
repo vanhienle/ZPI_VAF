@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import { copyright } from "../../constants/main";
 import logo from "../../assets/images/logo.png";
+
 import { login } from "../../utils/User/loginAPI";
 
 const Login = () => {
@@ -9,6 +12,9 @@ const Login = () => {
     login_failed: false,
   });
 
+  const isLogin = localStorage.getItem("isLogin") === "true";
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value, login_failed: false });
@@ -17,31 +23,42 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { email_address, password } = formData;
-    if (
-      !formData.login_failed &&
-      formData.password !== "" &&
-      (await login(email_address, password))
-    ) {
-      alert("Login successful");
+    if (!formData.login_failed && formData.password !== "") {
+      try {
+        const result = await login(email_address, password);
+        if (result) {
+          window.location.href = "/";
+        } else {
+          console.log("Login failed!");
+          setFormData({ ...formData, login_failed: true });
+        }
+      } catch (error) {
+        console.error("Error: ", error.message);
+      }
     } else {
       setFormData({ ...formData, login_failed: true });
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center pt-4 mb-6">
-      <div className="flex flex-col items-center justify-center border-2 rounded-md border-solid border-primary-900 p-18 mt-10">
+    <div className="max-w-md mx-auto my-14">
+      <div className="flex items-center flex-col bg-white drop-shadow-md rounded-xl border-primary-900 border-2 px-10 pt-0 pb-0 m-4">
         <img
-          className="relative z-0 -top-7 h-16 border-2 rounded-md border-solid border-accent-500 "
+          className="relative z-0 h-16 -top-8 rounded-xl drop-shadow-lg "
           alt="logoImage"
           src={logo}
         />
-        <form className="p-12 pt-0" onSubmit={handleSubmit}>
-          <p className="text-text-color text-center mb-6 font-bold text-xl">
+        <div className="text-center">
+          <h1 className="text-primary-900 text-2xl max-2xl:text-xl font-bold">
             SIGN IN
-          </p>
+          </h1>
+        </div>
+        <form
+          className="flex flex-col gap-2 w-full mt-4"
+          onSubmit={handleSubmit}
+        >
           <p
-            className={`text-red mb-5 ${
-              !formData.login_failed ? "hidden" : ""
+            className={`text-error-900 mb-5 ${
+              !formData.login_failed ? "hidden" : "text-center"
             }`}
           >
             Email or password is not correct!
@@ -55,7 +72,7 @@ const Login = () => {
               maxLength="100"
               value={formData.email_address}
               onChange={handleChange}
-              className="appearance-none border rounded w-full py-2 px-3 text-text-color leading-tight focus:outline-none focus:shadow-outline mb-4"
+              className="border-2 border-accent-900 text-text-color rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900"
             />
           </div>
           <div className="mb-4">
@@ -67,26 +84,38 @@ const Login = () => {
               maxLength="30"
               value={formData.password}
               onChange={handleChange}
-              className="appearance-none border rounded w-full py-2 px-3 text-text-color leading-tight focus:outline-none focus:shadow-outline"
+              className="border-2 border-accent-900 text-text-color rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900"
             />
           </div>
-          <div className="flex text-center mb-5">
-            <p>Have not got an account? &nbsp;</p>
-            <a className="text-primary-700" href="/registration">
-              Sign Up here
-            </a>
-          </div>
-          <button
-            className="bg-primary-900 w-full hover:bg-primary-500 text-background-color font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4"
-            type="submit"
-          >
-            Log In
-          </button>
-          <div className="text-center text-accent-900">
-            Copyright @ Politechnika Wrocławska
+          <div>
+            <div>
+              <p className="text-center text-sm">
+                Don't have an account?
+                <a
+                  href="/signup"
+                  className="text-primary-500 hover:text-primary-900 ease-in-out duration-150 ml-2"
+                >
+                  Sign Up Here
+                </a>
+              </p>
+            </div>
+            <div className="flex items-center justify-between mt-4">
+              <button
+                className="bg-primary-900 w-full hover:bg-primary-700 text-background-color py-2 px-4 text-lg max-2xl:text-base rounded-lg ease-in-out duration-150 focus:drop-shadow-sm-primary-900 focus:outline-none focus:shadow-outline"
+                type="submit"
+              >
+                Confirm
+              </button>
+            </div>
           </div>
         </form>
+        <div className="mt-2">
+          <p className="text-center text-sm max-2xl:text-xs mb-8 mt-4">
+            {copyright}
+          </p>
+        </div>
       </div>
+      <>{isLogin && <Navigate to="/" />}</>
     </div>
   );
 };

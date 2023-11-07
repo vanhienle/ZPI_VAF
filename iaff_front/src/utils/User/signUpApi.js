@@ -1,21 +1,26 @@
-const apiUrl = process.env.BACK_END_URL;
-
-export const signUp = async (data) => {
+export async function signup(data) {
   try {
-    const response = await fetch(apiUrl + "/api/user/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (response.ok) {
-      return response.json();
+    const response = await fetch(
+      process.env.REACT_APP_BACK_END_URL + "users/signup",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    if (response.status === 200) {
+      const data = await response.json();
+      localStorage.setItem("token", data.token);
+      return true;
+    } else if (response.status === 500) {
+      const error = await response.json();
+      throw new Error(error.Error);
     } else {
-      throw new Error("Sign-up failed");
+      throw new Error("Internal server error");
     }
   } catch (error) {
     throw error;
   }
-};
+}

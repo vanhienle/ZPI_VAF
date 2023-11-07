@@ -1,48 +1,27 @@
-export async function login(email_address, password) {
-  const users = {
-    "a@gmail.com": {
-      password: "12345678@",
-    },
-    "b@gmail.com": {
-      password: "12121212@",
-    },
-  };
-
-  function checkLogin(email_address, password) {
-    if (users[email_address]) {
-      if (users[email_address].password === password) {
-        return true;
-      }
-    }
-    return false;
-  }
-  /*
-  if (checkLogin(email_address, password)) {
-    return true;
-  } else {
-    return false;
-  }*/
-
+export async function login(email, password) {
   try {
-    return false;
-    console.log(process.env.BACK_END_URL + "/login");
+    const response = await fetch(
+      process.env.REACT_APP_BACK_END_URL + "users/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      }
+    );
 
-    const response = await fetch(process.env.BACK_END_URL + "/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email_address, password }),
-    });
-
-    if (response.ok) {
+    if (response.status === 200) {
       const data = await response.json();
-      console.log(data);
+      localStorage.setItem("token", data.token);
       return true;
+    } else if (response.status === 401) {
+      const error = await response.json();
+      throw new Error(error.Error);
     } else {
-      return false;
+      throw new Error("Internal server error");
     }
   } catch (error) {
-    return false;
+    throw error;
   }
 }

@@ -1,14 +1,33 @@
 from flask import Flask
 from flask_login import LoginManager
-from main import main as main_blueprint
+from flask_cors import CORS, cross_origin
+# from main import main as main_blueprint
 from auth import auth as auth_blueprint
+from RestSurvey import surv as surv_blueprint
 from userAccess import Access, User
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'Accordingtoallknownlawsofaviationthereisnowayabeeshouldbeabletofly'
-    app.register_blueprint(main_blueprint)
+    # cors = CORS(app, resources={r"/api/*": {"origins": "http://156.17.147.54:3000", "supports_credentials": True}})
+    #app.config.update(SESSION_COOKIE_SAMESITE="None", SESSION_COOKIE_SECURE=True)
+    cross_origin(automatic_options=True)
+
+    cors = CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+
+
+
+    app.config['CORS_HEADERS'] = 'Content-Type'
+    # app.config.update(
+    #     SESSION_COOKIE_SAMESITE='None',
+    #     SESSION_COOKIE_SECURE='True'
+    # )
+
+    cors.init_app(app)
+
     app.register_blueprint(auth_blueprint)
+    app.register_blueprint(surv_blueprint)
+
     access = Access()
 
     login_manager = LoginManager()
@@ -17,11 +36,16 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(username):
-        result = access.getUser(username)
+        print('inside login manager')
+        print('current username: ', username)
+        result = access.getUserFromID(username)
+        print('current result from finding user')
         if not result:
-            return
+            print('cound not find user')
+            return None
         user = User()
         user.id = result[0]
+        print('found user with id: ', id)
         return user
 
     return app
@@ -29,4 +53,4 @@ def create_app():
 app= create_app()
 
 if __name__ == '__main__':
-    app.run(host='10.182.10.71', port=5000, debug=True) #Remove debug on production
+    app.run(host='0.0.0.0', port=5000, debug=True)
