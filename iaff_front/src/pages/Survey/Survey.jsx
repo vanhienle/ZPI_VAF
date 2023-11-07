@@ -1,8 +1,32 @@
 import React, { useState } from "react";
-import { welcomeDescription, targets } from "../../constants/survey";
 import { useNavigate } from "react-router-dom";
-
 import { sendSurvey } from "../../utils/Survey/sendSurveyAPI";
+
+import {
+  WELCOME_DESCRIPTION,
+  SURVEY_TITLE,
+  SURVEY_ABOUT_ME_TITLE,
+  SURVEY_YOUR_AGE,
+  SURVEY_DOCUMENTS,
+  SURVEY_VARIANTS_OF_DOCUMENTS,
+  SURVEY_EU_CITIZEN,
+  SURVEY_KIDS,
+  SURVEY_HOW_OLD_KIDS,
+  SURVEY_KIDS_AGE_MIN,
+  SURVEY_KIDS_AGE_MAX,
+  SURVEY_TARGET,
+  SURVEY_TARGET_QUESTION,
+  TARGETS,
+  ERROR_SURVEY,
+  CONFIRM,
+  BACK,
+  NEXT,
+  FILL_LATER,
+  YES,
+  NO,
+  SURVEY_ACCOMMODATION,
+  SURVEY_INSURANCE,
+} from "../../constants/survey";
 
 function SurveyForm() {
   const [step, setStep] = useState(1);
@@ -10,7 +34,7 @@ function SurveyForm() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     age: "",
-    documents: "VISA",
+    documents: "None",
     hasKids: false,
     hasBaby: false,
     hasTeen: false,
@@ -74,13 +98,11 @@ function SurveyForm() {
       documenttype: formData.documents,
     };
 
-    console.log(surveyData);
-
     try {
       const result = await sendSurvey(surveyData);
       if (result) {
         console.log("Survey addition successful");
-        navigate("/");
+        window.location.href = "/";
       } else {
         console.log("Survey addition failed");
       }
@@ -95,22 +117,22 @@ function SurveyForm() {
         {step === 1 && (
           <div className="text-center">
             <h2 className="text-primary-900 text-2xl font-semibold mb-4">
-              Survey
+              {SURVEY_TITLE}
             </h2>
             <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-full my-4" />
-            <p className="my-4 text-lg">{welcomeDescription}</p>
+            <p className="my-4 text-lg">{WELCOME_DESCRIPTION}</p>
             <div className="flex justify-around">
               <a
                 href="/"
                 className="text-lg text-primary-500 hover:text-primary-900 ease-in-out duration-150 py-2 px-4"
               >
-                Fill later
+                {FILL_LATER}
               </a>
               <button
                 className="rounded-md bg-primary-900 py-2 px-4 text-lg text-background-color hover:bg-primary-700 ease-in-out duration-150"
                 onClick={handleNext}
               >
-                Next
+                {NEXT}
               </button>
             </div>
           </div>
@@ -119,22 +141,21 @@ function SurveyForm() {
           <div>
             <div className="text-center">
               <h2 className="text-primary-900 text-2xl font-semibold mb-4">
-                Survey : About Me
+                {SURVEY_ABOUT_ME_TITLE}
               </h2>
               <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-full my-4" />
             </div>
             <div className="flex flex-col text-lg gap-2">
               {error ? (
-                <p className="text-center text-error-900">
-                  Please fill all required inputs!
-                </p>
+                <p className="text-center text-error-900">{ERROR_SURVEY}</p>
               ) : (
                 <></>
               )}
               <div className="flex justify-between w-full">
                 <div className="flex flex-col">
                   <label>
-                    Your age:<span className="text-error-900">*</span>
+                    {SURVEY_YOUR_AGE}
+                    <span className="text-error-900">*</span>
                   </label>
                   <input
                     type="number"
@@ -146,7 +167,8 @@ function SurveyForm() {
                 </div>
                 <div className="flex flex-col">
                   <label>
-                    Documents:<span className="text-error-900">*</span>
+                    {SURVEY_DOCUMENTS}
+                    <span className="text-error-900">*</span>
                   </label>
                   <select
                     name="documents"
@@ -154,16 +176,17 @@ function SurveyForm() {
                     onChange={handleChange}
                     className="bg-background-color border-accent-900 text-text-color border-2 rounded-lg w-full py-2 px-4 leading-tight focus:outline-none focus:border-primary-900"
                   >
-                    <option value="VISA">VISA</option>
-                    <option value="Polish Card">Polish Card</option>
-                    <option value="Stale Live Polish Card">
-                      Stale Live Polish Card
-                    </option>
+                    {SURVEY_VARIANTS_OF_DOCUMENTS.map((item) => (
+                      <option value={item.value} key={item.id}>
+                        {item.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
               <label>
-                Do you have kids?<span className="text-error-900">*</span>
+                {SURVEY_KIDS}
+                <span className="text-error-900">*</span>
               </label>
               <div className="flex justify-between w-1/2">
                 <div className="flex items-center space-x-4">
@@ -175,7 +198,7 @@ function SurveyForm() {
                     className="form-radio w-6 h-6"
                     checked={formData.hasKids === true}
                   />
-                  <p>Yes</p>
+                  <p>{YES}</p>
                 </div>
                 <div className="flex items-center space-x-4">
                   <input
@@ -186,12 +209,12 @@ function SurveyForm() {
                     className="form-radio w-6 h-6"
                     checked={formData.hasKids === false}
                   />
-                  <p>No</p>
+                  <p>{NO}</p>
                 </div>
               </div>
               {formData.hasKids ? (
                 <>
-                  <label>If you have kids, how old are they?</label>
+                  <label>{SURVEY_HOW_OLD_KIDS}</label>
                   <div className="flex justify-between w-3/4 items-center">
                     <input
                       type="checkbox"
@@ -200,7 +223,7 @@ function SurveyForm() {
                       className="w-6 h-6"
                       checked={formData.hasBaby}
                     />
-                    <p>&lt; 7 &lt;</p>
+                    <p>&lt; {SURVEY_KIDS_AGE_MIN} &lt;</p>
                     <input
                       type="checkbox"
                       name="hasTeen"
@@ -208,7 +231,7 @@ function SurveyForm() {
                       className="w-6 h-6"
                       checked={formData.hasTeen}
                     />
-                    <p>&lt; 18 &lt;</p>
+                    <p>&lt; {SURVEY_KIDS_AGE_MAX} &lt;</p>
                     <input
                       type="checkbox"
                       name="hasAdult"
@@ -223,7 +246,7 @@ function SurveyForm() {
               )}
 
               <label>
-                Do you have an accommodation in Poland?
+                {SURVEY_ACCOMMODATION}
                 <span className="text-error-900">*</span>
               </label>
               <div className="flex justify-between w-1/2">
@@ -236,7 +259,7 @@ function SurveyForm() {
                     className="form-radio w-6 h-6"
                     checked={formData.hasAccommodation === true}
                   />
-                  <p>Yes</p>
+                  <p>{YES}</p>
                 </div>
                 <div className="flex items-center space-x-4">
                   <input
@@ -247,11 +270,11 @@ function SurveyForm() {
                     className="form-radio w-6 h-6"
                     checked={formData.hasAccommodation === false}
                   />
-                  <p>No</p>
+                  <p>{NO}</p>
                 </div>
               </div>
               <label>
-                Do you need insurance in Poland?
+                {SURVEY_INSURANCE}
                 <span className="text-error-900">*</span>
               </label>
               <div className="flex justify-between w-1/2">
@@ -264,7 +287,7 @@ function SurveyForm() {
                     className="form-radio w-6 h-6"
                     checked={formData.needsInsurance === true}
                   />
-                  <p>Yes</p>
+                  <p>{YES}</p>
                 </div>
                 <div className="flex items-center space-x-4">
                   <input
@@ -275,7 +298,7 @@ function SurveyForm() {
                     className="form-radio w-6 h-6"
                     checked={formData.needsInsurance === false}
                   />
-                  <p>No</p>
+                  <p>{NO}</p>
                 </div>
               </div>
               <div className="flex justify-between mt-4">
@@ -283,13 +306,13 @@ function SurveyForm() {
                   className="rounded-md bg-accent-900 py-2 px-4 text-lg text-primary-900 hover:bg-accent-500 ease-in-out duration-150"
                   onClick={handleBack}
                 >
-                  Back
+                  {BACK}
                 </button>
                 <button
                   className="rounded-md bg-primary-900 py-2 px-4 text-lg text-background-color hover:bg-primary-700 ease-in-out duration-150"
                   onClick={handleNext}
                 >
-                  Next
+                  {NEXT}
                 </button>
               </div>
             </div>
@@ -299,13 +322,13 @@ function SurveyForm() {
           <div>
             <div className="text-center">
               <h2 className="text-primary-900 text-2xl font-semibold mb-4">
-                Survey : Target
+                {SURVEY_TARGET}
               </h2>
               <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-full my-4" />
             </div>
             <div className="flex flex-col text-lg gap-2">
-              <label>Please mark your targets to visit Poland:</label>
-              {targets.map((item) => (
+              <label>{SURVEY_TARGET_QUESTION}</label>
+              {TARGETS.map((item) => (
                 <div
                   className="flex justify-between w-1/2 items-center"
                   key={item.id}
@@ -325,14 +348,14 @@ function SurveyForm() {
                   className="rounded-md bg-accent-900 py-2 px-4 text-lg text-primary-900 hover:bg-accent-500 ease-in-out duration-150"
                   onClick={handleBack}
                 >
-                  Back
+                  {BACK}
                 </button>
                 <button
                   type="submit"
                   className="rounded-md bg-primary-900 py-2 px-4 text-lg text-background-color hover:bg-primary-700 ease-in-out duration-150"
                   onClick={handleSubmit}
                 >
-                  Confirm
+                  {CONFIRM}
                 </button>
               </div>
             </div>
