@@ -1,19 +1,16 @@
 import React, { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { copyright } from "../../constants/main";
 import logo from "../../assets/images/logo.png";
 
 import { login } from "../../utils/User/loginAPI";
 
-const Login = () => {
+const Login = ({ isLogin }) => {
   const [formData, setFormData] = useState({
     email_address: "",
     password: "",
     login_failed: false,
   });
-
-  const isLogin = localStorage.getItem("isLogin") === "true";
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;

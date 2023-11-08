@@ -12,7 +12,7 @@ import {
   errorFormValidation,
 } from "../../constants/signUp";
 
-import { signup } from "../../utils/User/signupAPI";
+import { signup } from "../../utils/User/signUpAPI";
 
 const Registration = () => {
   const [name, setName] = useState("");

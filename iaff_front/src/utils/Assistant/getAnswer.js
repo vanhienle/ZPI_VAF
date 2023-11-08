@@ -1,16 +1,16 @@
-export async function getUserData() {
+export async function getAnswer(messages) {
   try {
     const response = await fetch(
-      process.env.REACT_APP_BACK_END_URL + "users/get_user_data",
+      process.env.REACT_APP_BACK_END_URL + "assistant/get_answer",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           token: `${localStorage.getItem("token")}`,
         },
+        body: JSON.stringify({ conversation: messages }),
       }
     );
-
     if (response.status === 200) {
       const data = await response.json();
       return data;
