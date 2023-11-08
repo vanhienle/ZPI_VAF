@@ -1,6 +1,11 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import logo from "../../assets/images/logo.png";
-import { navLinks } from "../../constants/navbar";
+import {
+  NAV_LINKS,
+  SETTINGS_CONSTANT,
+  LOGOUT_CONSTANT,
+} from "../../constants/navbar";
+import { SIGN_IN_CONSTANT, SIGN_UP_CONSTANT } from "../../constants/main";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   HiOutlineMenu,
@@ -12,7 +17,7 @@ import {
 
 import { logout } from "../../utils/User/logoutAPI";
 
-const Navbar = ({ isLogin, handleIsLogged }) => {
+const Navbar = ({ isLogin }) => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -36,11 +41,6 @@ const Navbar = ({ isLogin, handleIsLogged }) => {
       console.error("Error: ", error.message);
     }
   };
-
-  useEffect(() => {
-    handleIsLogged();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleOutsideClick = useCallback(
     (e) => {
@@ -75,7 +75,7 @@ const Navbar = ({ isLogin, handleIsLogged }) => {
 
         {/* Navbar Menu list */}
         <ul className="flex-1 flex justify-center items-center gap-10 mb-0 max-lg:hidden animate-fade-in">
-          {navLinks.map((item) => (
+          {NAV_LINKS.map((item) => (
             <li key={item.label}>
               <Link
                 to={item.href}
@@ -106,14 +106,14 @@ const Navbar = ({ isLogin, handleIsLogged }) => {
               />
               {isOpen && (
                 <div className="absolute z-10 right-0 top-16 bg-background-color border-accent-900 border-t-2 border-e-2 rounded-md shadow-xl">
-                  <ul className="py-6 px-6 space-y-4">
+                  <ul className="py-6 px-6 space-y-4 flex flex-col items-center">
                     <Link
                       to="/changeprofile"
                       onClick={() => setIsOpen(!isOpen)}
                       className="px-2 flex items-center justify-start cursor-pointer text-text-color text-base hover:text-primary-500 duration-300 ease-in-out"
                     >
                       <HiOutlineCog size={30} className="mr-2" />
-                      Settings
+                      {SETTINGS_CONSTANT}
                     </Link>
                     <p
                       className="px-2 flex items-center justify-start cursor-pointer text-text-color text-base hover:text-primary-500 ease-in-out duration-300"
@@ -122,7 +122,7 @@ const Navbar = ({ isLogin, handleIsLogged }) => {
                       }}
                     >
                       <HiOutlineLogout size={30} className="mr-2" />
-                      Logout
+                      {LOGOUT_CONSTANT}
                     </p>
                   </ul>
                 </div>
@@ -135,14 +135,14 @@ const Navbar = ({ isLogin, handleIsLogged }) => {
                 onClick={() => setToggleMenu(false)}
                 className="text-primary-500 text-base max-2xl:text-sm px-2 py-2 rounded-md hover:bg-secondary-500 hover:text-primary-900 transition-all duration-200 ease-out max-md:hidden animate-fade-in"
               >
-                SIGN IN
+                {SIGN_IN_CONSTANT}
               </Link>
               <Link
                 to="/signup"
                 onClick={() => setToggleMenu(false)}
                 className="bg-primary-900 text-base max-2xl:text-sm text-background-color px-2 py-2 rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out max-md:hidden animate-fade-in"
               >
-                SIGN UP
+                {SIGN_UP_CONSTANT}
               </Link>
             </>
           )}
@@ -168,7 +168,7 @@ const Navbar = ({ isLogin, handleIsLogged }) => {
             {toggleMenu && (
               <div className="bg-background-color py-6 px-6 max-md:py-4 max-md:px-4 max-sm:py-2 max-sm:px-2 rounded-md shadow-lg top-20 right-0 absolute z-10 w-80 border-t-2 border-accent-900 animate-slide-right-to-left ease-in-out duration-300">
                 <ul className="ml-0 px-0 space-y-6 max-md:space-y-4 mt-6 text-center">
-                  {navLinks.map((item) => (
+                  {NAV_LINKS.map((item) => (
                     <li key={item.label}>
                       <Link
                         to={item.href}
@@ -197,7 +197,7 @@ const Navbar = ({ isLogin, handleIsLogged }) => {
                               className="px-2 py-2 flex items-center justify-start cursor-pointer text-text-color text-lg max-md:text-base hover:text-primary-500 rounded-lg hover:bg-accent-500 ease-in-out duration-300"
                             >
                               <HiOutlineCog size={30} className="mr-2" />
-                              Settings
+                              {SETTINGS_CONSTANT}
                             </Link>
                             <p
                               className="px-2 py-2 flex items-center justify-start cursor-pointer text-text-color text-lg max-md:text-base hover:text-primary-500 rounded-lg hover:bg-accent-500 ease-in-out duration-300"
@@ -206,7 +206,7 @@ const Navbar = ({ isLogin, handleIsLogged }) => {
                               }}
                             >
                               <HiOutlineLogout size={30} className="mr-2" />
-                              Logout
+                              {LOGOUT_CONSTANT}
                             </p>
                           </ul>
                         </div>
@@ -224,14 +224,14 @@ const Navbar = ({ isLogin, handleIsLogged }) => {
                             onClick={() => setToggleMenu(false)}
                             className="text-primary-500 text-lg max-sm:text-sm px-2 py-2 rounded-md hover:bg-secondary-500 hover:text-primary-900 transition-all duration-200 ease-out"
                           >
-                            SIGN IN
+                            {SIGN_IN_CONSTANT}
                           </Link>
                           <Link
                             to="/signup"
                             onClick={() => setToggleMenu(false)}
                             className="bg-primary-900 text-lg max-sm:text-sm px-2 py-2 text-background-color rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out"
                           >
-                            SIGN UP
+                            {SIGN_UP_CONSTANT}
                           </Link>
                         </div>
                       </li>

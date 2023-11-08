@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { copyright } from "../../constants/main";
+import { COPYRIGHT } from "../../constants/main";
 import logo from "../../assets/images/logo.png";
-
 import { login } from "../../utils/User/loginAPI";
 
-const Login = ({ isLogin }) => {
+import {
+  ERROR_SIGN_IN,
+  HAVE_ACCOUNT_MESSAGE,
+  CONFIRM,
+} from "../../constants/signIn";
+
+import { SIGN_IN_CONSTANT, SIGN_UP_CONSTANT } from "../../constants/main";
+
+const Login = () => {
   const [formData, setFormData] = useState({
     email_address: "",
     password: "",
@@ -46,7 +54,7 @@ const Login = ({ isLogin }) => {
         />
         <div className="text-center">
           <h1 className="text-primary-900 text-2xl max-2xl:text-xl font-bold">
-            SIGN IN
+            {SIGN_IN_CONSTANT}
           </h1>
         </div>
         <form
@@ -58,7 +66,7 @@ const Login = ({ isLogin }) => {
               !formData.login_failed ? "hidden" : "text-center"
             }`}
           >
-            Email or password is not correct!
+            {ERROR_SIGN_IN}
           </p>
           <div className="mb-4">
             <input
@@ -87,12 +95,12 @@ const Login = ({ isLogin }) => {
           <div>
             <div>
               <p className="text-center text-sm">
-                Don't have an account?
+                {HAVE_ACCOUNT_MESSAGE}
                 <a
                   href="/signup"
                   className="text-primary-500 hover:text-primary-900 ease-in-out duration-150 ml-2"
                 >
-                  Sign Up Here
+                  {SIGN_UP_CONSTANT}
                 </a>
               </p>
             </div>
@@ -101,18 +109,17 @@ const Login = ({ isLogin }) => {
                 className="bg-primary-900 w-full hover:bg-primary-700 text-background-color py-2 px-4 text-lg max-2xl:text-base rounded-lg ease-in-out duration-150 focus:drop-shadow-sm-primary-900 focus:outline-none focus:shadow-outline"
                 type="submit"
               >
-                Confirm
+                {CONFIRM}
               </button>
             </div>
           </div>
         </form>
         <div className="mt-2">
           <p className="text-center text-sm max-2xl:text-xs mb-8 mt-4">
-            {copyright}
+            {COPYRIGHT}
           </p>
         </div>
       </div>
-      <>{isLogin && <Navigate to="/" />}</>
     </div>
   );
 };

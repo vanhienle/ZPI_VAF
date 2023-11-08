@@ -1,7 +1,7 @@
 export async function isFilledSurvey() {
   try {
     const response = await fetch(
-      process.env.REACT_APP_BACK_END_URL + "surveys/is_filled_survey",
+      process.env.REACT_APP_BACK_END_URL + "survey/is_filled_survey",
       {
         method: "POST",
         headers: {
