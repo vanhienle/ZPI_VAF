@@ -84,17 +84,17 @@ function SurveyForm() {
 
     const surveyData = {
       age: formData.age,
-      kids: formData.hasKids,
-      baby: formData.hasBaby,
-      teen: formData.hasTeen,
-      adult: formData.hasAdult,
-      accom: formData.hasAccommodation,
-      insure: formData.needsInsurance,
-      study: formData.isTargetStudy,
-      job: formData.isTargetJob,
-      live: formData.isTargetLive,
-      refugee: formData.isTargetRefugee,
-      other: formData.isTargetOther,
+      kids: formData.hasKids ? "1" : "0",
+      baby: formData.hasBaby ? "1" : "0",
+      teen: formData.hasTeen ? "1" : "0",
+      adult: formData.hasAdult ? "1" : "0",
+      accom: formData.hasAccommodation ? "1" : "0",
+      insure: formData.needsInsurance ? "1" : "0",
+      study: formData.isTargetStudy ? "1" : "0",
+      job: formData.isTargetJob ? "1" : "0",
+      live: formData.isTargetLive ? "1" : "0",
+      refugee: formData.isTargetRefugee ? "1" : "0",
+      other: formData.isTargetOther ? "1" : "0",
       documenttype: formData.documents,
     };
 
