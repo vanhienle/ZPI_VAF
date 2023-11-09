@@ -72,11 +72,11 @@ const Assistant = () => {
   const helloMessage = `Hi, I am your intelligent assistant from Poland, happy to help.\nHere are some suggested questions:`;
 
   return (
-    <div className="mx-auto h-screen">
-      <div className="h-5/6 flex items-center flex-col bg-white shadow-lg rounded-lg pt-0 pb-0 m-2">
+    <div className="mx-auto h-[85vh]">
+      <div className="h-full flex items-center flex-col bg-white shadow-lg rounded-lg pt-0 pb-0">
         <div
           ref={scrollableChat}
-          className="w-full h-full overflow-auto px-60 max-sm:px-2"
+          className="w-full h-full overflow-auto px-60 max-2xl:px-15 max-xl:px-10 max-lg:px-2"
         >
           <div className="flex gap-4 mt-4">
             <div className="flex-shrink-0 flex flex-col relative items-end">
@@ -163,7 +163,7 @@ const Assistant = () => {
             </>
           ))}
         </div>
-        <div className="flex w-full px-60 max-sm:px-2 py-6 bg-accent-500 ">
+        <div className="flex w-full px-60 max-2xl:px-15 max-xl:px-10 max-lg:px-2 py-6 bg-accent-500 ">
           <input
             className="w-full border-solid border border-text-color rounded-lg p-3"
             name="myInput"
