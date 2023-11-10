@@ -34,6 +34,31 @@ def get_document():
         return jsonify('false'), 500
 
 
+@docs.route('/documents/get_categories')
+@cross_origin(supports_credentials=True)
+def get_categories():
+    try:
+        results = documents.getCategories()
+        if len(results) == 0:
+            return jsonify("false"), 401
+
+        acc = []
+        for result in results:
+            acc.append({"category": result[0]})
+        return jsonify({"results": acc}), 200
+
+    except psycopg2.Error as e:
+        error_message = str(e)
+        print("SQL error:", error_message)
+        documents.DBConnection.commit()
+        return jsonify('false'), 500
+    except RuntimeError as e:
+        error_message = str(e)
+        print("Unknown error:", error_message)
+        return jsonify('false'), 500
+
+
+
 @docs.route('/documents/get_by_category', methods=['POST'])
 @cross_origin(supports_credentials=True)
 def get_by_category():

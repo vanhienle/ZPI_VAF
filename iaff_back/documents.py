@@ -25,6 +25,12 @@ class Documents:
         return result
 
 
+    def getCategories(self):
+        print('inside get all by category')
+        self.DBCursor.execute("""SELECT DISTINCT Category  FROM documents""")
+        return self.DBCursor.fetchall()
+
+
     def getAllByCategory(self, category):
         print('inside get all by category')
         self.DBCursor.execute(
