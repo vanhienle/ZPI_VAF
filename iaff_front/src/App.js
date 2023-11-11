@@ -14,6 +14,7 @@ import ChangeProfile from "./pages/Profile/ChangeProfile";
 import ChangePassword from "./pages/Profile/ChangePassword";
 import Survey from "./pages/Survey/Survey";
 import { isLogged } from "./utils/User/isLoggedAPI";
+import DocumentPage from "./pages/DocumentPage/DocumentPage";
 // import LoggedUserRoutes from "./routes/LoggedUserRoutes";
 // import GuestRoutes from "./routes/GuestRoutes";
 // import SurveyRoutes from "./routes/SurveyRoutes";
@@ -65,6 +66,7 @@ const App = () => {
         <Route element={<ChangeProfile />} path="/changeprofile" />
         <Route element={<ChangePassword />} path="/changepassword" />
         <Route element={<Survey />} path="/survey" />
+        <Route element={<DocumentPage />} path="/document/test" />
       </Routes>
       {location.pathname !== "/assistant" && <Footer />}
     </>

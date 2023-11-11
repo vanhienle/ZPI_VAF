@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { changeProfile } from "../../utils/User/changeProfileAPI";
 import { getUserData } from "../../utils/User/getUserDataAPI";
 
@@ -15,8 +15,8 @@ const ChangeProfile = () => {
     getUserData().then((result) => {
       setFormData({
         ...formData,
-        ["name"]: result.name,
-        ["email_address"]: result.email,
+        name: result.name,
+        email_address: result.email,
       });
     });
   }, []);
@@ -50,21 +50,26 @@ const ChangeProfile = () => {
   };
   return (
     <div className="flex flex-col items-center justify-center mb-6">
-      <div className="flex flex-col border-2 rounded-md border-solid border-accent-900 w-2/5 max-sm:w-3/4 mt-8">
+      <div className="flex flex-col border-2 rounded-md border-solid border-accent-900 w-2/5 max-xl:w-3/5 max-lg:w-3/4 mt-8">
         <div className="flex flex-col items-center justify-center">
-          <div className="flex w-full px-6 pt-6 border-b mb-4">
-            <p className="grow text-xl text-primary-500 mb-4">
+          <div className="flex items-center justify-between w-full px-6 pt-6 border-b mb-4">
+            <p className="text-2xl text-primary-500 m-4 max-lg:text-lg">
               Account Settings
             </p>
             <a
-              className="w-18 h-8 p-1 text-base font-bold bg-primary-900 hover:bg-primary-500 text-background-color rounded focus:outline-none focus:shadow-outline"
+              className="py-2 px-6 text-lg max-lg:text-base max-sm:text-xs font-bold bg-primary-900 hover:bg-primary-500 text-background-color
+              rounded-md
+              focus:outline-none
+              focus:shadow-outline
+              ease-in-out
+              duration-200"
               href="/survey"
             >
               Survey &#8594;
             </a>
           </div>
-          <form className="w-1/2 max-sm:w-3/4" onSubmit={handleSubmit}>
-            <p className="mb-2">Your name</p>
+          <form className="w-2/3 max-md:w-3/4" onSubmit={handleSubmit}>
+            <p className="mb-2 text-primary-900 font-bold">Your name</p>
             <div className="mb-4">
               <input
                 type="text"
@@ -74,9 +79,9 @@ const ChangeProfile = () => {
                 maxLength="30"
                 value={formData.name}
                 onChange={handleChange}
-                className="appearance-none border rounded w-full py-2 px-3 text-text-color leading-tight focus:outline-none focus:shadow-outline mb-4"
+                className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
               />
-              <p className="mb-2">Your email</p>
+              <p className="mb-2 text-primary-900 font-bold">Your email</p>
               <div className="mb-4">
                 <input
                   type="text"
@@ -86,10 +91,12 @@ const ChangeProfile = () => {
                   maxLength="100"
                   value={formData.email_address}
                   onChange={handleChange}
-                  className="appearance-none border rounded w-full py-2 px-3 text-text-color leading-tight focus:outline-none focus:shadow-outline"
+                  className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
                 />
               </div>
-              <p className="mb-2">Current password</p>
+              <p className="mb-2 text-primary-900 font-bold">
+                Current password
+              </p>
               <div className="mb-4">
                 <input
                   type="password"
@@ -99,11 +106,11 @@ const ChangeProfile = () => {
                   maxLength="100"
                   value={formData.password}
                   onChange={handleChange}
-                  className="appearance-none border rounded w-full py-2 px-3 text-text-color leading-tight focus:outline-none focus:shadow-outline"
+                  className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
                 />
               </div>
               <p
-                className={`text-error-900 mb-5 ${
+                className={`text-error-900 mb-5 w-full text-center${
                   !formData.change_failed ? "hidden" : ""
                 }`}
               >
@@ -111,19 +118,22 @@ const ChangeProfile = () => {
               </p>
             </div>
             <div className="flex text-center mb-5">
-              <a className="text-primary-700" href="/changepassword">
+              <a
+                className="text-primary-500 text-center w-full hover:text-primary-900 ease-in-out duration-200"
+                href="/changepassword"
+              >
                 Change password here
               </a>
             </div>
             <button
-              className="bg-primary-900 w-full hover:bg-primary-500 text-background-color font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4"
+              className="bg-primary-900 w-full hover:bg-primary-500 text-background-color font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline mb-4 ease-in-out duration-200"
               type="submit"
             >
               Update profile
             </button>
           </form>
         </div>
-        <div className="text-center text-accent-900 mb-4">
+        <div className="text-center text-accent-700 mb-4">
           Copyright @ Politechnika Wrocławska
         </div>
       </div>

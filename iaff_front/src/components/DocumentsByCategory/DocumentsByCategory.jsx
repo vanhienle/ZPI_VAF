@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import accomodation from "../../assets/images/accomodation.jpg";
 import survey from "../../assets/images/survey.jpg";
@@ -7,8 +7,28 @@ import assistant from "../../assets/images/assistant.jpg";
 import signImage from "../../assets/images/signin.jpg";
 import mapImage from "../../assets/images/map.jpg";
 
-const DocumentsByCategory = () => {
+import { getDocumentsByCategory } from "../../utils/Documents/getDocumentsByCategoryAPI";
+
+const DocumentsByCategory = ({ category }) => {
+  const [articles, setArticles] = useState();
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getDocumentsByCategory(category);
+        setArticles(result);
+        console.log(result);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (category !== "") {
+      fetchData();
+    }
+  }, [category]);
 
   const mapData = [
     {

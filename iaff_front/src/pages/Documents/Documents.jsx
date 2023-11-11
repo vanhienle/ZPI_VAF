@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchDocuments from "../../components/SearchDocuments/SearchDocuments";
 import DocumentsByCategory from "../../components/DocumentsByCategory/DocumentsByCategory";
@@ -9,8 +9,15 @@ import assistant from "../../assets/images/assistant.jpg";
 import signImage from "../../assets/images/signin.jpg";
 import mapImage from "../../assets/images/map.jpg";
 
+import { getRecommendations } from "../../utils/Documents/getRecommendationAPI";
+import { getCategories } from "../../utils/Documents/getAllCategoriesAPI";
+
 const Documents = () => {
+  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState("");
+
   const navigate = useNavigate();
+
   const dataCategory = [
     { id: 1, name: "PESEL" },
     { id: 2, name: "Cards" },
@@ -73,6 +80,33 @@ const Documents = () => {
     },
   ];
 
+  useEffect(() => {
+    const getFetchRecommendation = async () => {
+      try {
+        const result = await getRecommendations();
+        console.log(result);
+      } catch (error) {
+        console.log("error");
+      }
+    };
+
+    getFetchRecommendation();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const results = await getCategories();
+        setCategories(results);
+        console.log(results);
+      } catch (error) {
+        // Handle errors if necessary
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="flex flex-col items-center justify-center mt-6 space-y-12">
       {/** Info about module section */}
@@ -128,7 +162,7 @@ const Documents = () => {
       {/** All Documents */}
       <div className="w-3/4 flex flex-col items-center">
         <div className="w-full flex justify-evenly flex-wrap">
-          {dataCategory.map((item) => (
+          {categories.map((item) => (
             <p
               className={`${
                 item.id === 3
@@ -136,13 +170,14 @@ const Documents = () => {
                   : `hover:bg-secondary-300`
               } 
              p-2 m-2 rounded-lg text-lg max-lg:text-base ease-in-out duration-200 cursor-pointer px-4`}
-              key={item.id}
+              key={item.category}
+              onClick={() => setCategory(item.category)}
             >
-              {item.name}
+              {item.category}
             </p>
           ))}
         </div>
-        <DocumentsByCategory />
+        <DocumentsByCategory category={category} />
       </div>
     </div>
   );
