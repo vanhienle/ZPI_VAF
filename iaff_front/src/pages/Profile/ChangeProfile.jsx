@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { changeProfile } from "../../utils/User/changeProfileAPI";
 import { getUserData } from "../../utils/User/getUserDataAPI";
+import Loading from "../../components/Spinner/Loading";
 
 const ChangeProfile = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   const [formData, setFormData] = useState({
     name: "",
     email_address: "",
@@ -12,13 +15,16 @@ const ChangeProfile = () => {
   });
 
   useEffect(() => {
-    getUserData().then((result) => {
-      setFormData({
-        ...formData,
-        name: result.name,
-        email_address: result.email,
+    setTimeout(() => {
+      getUserData().then((result) => {
+        setFormData({
+          ...formData,
+          name: result.name,
+          email_address: result.email,
+        });
+        setIsLoading(false);
       });
-    });
+    }, 500);
   }, []);
 
   const navigate = useNavigate();
@@ -57,81 +63,82 @@ const ChangeProfile = () => {
               Account Settings
             </p>
             <a
-              className="py-2 px-6 text-lg max-lg:text-base max-sm:text-xs font-bold bg-primary-900 hover:bg-primary-500 text-background-color
-              rounded-md
-              focus:outline-none
-              focus:shadow-outline
-              ease-in-out
-              duration-200"
-              href="/survey"
+              className="py-2 px-6 text-lg max-lg:text-base max-sm:text-xs font-bold bg-primary-900 hover:bg-primary-500 text-background-color rounded-md focus:outline-none focus:shadow-outline ease-in-out duration-200"
+              href="/change-survey"
             >
               Survey &#8594;
             </a>
           </div>
-          <form className="w-2/3 max-md:w-3/4" onSubmit={handleSubmit}>
-            <p className="mb-2 text-primary-900 font-bold">Your name</p>
-            <div className="mb-4">
-              <input
-                type="text"
-                name="name"
-                placeholder=""
-                minLength="1"
-                maxLength="30"
-                value={formData.name}
-                onChange={handleChange}
-                className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
-              />
-              <p className="mb-2 text-primary-900 font-bold">Your email</p>
+          {isLoading ? (
+            <div className="flex flex-col justify-center items-center h-96 m-3">
+              <Loading width={80} height={80} radius={12} />
+            </div>
+          ) : (
+            <form className="w-2/3 max-md:w-3/4" onSubmit={handleSubmit}>
+              <p className="mb-2 text-primary-900 font-bold">Your name</p>
               <div className="mb-4">
                 <input
                   type="text"
-                  name="email_address"
-                  placeholder="actionboyvn@gmail.com"
-                  minLength="3"
-                  maxLength="100"
-                  value={formData.email_address}
-                  onChange={handleChange}
-                  className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
-                />
-              </div>
-              <p className="mb-2 text-primary-900 font-bold">
-                Current password
-              </p>
-              <div className="mb-4">
-                <input
-                  type="password"
-                  name="password"
+                  name="name"
                   placeholder=""
-                  minLength="8"
-                  maxLength="100"
-                  value={formData.password}
+                  minLength="1"
+                  maxLength="30"
+                  value={formData.name}
                   onChange={handleChange}
                   className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
                 />
+                <p className="mb-2 text-primary-900 font-bold">Your email</p>
+                <div className="mb-4">
+                  <input
+                    type="text"
+                    name="email_address"
+                    placeholder="actionboyvn@gmail.com"
+                    minLength="3"
+                    maxLength="100"
+                    value={formData.email_address}
+                    onChange={handleChange}
+                    className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
+                  />
+                </div>
+                <p className="mb-2 text-primary-900 font-bold">
+                  Current password
+                </p>
+                <div className="mb-4">
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder=""
+                    minLength="8"
+                    maxLength="100"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
+                  />
+                </div>
+                <p
+                  className={`text-error-900 mb-5 w-full text-center ${
+                    !formData.change_failed ? "hidden" : ""
+                  }`}
+                >
+                  Current password is incorrect!
+                </p>
               </div>
-              <p
-                className={`text-error-900 mb-5 w-full text-center${
-                  !formData.change_failed ? "hidden" : ""
-                }`}
+              <button
+                className="bg-primary-900 w-full hover:bg-primary-500 text-background-color font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline mb-4 ease-in-out duration-200"
+                type="submit"
               >
-                Current password is incorrect!
-              </p>
-            </div>
-            <div className="flex text-center mb-5">
-              <a
-                className="text-primary-500 text-center w-full hover:text-primary-900 ease-in-out duration-200"
-                href="/changepassword"
-              >
-                Change password here
-              </a>
-            </div>
-            <button
-              className="bg-primary-900 w-full hover:bg-primary-500 text-background-color font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline mb-4 ease-in-out duration-200"
-              type="submit"
-            >
-              Update profile
-            </button>
-          </form>
+                Update profile
+              </button>
+              <div className="flex text-center mb-5">
+                <a
+                  className="text-primary-500 text-center w-full hover:text-primary-900 ease-in-out duration-200"
+                  href="/change-password"
+                >
+                  Change password here
+                </a>
+              </div>
+            </form>
+          )}
         </div>
         <div className="text-center text-accent-700 mb-4">
           Copyright @ Politechnika Wrocławska

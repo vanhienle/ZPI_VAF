@@ -120,7 +120,7 @@ const Navbar = ({ isLogin }) => {
                 <div className="absolute z-10 right-0 top-16 bg-background-color border-accent-900 border-t-2 border-e-2 rounded-md shadow-xl">
                   <ul className="py-6 px-6 space-y-4 flex flex-col items-center">
                     <Link
-                      to="/changeprofile"
+                      to="/change-profile"
                       onClick={() => setIsOpen(!isOpen)}
                       className="px-2 flex items-center justify-start cursor-pointer text-text-color text-base hover:text-primary-500 duration-300 ease-in-out"
                     >
@@ -150,7 +150,7 @@ const Navbar = ({ isLogin }) => {
                 {SIGN_IN_CONSTANT}
               </Link>
               <Link
-                to="/signup"
+                to="/sign-up"
                 onClick={() => setToggleMenu(false)}
                 className="bg-primary-900 text-base max-2xl:text-sm text-background-color px-2 py-2 rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out max-md:hidden animate-fade-in"
               >
@@ -204,7 +204,7 @@ const Navbar = ({ isLogin }) => {
                         <div className="hidden max-lg:block">
                           <ul className="flex justify-evenly items-center mb-2">
                             <Link
-                              to="/changeprofile"
+                              to="/change-profile"
                               onClick={() => setIsOpen(!isOpen)}
                               className="px-2 py-2 flex items-center justify-start cursor-pointer text-text-color text-lg max-md:text-base hover:text-primary-500 rounded-lg hover:bg-accent-500 ease-in-out duration-300"
                             >
@@ -239,7 +239,7 @@ const Navbar = ({ isLogin }) => {
                             {SIGN_IN_CONSTANT}
                           </Link>
                           <Link
-                            to="/signup"
+                            to="/sign-up"
                             onClick={() => setToggleMenu(false)}
                             className="bg-primary-900 text-lg max-sm:text-sm px-2 py-2 text-background-color rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out"
                           >

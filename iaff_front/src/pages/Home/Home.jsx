@@ -182,7 +182,7 @@ const Home = ({ isLogin }) => {
                 </div>
                 <div className="flex justify-center">
                   <a
-                    href="/survey"
+                    href="/change-survey"
                     className="bg-primary-900 text-background-color text-xl px-4 py-2 rounded-md hover:bg-primary-700 transition-all duration-200 ease-out"
                   >
                     {SURVEY_BUTTON}
@@ -219,7 +219,7 @@ const Home = ({ isLogin }) => {
                   {SIGN_IN_CONSTANT}
                 </a>
                 <a
-                  href="/signup"
+                  href="/sign-up"
                   className="bg-primary-900 text-base max-md:text-sm max-sm:text-xs px-4 py-2 text-background-color rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out"
                 >
                   {SIGN_UP_CONSTANT}
