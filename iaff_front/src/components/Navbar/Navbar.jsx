@@ -15,9 +15,11 @@ import {
   HiOutlineCog,
 } from "react-icons/hi";
 
+import Loading from "../Spinner/Loading";
 import { logout } from "../../utils/User/logoutAPI";
 
 const Navbar = ({ isLogin }) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [toggleMenu, setToggleMenu] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -53,6 +55,12 @@ const Navbar = ({ isLogin }) => {
     },
     [toggleMenu, isOpen]
   );
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, []);
 
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick);
@@ -94,10 +102,14 @@ const Navbar = ({ isLogin }) => {
         {/* Navbar sign in / sing up links*/}
 
         <div className="flex gap-3 max-2xl:gap-2 leading-normal">
-          {isLogin ? (
+          {isLoading ? (
+            <div className="max-lg:hidden block">
+              <Loading width={60} height={60} radius={6} widthContainer={40} />
+            </div>
+          ) : isLogin ? (
             <div
               ref={dropdownRef}
-              className="relative max-lg:hidden block animate-fade-in"
+              className="relative max-lg:hidden flex animate-fade-in w-40 justify-center"
             >
               <HiUser
                 size={37}
