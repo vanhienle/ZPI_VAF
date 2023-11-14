@@ -1,3 +1,4 @@
+import { changeSurvey } from "./changeSurveyAPI";
 export async function sendSurvey(data) {
   try {
     const response = await fetch(
@@ -14,8 +15,7 @@ export async function sendSurvey(data) {
     if (response.status === 200) {
       return true;
     } else if (response.status === 500) {
-      const error = await response.json();
-      throw new Error(error.Error);
+      return changeSurvey(data);
     } else if (response.status === 401) {
       const error = await response.json();
       throw new Error(error.Error);
