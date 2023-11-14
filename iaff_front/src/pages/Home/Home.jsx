@@ -106,7 +106,7 @@ const Home = ({ isLogin }) => {
               className="w-1/3 h-32 max-lg:h-24 max-md:h-20 max-sm:h-16 max-lg:w-1/2 max-md:w-full p-2"
               key={item.id}
             >
-              <div className="flex justify-center items-center cursor-pointer ease-in-out duration-150 text-center h-full w-full border-solid border-2 border-accent-900 bg-accent-500 rounded-md p-2 hover:bg-accent-900">
+              <div className="flex justify-center items-center cursor-pointer ease-in-out duration-150 text-center h-full w-full border-solid border-2 border-accent-900 shadow-lg rounded-md p-2 hover:bg-accent-500">
                 <p className="text-primary-900 text-lg max-2xl:text-base max-md:text-sm max-sm:text-xs">
                   {item.question}
                 </p>

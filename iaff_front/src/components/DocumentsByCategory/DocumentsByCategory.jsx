@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import accomodation from "../../assets/images/accomodation.jpg";
 import survey from "../../assets/images/survey.jpg";
-import documents from "../../assets/images/documents.jpg";
-import assistant from "../../assets/images/assistant.jpg";
-import signImage from "../../assets/images/signin.jpg";
-import mapImage from "../../assets/images/map.jpg";
 import Loading from "../../components/Spinner/Loading";
 
 import { getDocumentsByCategory } from "../../utils/Documents/getDocumentsByCategoryAPI";
@@ -17,6 +12,7 @@ const DocumentsByCategory = ({ category }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchData = async () => {
       try {
         const result = await getDocumentsByCategory(category);
@@ -49,7 +45,7 @@ const DocumentsByCategory = ({ category }) => {
             }}
             key={item.id}
           >
-            <div className="flex flex-col items-center space-y-2 border-2 shadow-md rounded-md border-solid border-accent-900 hover:scale-105 ease-in-out duration-150 p-4">
+            <div className="flex flex-col w-full h-full items-center space-y-2 border-2 shadow-md rounded-md border-solid border-accent-900 hover:scale-105 ease-in-out duration-150 p-4">
               <img
                 src={survey}
                 alt="document"

@@ -102,7 +102,7 @@ const Assistant = () => {
                   <div className="grid justify-items-stretch grid-cols-2 max-sm:grid-cols-1 place-items-center text-primary-900 mb-4">
                     {suggestedQuestions.map((question) => (
                       <button
-                        className="ease-in-out duration-150 text-base border-solid border-2 border-accent-900 bg-accent-500 rounded-md hover:bg-accent-900 text-center p-2 m-2 h-20 max-sm:h-16"
+                        className="ease-in-out duration-150 text-base border-solid border-2 border-accent-900 bg-accent-500 rounded-md hover:bg-accent-900 text-center p-2 m-2 h-20 max-sm:h-16 animate-fade-in"
                         onClick={() => {
                           handleQuerySubmit(question);
                         }}
