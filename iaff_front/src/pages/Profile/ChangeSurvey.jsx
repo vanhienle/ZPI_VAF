@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { changeSurvey } from "../../utils/Survey/changeSurveyAPI.js";
 import Loading from "../../components/Spinner/Loading";
 

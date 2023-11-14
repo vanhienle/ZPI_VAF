@@ -47,7 +47,7 @@ const App = () => {
       <Navbar isLogin={isLogin} />
       <Routes>
         <Route element={<Home isLogin={isLogin} />} path="/" />
-        <Route element={<Documents />} path="/documents" />
+        <Route element={<Documents isLogin={isLogin} />} path="/documents" />
         <Route element={<Assistant />} path="/assistant" />
         <Route element={<Accommodation />} path="/accommodation" />
         <Route element={<Map />} path="/map" />
