@@ -1,25 +1,20 @@
-export async function getAnswer(messages) {
+export async function getSuggestedQuestions(messages) {
   try {
     const response = await fetch(
-      "http://iaff.westeurope.cloudapp.azure.com:8085/assistant_service/get_response",
+      process.env.REACT_APP_BACK_END_URL + "documents/get_recommendations",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           token: `${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify({
-          conversation: messages,
-          language: localStorage.getItem("lang"),
-        }),
       }
     );
     if (response.status === 200) {
       const data = await response.json();
-      return data;
+      return data.results.map((res) => res.title);
     } else if (response.status === 401) {
-      const error = await response.json();
-      throw new Error(error.Error);
+      return null;
     } else {
       throw new Error("Internal server error");
     }

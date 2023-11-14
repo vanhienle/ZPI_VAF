@@ -1,17 +1,14 @@
-export async function getAnswer(messages) {
+export async function getTranslated(content) {
   try {
     const response = await fetch(
-      "http://iaff.westeurope.cloudapp.azure.com:8085/assistant_service/get_response",
+      "http://iaff.westeurope.cloudapp.azure.com:8085/assistant_service/translate",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           token: `${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify({
-          conversation: messages,
-          language: localStorage.getItem("lang"),
-        }),
+        body: JSON.stringify(content),
       }
     );
     if (response.status === 200) {
