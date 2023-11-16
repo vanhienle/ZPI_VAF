@@ -1,7 +1,7 @@
 export async function getAnswer(messages) {
   try {
     const response = await fetch(
-      "http://iaff.westeurope.cloudapp.azure.com:8085/assistant_service/get_response",
+      process.env.REACT_APP_BACK_END_URL + "assistant/get_response",
       {
         method: "POST",
         headers: {

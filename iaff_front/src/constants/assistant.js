@@ -1,6 +1,6 @@
 import { getSuggestedQuestions } from "../utils/Assistant/getSuggestedQuestions";
 import flagBY from "../assets/images/by.svg";
-import flagENG from "../assets/images/gb-eng.svg";
+import flagENG from "../assets/images/gb.svg";
 import flagPL from "../assets/images/pl.svg";
 import flagUA from "../assets/images/ua.svg";
 import flagVN from "../assets/images/vn.svg";
