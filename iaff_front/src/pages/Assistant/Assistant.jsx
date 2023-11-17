@@ -10,9 +10,10 @@ import { getAnswer } from "../../utils/Assistant/getAnswer";
 import {
   message,
   input,
+  source_,
   questionList,
   languages,
-  flagDict,
+  langDict,
 } from "../../constants/assistant";
 import { getTranslated } from "../../utils/Assistant/getTranslated";
 
@@ -25,6 +26,7 @@ const Assistant = () => {
   const toggleDropdown = () => setIsOpen(!isOpen);
   const [helloMessage, setHelloMessage] = useState(message);
   const [promptInput, setPromptInput] = useState(input);
+  const [sourceDisplay, setSourceDisplay] = useState(source_);
   const [suggestedQuestions, setSuggestedQuestions] = useState(questionList);
   const scrollableChat = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -35,12 +37,13 @@ const Assistant = () => {
   const [delay, setDelay] = useState(30);
   const [messages, setMessages] = useState([]);
   const urlPattern = /(https?:\/\/\S+|www\.\S+)/gi;
+  const domainPattern = /https?:\/\/([^\/\s]+)/;
   const menuRef = useRef();
 
   const scrollToBottom = () => {
     if (scrollableChat.current) {
       const { scrollTop, clientHeight, scrollHeight } = scrollableChat.current;
-      if (scrollHeight - scrollTop - clientHeight < 25) {
+      if (scrollHeight - scrollTop - clientHeight < 35) {
         scrollableChat.current.scrollTo({
           top: scrollableChat.current.scrollHeight,
           behavior: "instant",
@@ -88,19 +91,6 @@ const Assistant = () => {
           },
         ]).then((answer) => {
           setLoading(false);
-          var replaced = answer;
-          const links = answer.match(urlPattern);
-          if (links) {
-            links.forEach((link, index) => {
-              var link_ = ".,".includes(link.slice(-1))
-                ? link.slice(0, -1)
-                : link;
-              replaced = replaced.replace(
-                link,
-                `*<p class="text-primary-500"><a href="${link_}" target="_blank">${link_}</a></p>*`
-              );
-            });
-          }
           setMessages([
             ...messages,
             {
@@ -109,7 +99,8 @@ const Assistant = () => {
             },
             {
               role: "assistant",
-              content: "" + replaced,
+              content: "" + answer.response,
+              source: answer.source.match(urlPattern),
             },
           ]);
         });
@@ -136,6 +127,10 @@ const Assistant = () => {
       content: input,
       target_language: language,
     });
+    const translatedSource = await getTranslated({
+      content: source_,
+      target_language: language,
+    });
     const promises = questionList.map(async (question) => {
       return await getTranslated({
         content: question,
@@ -145,6 +140,7 @@ const Assistant = () => {
     const translatedQuestions = await Promise.all(promises);
     setHelloMessage(translatedMessage);
     setPromptInput(translatedPrompt);
+    setSourceDisplay(translatedSource);
     setSuggestedQuestions(translatedQuestions);
     setMessages([]);
     setPageLoading(false);
@@ -161,11 +157,12 @@ const Assistant = () => {
 
   useEffect(() => {
     translateTexts();
+    setIsAtBottom(true);
   }, [language]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const speeds = [30, 50];
+      const speeds = [30];
       setDelay(speeds[Math.floor(Math.random() * speeds.length)]);
     }, 2000);
     return () => {
@@ -230,7 +227,7 @@ const Assistant = () => {
                 )}
               </div>
             </div>
-            {messages.map(({ role, content }, index) => (
+            {messages.map(({ role, content, source }, index) => (
               <div>
                 {role === "user" && (
                   <div className="flex gap-4 mt-4">
@@ -270,6 +267,28 @@ const Assistant = () => {
                             scrollToBottom={scrollToBottom}
                             setIsWriting={() => {}}
                           />
+                        </div>
+                      )}
+                      {source !== undefined && source !== null && (
+                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5 mt-4">
+                          <div className="text-accent-700">{sourceDisplay}</div>
+                          {source.map((link, index) => (
+                            <a
+                              className="flex items-center gap-2 rounded-lg border border-accent-900 hover:border-accent-700 bg-background-color px-2 py-1.5 leading-none"
+                              href={link}
+                              target="_blank"
+                            >
+                              <img
+                                class="h-3.5 w-3.5 rounded"
+                                src={
+                                  "https://www.google.com/s2/favicons?sz=64&domain_url=" +
+                                  link.match(domainPattern)[1]
+                                }
+                                alt="Advantages and Disadvantages for International Students - Study in Poland favicon"
+                              ></img>
+                              <div>{link.match(domainPattern)[1]}</div>
+                            </a>
+                          ))}
                         </div>
                       )}
                     </div>
@@ -315,7 +334,7 @@ const Assistant = () => {
               onClick={toggleDropdown}
             >
               <img
-                src={flagDict[language]}
+                src={langDict[language][0]}
                 className="w-6 max-lg:w-6 max-md:w-6 mr-1"
                 alt="Logo"
               />
@@ -336,11 +355,11 @@ const Assistant = () => {
                     onClick={() => handleSetLanguage(lang)}
                   >
                     <img
-                      src={flagDict[lang]}
+                      src={langDict[lang][0]}
                       className="w-6 max-lg:w-6 max-md:w-6 mr-2"
                       alt="Logo"
                     />
-                    <p>{lang}</p>
+                    <p>{langDict[lang][1]}</p>
                   </button>
                 </div>
               ))}
