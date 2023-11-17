@@ -1,7 +1,7 @@
 export async function getTranslated(content) {
   try {
     const response = await fetch(
-      "http://iaff.westeurope.cloudapp.azure.com:8085/assistant_service/translate",
+      process.env.REACT_APP_BACK_END_URL + "assistant/translate",
       {
         method: "POST",
         headers: {

@@ -10,7 +10,7 @@ const Typewriter = ({ text, delay, scrollToBottom, setIsWriting }) => {
       setIsLink((value) => 1 - value);
       setCurrentText((text) => text.replace("*", ""));
     }
-    if (isLink === 1) {
+    if (text[currentIndex] !== " " || isLink === 1) {
       delay = 0;
     }
     if (currentIndex < text.length) {

@@ -1,14 +1,19 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import "./Assistant.css";
-import { HiArrowCircleRight, HiChevronUp } from "react-icons/hi";
+import {
+  HiArrowCircleRight,
+  HiChevronUp,
+  HiOutlineChevronDoubleDown,
+} from "react-icons/hi";
 import Typewriter from "./Typewriter";
 import { getAnswer } from "../../utils/Assistant/getAnswer";
 import {
   message,
   input,
+  source_,
   questionList,
   languages,
-  flagDict,
+  langDict,
 } from "../../constants/assistant";
 import { getTranslated } from "../../utils/Assistant/getTranslated";
 
@@ -21,27 +26,46 @@ const Assistant = () => {
   const toggleDropdown = () => setIsOpen(!isOpen);
   const [helloMessage, setHelloMessage] = useState(message);
   const [promptInput, setPromptInput] = useState(input);
+  const [sourceDisplay, setSourceDisplay] = useState(source_);
   const [suggestedQuestions, setSuggestedQuestions] = useState(questionList);
-
   const scrollableChat = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
+  const [isWriting, setIsWriting] = useState(false);
+  const [isAtBottom, setIsAtBottom] = useState(true);
+  const [userQuery, setUserQuery] = useState("");
+  const [delay, setDelay] = useState(30);
+  const [messages, setMessages] = useState([]);
+  const urlPattern = /(https?:\/\/\S+|www\.\S+)/gi;
+  const domainPattern = /https?:\/\/([^\/\s]+)/;
+  const menuRef = useRef();
+
   const scrollToBottom = () => {
     if (scrollableChat.current) {
-      scrollableChat.current.scrollTop = scrollableChat.current.scrollHeight;
+      const { scrollTop, clientHeight, scrollHeight } = scrollableChat.current;
+      if (scrollHeight - scrollTop - clientHeight < 35) {
+        scrollableChat.current.scrollTo({
+          top: scrollableChat.current.scrollHeight,
+          behavior: "instant",
+        });
+        setIsAtBottom(true);
+      } else {
+        setIsAtBottom(false);
+      }
     }
   };
 
-  const [loading, setLoading] = useState(false);
+  const forceScrollToBottom = () => {
+    scrollableChat.current.scrollTo({
+      top: scrollableChat.current.scrollHeight,
+      behavior: "smooth",
+    });
+    setIsAtBottom(true);
+  };
 
-  const [pageLoading, setPageLoading] = useState(true);
-
-  const [isWriting, setIsWriting] = useState(false);
-
-  const [userQuery, setUserQuery] = useState("");
   const handleUserQueryChange = (e) => {
     setUserQuery(e.target.value);
   };
-
-  const urlPattern = /(https?:\/\/\S+|www\.\S+)/gi;
 
   const handleQuerySubmit = async (q) => {
     if (!loading && (q || userQuery)) {
@@ -67,19 +91,6 @@ const Assistant = () => {
           },
         ]).then((answer) => {
           setLoading(false);
-          var replaced = answer;
-          const links = answer.match(urlPattern);
-          if (links) {
-            links.forEach((link, index) => {
-              var link_ = ".,".includes(link.slice(-1))
-                ? link.slice(0, -1)
-                : link;
-              replaced = replaced.replace(
-                link,
-                `*<p class="text-primary-500"><a href="${link_}" target="_blank">${link_}</a></p>*`
-              );
-            });
-          }
           setMessages([
             ...messages,
             {
@@ -88,18 +99,17 @@ const Assistant = () => {
             },
             {
               role: "assistant",
-              content: "" + replaced,
+              content: "" + answer.response,
+              source: answer.source.match(urlPattern),
             },
           ]);
         });
       }, 100);
       setTimeout(() => {
-        scrollToBottom();
-      }, 100);
+        forceScrollToBottom();
+      }, 50);
     }
   };
-
-  const [messages, setMessages] = useState([]);
 
   const handleSetLanguage = async (language) => {
     setIsOpen(false);
@@ -117,23 +127,24 @@ const Assistant = () => {
       content: input,
       target_language: language,
     });
+    const translatedSource = await getTranslated({
+      content: source_,
+      target_language: language,
+    });
     const promises = questionList.map(async (question) => {
       return await getTranslated({
         content: question,
         target_language: language,
       });
     });
-
     const translatedQuestions = await Promise.all(promises);
-
     setHelloMessage(translatedMessage);
     setPromptInput(translatedPrompt);
+    setSourceDisplay(translatedSource);
     setSuggestedQuestions(translatedQuestions);
     setMessages([]);
     setPageLoading(false);
   };
-
-  const menuRef = useRef();
 
   const handleOutsideClick = useCallback(
     (e) => {
@@ -146,7 +157,18 @@ const Assistant = () => {
 
   useEffect(() => {
     translateTexts();
+    setIsAtBottom(true);
   }, [language]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const speeds = [30];
+      setDelay(speeds[Math.floor(Math.random() * speeds.length)]);
+    }, 2000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick);
@@ -154,6 +176,7 @@ const Assistant = () => {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, [handleOutsideClick]);
+
   return (
     <div className="mx-auto h-[85vh]">
       {pageLoading ? (
@@ -177,7 +200,7 @@ const Assistant = () => {
               <div className="w-full">
                 <div>
                   <Typewriter
-                    delay={10}
+                    delay={30}
                     text={helloMessage}
                     scrollToBottom={scrollToBottom}
                     setIsWriting={setIsWriting}
@@ -190,7 +213,7 @@ const Assistant = () => {
                         (question, index) =>
                           index < questionNum && (
                             <button
-                              className="ease-in-out duration-150 text-base border-solid border-2 border-accent-900 bg-accent-500 rounded-md hover:bg-accent-900 text-center p-2 m-2 h-20 max-sm:h-16"
+                              className="ease-in-out duration-150 text-base border-solid border-2 border-accent-900 bg-accent-500 rounded-md hover:bg-accent-900 text-center p-2 m-2 h-20 max-sm:h-16 animate-fade-in"
                               onClick={() => {
                                 handleQuerySubmit(question);
                               }}
@@ -204,7 +227,7 @@ const Assistant = () => {
                 )}
               </div>
             </div>
-            {messages.map(({ role, content }, index) => (
+            {messages.map(({ role, content, source }, index) => (
               <div>
                 {role === "user" && (
                   <div className="flex gap-4 mt-4">
@@ -239,11 +262,33 @@ const Assistant = () => {
                       ) : (
                         <div className="mt-2">
                           <Typewriter
-                            delay={15}
+                            delay={delay}
                             text={content}
                             scrollToBottom={scrollToBottom}
                             setIsWriting={() => {}}
                           />
+                        </div>
+                      )}
+                      {source !== undefined && source !== null && (
+                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5 mt-4">
+                          <div className="text-accent-700">{sourceDisplay}</div>
+                          {source.map((link, index) => (
+                            <a
+                              className="flex items-center gap-2 rounded-lg border border-accent-900 hover:border-accent-700 bg-background-color px-2 py-1.5 leading-none"
+                              href={link}
+                              target="_blank"
+                            >
+                              <img
+                                class="h-3.5 w-3.5 rounded"
+                                src={
+                                  "https://www.google.com/s2/favicons?sz=64&domain_url=" +
+                                  link.match(domainPattern)[1]
+                                }
+                                alt="Advantages and Disadvantages for International Students - Study in Poland favicon"
+                              ></img>
+                              <div>{link.match(domainPattern)[1]}</div>
+                            </a>
+                          ))}
                         </div>
                       )}
                     </div>
@@ -255,6 +300,18 @@ const Assistant = () => {
           </div>
         </div>
       )}
+      {!isAtBottom && (
+        <button className="absolute flex p-2 rounded-full border bg-background-color shadow-md transition-all hover:bg-accent-500 border-accent-700 shadow-accent-900 bottom-36 right-20 max-xl:right-5">
+          <HiOutlineChevronDoubleDown
+            className="text-accent-700 m-auto"
+            size={30}
+            onClick={() => {
+              forceScrollToBottom();
+            }}
+          />
+        </button>
+      )}
+
       <div className="fixed bottom-0 flex w-full px-60 max-2xl:px-15 max-xl:px-10 max-lg:px-2 py-4 bg-accent-500">
         <input
           className="w-full border-solid border border-text-color rounded-lg p-3"
@@ -277,7 +334,7 @@ const Assistant = () => {
               onClick={toggleDropdown}
             >
               <img
-                src={flagDict[language]}
+                src={langDict[language][0]}
                 className="w-6 max-lg:w-6 max-md:w-6 mr-1"
                 alt="Logo"
               />
@@ -294,15 +351,15 @@ const Assistant = () => {
                 <div>
                   <button
                     type="button"
-                    className="p-2 flex items-center justify-start"
+                    className="p-2 flex items-center justify-start w-full hover:bg-accent-500"
                     onClick={() => handleSetLanguage(lang)}
                   >
                     <img
-                      src={flagDict[lang]}
+                      src={langDict[lang][0]}
                       className="w-6 max-lg:w-6 max-md:w-6 mr-2"
                       alt="Logo"
                     />
-                    <p>{lang}</p>
+                    <p>{langDict[lang][1]}</p>
                   </button>
                 </div>
               ))}
