@@ -1,14 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { changeProfile } from "../../utils/User/changeProfileAPI";
+import { getUserData } from "../../utils/User/getUserDataAPI";
 
 const ChangeProfile = () => {
   const [formData, setFormData] = useState({
-    name: localStorage.getItem("name"),
-    email_address: localStorage.getItem("email"),
+    name: "",
+    email_address: "",
     password: "",
     change_failed: false,
   });
+
+  useEffect(() => {
+    getUserData().then((result) => {
+      setFormData({
+        ...formData,
+        ["name"]: result.name,
+        ["email_address"]: result.email,
+      });
+    });
+  }, []);
 
   const navigate = useNavigate();
 

@@ -3,7 +3,7 @@ export async function getUserData() {
     const response = await fetch(
       process.env.REACT_APP_BACK_END_URL + "users/get_user_data",
       {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           token: `${localStorage.getItem("token")}`,
@@ -21,6 +21,6 @@ export async function getUserData() {
       throw new Error("Internal server error");
     }
   } catch (error) {
-    throw error;
+    //throw error;
   }
 }

@@ -67,7 +67,7 @@ const ChangePassword = () => {
             </p>
             <a
               className="w-18 h-8 p-1 text-base font-bold  bg-primary-900 hover:bg-primary-500 text-background-color  rounded focus:outline-none focus:shadow-outline"
-              href="/#"
+              href="/survey"
             >
               Survey &#8594;
             </a>

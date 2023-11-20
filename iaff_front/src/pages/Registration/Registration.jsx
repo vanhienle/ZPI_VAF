@@ -1,18 +1,23 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
-import { copyright } from "../../constants/main";
-import {
-  haveAnAccountMessage,
-  errorNameValidation,
-  errorEmailValidation,
-  errorPasswordValidation,
-  errorMatchPasswordValidation,
-  errorFormRequest,
-  errorFormValidation,
-} from "../../constants/signUp";
-
 import { signup } from "../../utils/User/signupAPI";
+
+import {
+  COPYRIGHT,
+  SIGN_IN_CONSTANT,
+  SIGN_UP_CONSTANT,
+} from "../../constants/main";
+
+import {
+  HAVE_AN_ACCOUNT_MESSAGE,
+  ERROR_NAME_VALIDATION,
+  ERROR_EMAIL_VALIDATION,
+  ERROR_PASSWORD_VALIDATION,
+  ERROR_MATCH_PASSWORD_VALIDATION,
+  ERROR_FORM_REQUEST,
+  ERROR_FORM_VALIDATION,
+  CONFIRM,
+} from "../../constants/signUp";
 
 const Registration = () => {
   const [name, setName] = useState("");
@@ -21,8 +26,6 @@ const Registration = () => {
   const [repeatPassword, setRepeatPassword] = useState("");
 
   const [errors, setErrors] = useState({});
-
-  const navigate = useNavigate();
 
   const isFieldsFilledValidate = () => {
     if (
@@ -49,7 +52,7 @@ const Registration = () => {
     if (value.length < 2 || value.length > 100 || !pattern.test(value)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        name: errorNameValidation,
+        name: ERROR_NAME_VALIDATION,
       }));
     } else {
       setErrors((prevErrors) => ({
@@ -64,7 +67,7 @@ const Registration = () => {
     if (value.length < 3 || value.length > 50 || !emailRegex.test(email)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        email: errorEmailValidation,
+        email: ERROR_EMAIL_VALIDATION,
       }));
     } else {
       setErrors((prevErrors) => ({
@@ -80,7 +83,7 @@ const Registration = () => {
     if (!passwordRegex.test(value)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        password: errorPasswordValidation,
+        password: ERROR_PASSWORD_VALIDATION,
       }));
     } else {
       setErrors((prevErrors) => ({
@@ -94,7 +97,7 @@ const Registration = () => {
     if (password !== value) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        repeatPassword: errorMatchPasswordValidation,
+        repeatPassword: ERROR_MATCH_PASSWORD_VALIDATION,
       }));
     } else {
       setErrors((prevErrors) => ({
@@ -116,25 +119,25 @@ const Registration = () => {
       try {
         const result = await signup(data);
         if (result) {
-          navigate("/survey");
+          window.location.href = "/survey";
         } else {
           console.log("Sign Up failed!");
           setErrors((prevErrors) => ({
             ...prevErrors,
-            form: errorFormValidation,
+            form: ERROR_FORM_VALIDATION,
           }));
         }
       } catch (error) {
         console.error("Error: ", error.message);
         setErrors((prevErrors) => ({
           ...prevErrors,
-          form: errorFormRequest,
+          form: ERROR_FORM_REQUEST,
         }));
       }
     } else {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        form: errorFormValidation,
+        form: ERROR_FORM_VALIDATION,
       }));
     }
   };
@@ -149,7 +152,7 @@ const Registration = () => {
         />
         <div className="text-center">
           <h1 className="text-primary-900 text-2xl max-2xl:text-xl font-bold">
-            SIGN UP
+            {SIGN_UP_CONSTANT}
           </h1>
           {errors.form && (
             <p className="text-error-900 text-base max-2xl:text-sm text-center mt-2">
@@ -292,12 +295,12 @@ const Registration = () => {
           <div>
             <div>
               <p className="text-center text-sm">
-                {haveAnAccountMessage}
+                {HAVE_AN_ACCOUNT_MESSAGE}
                 <a
                   href="/login"
                   className="text-primary-500 hover:text-primary-900 ease-in-out duration-150"
                 >
-                  Sign In Here
+                  {SIGN_IN_CONSTANT}
                 </a>
               </p>
             </div>
@@ -307,14 +310,14 @@ const Registration = () => {
                 type="submit"
                 onClick={handleSubmit}
               >
-                Confirm
+                {CONFIRM}
               </button>
             </div>
           </div>
         </form>
         <div className="mt-2">
           <p className="text-center text-sm max-2xl:text-xs mb-8 mt-6">
-            {copyright}
+            {COPYRIGHT}
           </p>
         </div>
       </div>
