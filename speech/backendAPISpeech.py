@@ -39,18 +39,18 @@ def transcribe_audio():
     #if 'filename' not in request.files:
         #return jsonify({"error": "No file uploaded"}), 400
 
-    audio_file = request.files['filename']
+    #audio_file = request.files['filename']
 
-    if audio_file.filename == '':
-        return jsonify({"error": "No selected file"}), 400
+    #if audio_file.filename == '':
+        #return jsonify({"error": "No selected file"}), 400
 
-    filename = audio_file.filename
-    audio_file.save(filename)
+    #filename = audio_file.filename
+    #audio_file.save(filename)
 
-    result = model.transcribe(filename, fp16=False)
+    result = model.transcribe("audio_for_whisper.wav", fp16=False)
 
     output_text = result['text']
-    os.remove(filename)  # Remove the uploaded file after transcription
+    #os.remove(filename)  # Remove the uploaded file after transcription
 
     return jsonify({"transcribed_text": output_text})
 
