@@ -1,7 +1,7 @@
-export async function getUserData() {
+export async function getSurveyData() {
   try {
     const response = await fetch(
-      process.env.REACT_APP_BACK_END_URL + "users/get_user_data",
+      process.env.REACT_APP_BACK_END_URL + "survey/get_survey",
       {
         method: "POST",
         headers: {
@@ -10,7 +10,6 @@ export async function getUserData() {
         },
       }
     );
-
     if (response.status === 200) {
       const data = await response.json();
       return data;

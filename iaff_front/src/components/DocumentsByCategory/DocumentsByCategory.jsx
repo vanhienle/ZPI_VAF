@@ -1,91 +1,66 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import accomodation from "../../assets/images/accomodation.jpg";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import survey from "../../assets/images/survey.jpg";
-import documents from "../../assets/images/documents.jpg";
-import assistant from "../../assets/images/assistant.jpg";
-import signImage from "../../assets/images/signin.jpg";
-import mapImage from "../../assets/images/map.jpg";
+import Loading from "../../components/Spinner/Loading";
 
-const DocumentsByCategory = () => {
+import { getDocumentsByCategory } from "../../utils/Documents/getDocumentsByCategoryAPI";
+
+const DocumentsByCategory = ({ category }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [articles, setArticles] = useState([]);
+
   const navigate = useNavigate();
 
-  const mapData = [
-    {
-      id: 1,
-      title: "One Document",
-      description:
-        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris" +
-        "nisi ut aliquip ex ea commodo consequat.",
-      image: accomodation,
-    },
-    {
-      id: 2,
-      title: "Two Document",
-      description:
-        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris" +
-        "nisi ut aliquip ex ea commodo consequat.",
-      image: survey,
-    },
-    {
-      id: 3,
-      title: "Three Document",
-      description:
-        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris" +
-        "nis ut aliquip ex ea commodo consequat.",
-      image: documents,
-    },
-    {
-      id: 4,
-      title: "Four Document",
-      description:
-        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris" +
-        "nisi ut aliquip ex ea commodo consequat.",
-      image: signImage,
-    },
-    {
-      id: 5,
-      title: "Five Document",
-      description:
-        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris" +
-        "nisi ut aliquip ex ea commodo consequat.",
-      image: assistant,
-    },
-    {
-      id: 6,
-      title: "Six Document",
-      description:
-        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris" +
-        "nisi ut aliquip ex ea commodo consequat.",
-      image: mapImage,
-    },
-  ];
+  useEffect(() => {
+    setIsLoading(true);
+    const fetchData = async () => {
+      try {
+        const result = await getDocumentsByCategory(category);
+        setIsLoading(false);
+        setArticles(result);
+      } catch (error) {
+        console.error("Error: " + error);
+      }
+    };
+
+    if (category !== "") {
+      setTimeout(() => {
+        fetchData();
+      }, 500);
+    }
+  }, [category]);
 
   return (
     <div className="flex flex-wrap w-full">
-      {mapData.map((item) => (
-        <div
-          className="w-1/3 max-xl:w-1/2 max-md:w-full p-8 cursor-pointer"
-          onClick={() => {
-            navigate(0);
-          }}
-          key={item.id}
-        >
-          <div className="flex flex-col items-center space-y-2 border-2 shadow-md rounded-md border-solid border-accent-900 hover:scale-105 ease-in-out duration-150 p-4">
-            <img
-              src={item.image}
-              alt="document"
-              className="w-full h-60 object-cover rounded-md"
-            ></img>
-            <h1 className="text-center text-xl max-2xl:text-lg max-lg:text-base ease-in-out duration-200 text-primary-900 hover:text-primary-700">
-              {item.title}
-            </h1>
-            <p className="w-3/4 text-center text-base max-xl:text-sm max-lg:text-xs ease-in-out duration-200 hover:text-primary-700">
-              {item.description}
-            </p>
-          </div>
+      {isLoading ? (
+        <div className="w-full flex flex-col items-center justify-center h-96">
+          <Loading height={150} width={150} />
         </div>
-      ))}
+      ) : articles ? (
+        articles.map((item) => (
+          <a
+            className="w-1/3 max-xl:w-1/2 max-md:w-full p-8 cursor-pointer animate-fade-in"
+            href={`documents/${item.id}`}
+            key={item.id}
+          >
+            <div className="flex flex-col w-full h-full items-center space-y-2 border-2 shadow-md rounded-md border-solid border-accent-900 hover:scale-105 ease-in-out duration-150 p-4">
+              <img
+                src={survey}
+                alt="document"
+                className="w-full h-60 object-cover rounded-md"
+              ></img>
+              <h1 className="text-primary-900 text-xl hover:text-primary-500 ease-in-out duration-200">
+                {item.title}
+              </h1>
+              <p className="text-center hover:text-primary-500 ease-in-out duration-200">
+                {item.short}
+              </p>
+            </div>
+          </a>
+        ))
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

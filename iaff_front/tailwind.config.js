@@ -17,6 +17,7 @@ module.exports = {
       },
       // Grey
       accent: {
+        300: "#808080",
         500: "#F1F1F1",
         700: "#B7B7B7",
         900: "#D9D9D9",
