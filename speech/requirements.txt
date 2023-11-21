@@ -7,3 +7,4 @@ numpy~=1.26.2
 setuptools~=68.2.2
 flask~=3.0.0
 whisper~=1.1.10
+fastapi~=0.104.1
