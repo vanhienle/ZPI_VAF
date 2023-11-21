@@ -1,52 +1,59 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from flask import Flask, request, jsonify
 import speech_recognition as sr
 import whisper
+import pyttsx3
+from pydub import AudioSegment
+from pydub.playback import play
 import os
 
-app = FastAPI()
+app = Flask(__name__)
 
 
-@app.post('/record')
-async def record_audio():
+@app.route('/record', methods=['POST'])
+def record_audio():
     audio_for_whisper_name = f"audio_for_whisper.wav"
 
     try:
-        r = sr.Recognizer()
         with sr.Microphone() as source:
             print("Recording...")
+            r = sr.Recognizer()
             r.adjust_for_ambient_noise(source, duration=1.0)
             audio = r.listen(source)
 
             with open(audio_for_whisper_name, 'wb') as audio_file:
                 audio_file.write(audio.get_wav_data())
 
-            return {"message": "Audio recorded successfully", "filename": audio_for_whisper_name}
+            return jsonify({"message": "Audio recorded successfully", "filename": audio_for_whisper_name})
 
     except sr.RequestError as e:
-        raise HTTPException(status_code=500, detail=f"Could not request results: {e}")
+        return jsonify({"error": "Could not request results", "details": str(e)}), 500
 
     except sr.UnknownValueError:
-        raise HTTPException(status_code=500, detail="Unknown error occurred")
+        return jsonify({"error": "Unknown error occurred"}), 500
 
 
-@app.post('/transcribe')
-async def transcribe_audio(filename: str = File(...), audio_file: UploadFile = File(...)):
+@app.route('/transcribe', methods=['POST'])
+def transcribe_audio():
     model = whisper.load_model('small')
 
-    if not audio_file:
-        raise HTTPException(status_code=400, detail="No file uploaded")
+    #if 'filename' not in request.files:
+        #return jsonify({"error": "No file uploaded"}), 400
 
-    with open(filename, 'wb') as file_object:
-        file_object.write(audio_file.file.read())
+    audio_file = request.files['filename']
+
+    if audio_file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    filename = audio_file.filename
+    audio_file.save(filename)
 
     result = model.transcribe(filename, fp16=False)
 
     output_text = result['text']
     os.remove(filename)  # Remove the uploaded file after transcription
 
-    return {"transcribed_text": output_text}
+    return jsonify({"transcribed_text": output_text})
 
 
 if __name__ == '__main__':
-    import uvicorn
-    uvicorn.run(app, host='127.0.0.1', port=9000, debug=True)
+    app.run(host='127.0.0.1', port=9000, debug=True)
