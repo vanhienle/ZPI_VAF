@@ -7,10 +7,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
 
 from typing import List
-import realtime_pipeline
+import realtime_pipeline, TranslationAgent
 
 def get_answer(conversation):
     return realtime_pipeline.query(jsonable_encoder(conversation))
+
+def get_translated(content):
+    return TranslationAgent.translate(content.content, content.target_language)
 
 app = FastAPI()
 
@@ -31,7 +34,8 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
                 {"role": "system", "content": "You an a helpful assistant."},
                 {"role": "assistant", "content": "How can I help today?"},
                 {"role": "user", "content": "What is a PESEL number?"}
-            ]
+            ],
+            "language": "English"
         }}),
     )
 
@@ -41,10 +45,19 @@ class Message(BaseModel):
 
 class Conversation(BaseModel):
     conversation: List[Message]
+    language: str
+
+class Content(BaseModel):
+    content: str
+    target_language: str
 
 @app.post("/assistant_service/get_response")
 async def get_response(conversation: Conversation = Body(...)):   
     return get_answer(conversation)
+
+@app.post("/assistant_service/translate")
+async def translate(content: Content = Body(...)):   
+    return get_translated(content)
  
 if __name__ == '__main__':
     import uvicorn

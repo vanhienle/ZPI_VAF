@@ -32,6 +32,51 @@ def filled_survey():
         return jsonify('false'), 500
 
 
+def get_survey(survId):
+    return survey.getSurvey(survId)
+
+@surv.route('/survey/get_survey',methods=['POST'])
+@cross_origin(supports_credentials=True)
+def get_user_survey():
+    token = request.headers.get('token')
+    try:
+        id = check_token(token)
+        if not id:
+            return jsonify({'Error': 'Id not found'}), 401
+
+        survey = get_survey(id)
+
+        if not survey:
+            print('Failed to get survey')
+
+        print('Returned survey: ', survey)
+        age = {"age": survey[1]}
+        kids = {"kids": survey[2]}
+        baby = {"baby": survey[3]}
+        teen = {"teen": survey[4]}
+        adult = {"adult": survey[5]}
+        accom = {"accom": survey[6]}
+        insure = {"insure": survey[7]}
+        study = {"study": survey[8]}
+        job = {"job": survey[9]}
+        live = {"live": survey[10]}
+        refugee = {"refugee": survey[11]}
+        other = {"other": survey[12]}
+        documenttype = {"documenttype": survey[13]}
+        res = {**age,**kids,**baby,**teen,**adult,**accom,**insure,**study,**job,**live,**refugee,**documenttype,**other}
+        return (jsonify(res), 200) if survey else (jsonify({'Error': 'Failed to add data'}), 500)
+
+    except jwt.ExpiredSignatureError:
+        return jsonify({'Error': 'Token has expired'}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({'Error': 'Invalid token'}), 401
+    except psycopg2.Error as e:
+        error_message = str(e)
+        print("SQL error:", error_message)
+        survey.DBConnection.commit()
+        return jsonify({"Error": error_message}), 500
+
+
 @surv.route('/survey/add_survey',methods=['POST'])
 @cross_origin(supports_credentials=True)
 def add_survey():
