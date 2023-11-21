@@ -76,26 +76,24 @@ const SearchDocuments = () => {
             </div>
           ) : articles && articles.length !== 0 ? (
             articles.map((item) => (
-              <div
+              <a
                 key={item.id}
-                className="flex justify-between items-center p-3 rounded-md hover:bg-accent-900 hover:scale-95 bg-opacity-80 w-full cursor-pointer ease-in-out duration-300"
+                href={`documents/${item.id}`}
+                className="flex justify-between items-center p-3 rounded-md hover:bg-accent-900 hover:scale-95 hover:bg-opacity-60 w-full cursor-pointer ease-in-out duration-300"
               >
                 <img
                   src={accommodation}
                   alt="document"
                   className="w-40 h-40 rounded-md"
                 />
-                <h1 className="text-primary-900 font-bold w-1/3 text-center">
-                  {item.title}
-                </h1>
-                <p className="text-sm w-2/4">
-                  {" "}
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
-              </div>
+                <div className="w-1/4 text-center space-y-4">
+                  <h1 className="text-primary-900 font-bold text-lg">
+                    {item.title}
+                  </h1>
+                  <p className="font-bold">{item.category}</p>
+                </div>
+                <p className="text-base w-2/4">{item.short}</p>
+              </a>
             ))
           ) : (
             <h1 className="h-44 w-full flex items-center justify-center text-xl">

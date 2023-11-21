@@ -21,6 +21,6 @@ export async function getUserData() {
       throw new Error("Internal server error");
     }
   } catch (error) {
-    //throw error;
+    throw error;
   }
 }

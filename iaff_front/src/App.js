@@ -68,7 +68,7 @@ const App = () => {
         <Route element={<ChangePassword />} path="/change-password" />
         <Route element={<ChangeSurvey />} path="/change-survey" />
         <Route element={<Survey />} path="/survey" />
-        <Route element={<DocumentPage />} path="/document/test" />
+        <Route element={<DocumentPage />} path="documents/:id" />
       </Routes>
       {location.pathname !== "/assistant" && <Footer />}
     </>

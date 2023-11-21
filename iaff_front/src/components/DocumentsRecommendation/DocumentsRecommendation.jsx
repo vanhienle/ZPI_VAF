@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import documents from "../../assets/images/documents.jpg";
 
 import {
@@ -24,8 +23,6 @@ const DocumentsRecommendation = ({ isLogin }) => {
   const [isSurvey, setIsSurvey] = useState(false);
   const [isLoadingRecommendations, setIsLoadingRecommendations] =
     useState(true);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getFetchRecommendation = async () => {
@@ -76,11 +73,9 @@ const DocumentsRecommendation = ({ isLogin }) => {
             </h1>
             <div className="flex flex-wrap w-full">
               {recommended.map((item) => (
-                <div
+                <a
                   className="w-1/3 max-xl:w-1/2 max-md:w-full p-8 cursor-pointer animate-fade-in"
-                  onClick={() => {
-                    navigate(0);
-                  }}
+                  href={`documents/${item.id}`}
                   key={item.id}
                 >
                   <div className="w-full h-full flex flex-col items-center space-y-2 border-2 shadow-md rounded-md border-solid border-accent-900 hover:scale-105 ease-in-out duration-150 p-4">
@@ -93,10 +88,10 @@ const DocumentsRecommendation = ({ isLogin }) => {
                       {item.title}
                     </h1>
                     <p className="w-3/4 text-center text-base max-xl:text-sm max-lg:text-xs ease-in-out duration-200 hover:text-primary-700">
-                      {/** Short Description */}
+                      {item.short}
                     </p>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </div>

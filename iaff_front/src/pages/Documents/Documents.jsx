@@ -2,16 +2,14 @@ import React, { useEffect, useState } from "react";
 import SearchDocuments from "../../components/SearchDocuments/SearchDocuments";
 import DocumentsByCategory from "../../components/DocumentsByCategory/DocumentsByCategory";
 import DocumentsRecommendation from "../../components/DocumentsRecommendation/DocumentsRecommendation";
-import TextLoading from "../../components/Spinner/TextLoading";
 
 import { getCategories } from "../../utils/Documents/getAllCategoriesAPI";
 import Loading from "../../components/Spinner/Loading";
 
 const Documents = ({ isLogin }) => {
   const [categories, setCategories] = useState([]);
-  const [category, setCategory] = useState("Residency Cards");
+  const [category, setCategory] = useState("Cards");
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,7 +44,6 @@ const Documents = ({ isLogin }) => {
       <div className="w-1/2">
         <SearchDocuments />
       </div>
-      ()
       {/** Recommended sections */}
       <DocumentsRecommendation isLogin={isLogin} />
       {/** All Documents */}
@@ -54,7 +51,7 @@ const Documents = ({ isLogin }) => {
         <div className="w-full flex justify-evenly flex-wrap">
           {isLoadingCategories ? (
             <div>
-              <TextLoading width={50} height={50} radius={9} />
+              <Loading width={80} height={80} radius={9} />
             </div>
           ) : (
             categories.map((item) => (

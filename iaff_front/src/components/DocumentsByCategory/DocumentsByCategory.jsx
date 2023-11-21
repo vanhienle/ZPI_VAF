@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import survey from "../../assets/images/survey.jpg";
 import Loading from "../../components/Spinner/Loading";
 
@@ -38,11 +38,9 @@ const DocumentsByCategory = ({ category }) => {
         </div>
       ) : articles ? (
         articles.map((item) => (
-          <div
+          <a
             className="w-1/3 max-xl:w-1/2 max-md:w-full p-8 cursor-pointer animate-fade-in"
-            onClick={() => {
-              navigate(0);
-            }}
+            href={`documents/${item.id}`}
             key={item.id}
           >
             <div className="flex flex-col w-full h-full items-center space-y-2 border-2 shadow-md rounded-md border-solid border-accent-900 hover:scale-105 ease-in-out duration-150 p-4">
@@ -51,11 +49,14 @@ const DocumentsByCategory = ({ category }) => {
                 alt="document"
                 className="w-full h-60 object-cover rounded-md"
               ></img>
-              <h1 className="text-center text-xl max-2xl:text-lg max-lg:text-base ease-in-out duration-200 text-primary-900 hover:text-primary-700">
+              <h1 className="text-primary-900 text-xl hover:text-primary-500 ease-in-out duration-200">
                 {item.title}
               </h1>
+              <p className="text-center hover:text-primary-500 ease-in-out duration-200">
+                {item.short}
+              </p>
             </div>
-          </div>
+          </a>
         ))
       ) : (
         <></>

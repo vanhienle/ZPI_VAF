@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { changeSurvey } from "../../utils/Survey/changeSurveyAPI.js";
+import { getSurveyData } from "../../utils/Survey/getSurveyDataAPI.js";
 import Loading from "../../components/Spinner/Loading";
 
 import {
@@ -25,34 +26,39 @@ const ChangeSurvey = () => {
 
   const [error, setError] = useState(false);
 
-  const [formData, setFormData] = useState({
-    age: "",
-    documents: "None",
-    hasKids: false,
-    hasBaby: false,
-    hasTeen: false,
-    hasAdult: false,
-    hasAccommodation: false,
-    needsInsurance: false,
-    isTargetStudy: false,
-    isTargetJob: false,
-    isTargetOther: false,
-    isTargetLive: false,
-    isTargetRefugee: false,
-  });
+  const [formData, setFormData] = useState({});
+
+  const getSurveyFromAPI = (result) => {
+    const surveyData = {
+      age: result.age,
+      kids: result.hasKids === "1" ? true : false,
+      baby: result.hasBaby === "1" ? true : false,
+      teen: result.hasTeen === "1" ? true : false,
+      adult: result.hasAdult === "1" ? true : false,
+      accom: result.hasAccommodation === "1" ? true : false,
+      insure: result.needsInsurance === "1" ? true : false,
+      study: result.isTargetStudy === "1" ? true : false,
+      job: result.isTargetJob === "1" ? true : false,
+      live: result.isTargetLive === "1" ? true : false,
+      refugee: result.isTargetRefugee === "1" ? true : false,
+      other: result.isTargetOther === "1" ? true : false,
+      documenttype: result.documents,
+    };
+
+    return surveyData;
+  };
 
   useEffect(() => {
     setTimeout(() => {
-      //   getUserData().then((result) => {
-      //     setFormData({
-      //       ...formData,
-      //       name: result.name,
-      //       email_address: result.email,
-      //     });
-      //     setIsLoading(false);
-      //   });
+      getSurveyData().then((result) => {
+        const data = getSurveyFromAPI(result);
+        setFormData(data);
+        console.log(result);
+        console.log(data);
+        setIsLoading(false);
+      });
       setIsLoading(false);
-    }, 500);
+    }, 1000);
   }, []);
 
   const handleChange = (e) => {
