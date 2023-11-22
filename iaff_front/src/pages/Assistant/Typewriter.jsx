@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const Typewriter = ({ text, delay, scrollToBottom, setIsWriting }) => {
+const Typewriter = ({ text, delay, setIsWriting }) => {
   const [currentText, setCurrentText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLink, setIsLink] = useState(0);
@@ -16,7 +16,6 @@ const Typewriter = ({ text, delay, scrollToBottom, setIsWriting }) => {
     if (currentIndex < text.length) {
       setIsWriting(true);
       const timeout = setTimeout(() => {
-        scrollToBottom();
         setCurrentText((prevText) => prevText + text[currentIndex]);
         setCurrentIndex((prevIndex) => prevIndex + 1);
       }, delay);
@@ -25,7 +24,7 @@ const Typewriter = ({ text, delay, scrollToBottom, setIsWriting }) => {
     } else {
       setIsWriting(false);
     }
-  }, [currentIndex, delay, text, scrollToBottom, setIsWriting]);
+  }, [currentIndex, delay, text, setIsWriting]);
   return (
     <div
       className="whitespace-pre-line"

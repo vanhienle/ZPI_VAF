@@ -15,7 +15,7 @@ const suggestedQuestionsForGuests = [
   "How can I apply for a Poland visa?",
   "How can I get a PESEL number?",
   "Where can I find accomodation?",
-  "Are are any student programs?",
+  "Are there any student programs?",
 ];
 
 const suggestedQuestions = await getSuggestedQuestions();

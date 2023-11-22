@@ -16,7 +16,7 @@ import {
   langDict,
 } from "../../constants/assistant";
 import { getTranslated } from "../../utils/Assistant/getTranslated";
-
+import AudioRecorder from "./AudioRecorder";
 const Assistant = () => {
   const questionNum = 4;
   const [language, setLanguage] = useState(
@@ -29,9 +29,12 @@ const Assistant = () => {
   const [sourceDisplay, setSourceDisplay] = useState(source_);
   const [suggestedQuestions, setSuggestedQuestions] = useState(questionList);
   const scrollableChat = useRef(null);
+  const textareaRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [isWriting, setIsWriting] = useState(false);
+  const [isAnswering, setIsAnswering] = useState(false);
+  const [isRecognizing, setIsRecognizing] = useState(false);
   const [isAtBottom, setIsAtBottom] = useState(true);
   const [userQuery, setUserQuery] = useState("");
   const [delay, setDelay] = useState(30);
@@ -43,28 +46,39 @@ const Assistant = () => {
   const scrollToBottom = () => {
     if (scrollableChat.current) {
       const { scrollTop, clientHeight, scrollHeight } = scrollableChat.current;
-      if (scrollHeight - scrollTop - clientHeight < 35) {
+      if (scrollHeight - scrollTop - clientHeight < 50) {
         scrollableChat.current.scrollTo({
           top: scrollableChat.current.scrollHeight,
-          behavior: "instant",
+          behavior: "smooth",
         });
-        setIsAtBottom(true);
+        //setIsAtBottom(true);
       } else {
-        setIsAtBottom(false);
+        //setIsAtBottom(false);
       }
     }
   };
 
   const forceScrollToBottom = () => {
-    scrollableChat.current.scrollTo({
-      top: scrollableChat.current.scrollHeight,
-      behavior: "smooth",
-    });
-    setIsAtBottom(true);
+    if (scrollableChat.current) {
+      scrollableChat.current.scrollTo({
+        top: scrollableChat.current.scrollHeight,
+        behavior: "smooth",
+      });
+      setIsAtBottom(true);
+    }
+  };
+
+  const resizeTextarea = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = textarea.scrollHeight + "px";
+    }
   };
 
   const handleUserQueryChange = (e) => {
     setUserQuery(e.target.value);
+    resizeTextarea();
   };
 
   const handleQuerySubmit = async (q) => {
@@ -177,10 +191,50 @@ const Assistant = () => {
     };
   }, [handleOutsideClick]);
 
+  const handleScroll = useCallback(() => {
+    const { scrollTop, clientHeight, scrollHeight } = scrollableChat.current;
+    if (scrollHeight - scrollTop - clientHeight < 80) {
+      setIsAtBottom(true);
+    } else {
+      setIsAtBottom(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const div = scrollableChat.current;
+    if (div) {
+      div.addEventListener("scroll", handleScroll);
+      return () => div.removeEventListener("scroll", handleScroll);
+    }
+  }, [scrollableChat.current]);
+
+  useEffect(() => {
+    if (scrollableChat.current) {
+      if (isAnswering) {
+        let interval;
+        interval = setInterval(scrollToBottom, 500);
+        return () => {
+          if (interval) {
+            clearInterval(interval);
+          }
+        };
+      } else {
+        forceScrollToBottom();
+      }
+    }
+  }, [isAnswering, scrollableChat.current]);
+
+  // useEffect(() => {
+  //   if (pageLoading === false) {
+  //     setPageLoading(true);
+  //   }
+  // }, [pageLoading]);
   return (
     <div className="mx-auto h-[85vh]">
       {pageLoading ? (
-        <div className="spinner border-4 border-accent-500 border-t-4 border-t-accent-900 w-20 h-20 rounded-full mx-auto"></div>
+        <div className="flex items-center justify-center h-[40vh]">
+          <div className="spinner border-4 border-accent-500 border-t-4 border-t-accent-900 w-20 h-20 rounded-full mx-auto"></div>
+        </div>
       ) : (
         <div className="h-full flex items-center flex-col bg-white shadow-lg rounded-lg pt-0 pb-0">
           <div
@@ -202,18 +256,17 @@ const Assistant = () => {
                   <Typewriter
                     delay={30}
                     text={helloMessage}
-                    scrollToBottom={scrollToBottom}
                     setIsWriting={setIsWriting}
                   />
                 </div>
                 {!isWriting && (
                   <div className="">
-                    <div className="grid justify-items-stretch grid-cols-2 max-sm:grid-cols-1 place-items-center text-primary-900 mb-4">
+                    <div className="grid justify-items-stretch grid-cols-2 max-sm:grid-cols-1 place-items-center text-primary-900">
                       {suggestedQuestions.map(
                         (question, index) =>
                           index < questionNum && (
                             <button
-                              className="ease-in-out duration-150 text-base border-solid border-2 border-accent-900 bg-accent-500 rounded-md hover:bg-accent-900 text-center p-2 m-2 h-20 max-sm:h-16 animate-fade-in"
+                              className="ease-in-out duration-150 text-base border-solid border-2 border-accent-900 bg-accent-500 rounded-md hover:bg-accent-900 text-center m-2 h-16 max-sm:h-14 animate-fade-in"
                               onClick={() => {
                                 handleQuerySubmit(question);
                               }}
@@ -230,7 +283,7 @@ const Assistant = () => {
             {messages.map(({ role, content, source }, index) => (
               <div>
                 {role === "user" && (
-                  <div className="flex gap-4 mt-4">
+                  <div className="flex gap-4 mt-8">
                     <div className="flex-shrink-0 flex flex-col relative items-end">
                       <div className="relative flex">
                         <img
@@ -240,8 +293,8 @@ const Assistant = () => {
                         />
                       </div>
                     </div>
-                    <div className="w-full bg-accent-500 shadow-md rounded-lg p-1">
-                      <div className="">{content}</div>
+                    <div className="flex items-center w-full bg-accent-500 shadow-md rounded-lg">
+                      <div className="m-2">{content}</div>
                     </div>
                   </div>
                 )}
@@ -260,35 +313,38 @@ const Assistant = () => {
                       {index + 1 === messages.length && loading ? (
                         <div className="spinner border-4 border-accent-500 border-t-4 border-t-accent-900 w-10 h-10 rounded-full"></div>
                       ) : (
-                        <div className="mt-2">
+                        <div className="">
                           <Typewriter
                             delay={delay}
                             text={content}
-                            scrollToBottom={scrollToBottom}
-                            setIsWriting={() => {}}
+                            setIsWriting={setIsAnswering}
                           />
-                        </div>
-                      )}
-                      {source !== undefined && source !== null && (
-                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5 mt-4">
-                          <div className="text-accent-700">{sourceDisplay}</div>
-                          {source.map((link, index) => (
-                            <a
-                              className="flex items-center gap-2 rounded-lg border border-accent-900 hover:border-accent-700 bg-background-color px-2 py-1.5 leading-none"
-                              href={link}
-                              target="_blank"
-                            >
-                              <img
-                                class="h-3.5 w-3.5 rounded"
-                                src={
-                                  "https://www.google.com/s2/favicons?sz=64&domain_url=" +
-                                  link.match(domainPattern)[1]
-                                }
-                                alt="Advantages and Disadvantages for International Students - Study in Poland favicon"
-                              ></img>
-                              <div>{link.match(domainPattern)[1]}</div>
-                            </a>
-                          ))}
+                          {source !== undefined &&
+                            source !== null &&
+                            (index + 1 !== messages.length || !isAnswering) && (
+                              <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5 mt-4">
+                                <div className="text-accent-700">
+                                  {sourceDisplay}
+                                </div>
+                                {source.map((link, index) => (
+                                  <a
+                                    className="flex items-center gap-2 rounded-lg border border-accent-900 hover:border-accent-700 bg-background-color px-2 py-1.5 leading-none"
+                                    href={link}
+                                    target="_blank"
+                                  >
+                                    <img
+                                      class="h-3.5 w-3.5 rounded"
+                                      src={
+                                        "https://www.google.com/s2/favicons?sz=64&domain_url=" +
+                                        link.match(domainPattern)[1]
+                                      }
+                                      alt="Study In Poland"
+                                    ></img>
+                                    <div>{link.match(domainPattern)[1]}</div>
+                                  </a>
+                                ))}
+                              </div>
+                            )}
                         </div>
                       )}
                     </div>
@@ -313,19 +369,38 @@ const Assistant = () => {
       )}
 
       <div className="fixed bottom-0 flex w-full px-60 max-2xl:px-15 max-xl:px-10 max-lg:px-2 py-4 bg-accent-500">
-        <input
-          className="w-full border-solid border border-text-color rounded-lg p-3"
-          name="myInput"
-          placeholder={pageLoading ? "" : promptInput}
-          value={userQuery}
-          minLength={1}
-          onChange={handleUserQueryChange}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              handleQuerySubmit();
-            }
-          }}
-        />
+        <div className="w-full flex border-solid border border-text-color bg-background-color rounded-lg p-3">
+          <textarea
+            ref={textareaRef}
+            className="flex-1 border-0 outline-none resize-none overflow-hidden"
+            rows={1}
+            name="myInput"
+            placeholder={pageLoading ? "" : promptInput}
+            value={userQuery}
+            minLength={1}
+            onChange={handleUserQueryChange}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                if (e.shiftKey) {
+                  resizeTextarea();
+                } else {
+                  handleQuerySubmit();
+                }
+              }
+            }}
+          />
+          {isRecognizing ? (
+            <div className="flex items-center justify-center h-full">
+              <div className="spinner border-4 border-accent-500 border-t-4 border-t-accent-900 w-6 h-6 rounded-full mx-auto"></div>
+            </div>
+          ) : (
+            <AudioRecorder
+              handleQuerySubmit={handleQuerySubmit}
+              setIsRecognizing={setIsRecognizing}
+            />
+          )}
+        </div>
+
         <div ref={menuRef} className="relative inline-block">
           <div>
             <button
@@ -366,7 +441,6 @@ const Assistant = () => {
             </div>
           )}
         </div>
-
         <HiArrowCircleRight
           className="cursor-pointer text-primary-900 hover:text-primary-500 transition-all duration-200 ease-in-out animate-fade-in"
           size={50}
