@@ -9,46 +9,47 @@ const AudioRecorder = ({ handleQuerySubmit, setIsRecognizing }) => {
   const [audioBlob, setAudioBlob] = useState(null);
 
   useEffect(() => {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices
-        .getUserMedia({ audio: true })
-        .then((stream) => {
-          const recorder = new MediaRecorder(stream);
-          setMediaRecorder(recorder);
+    return () => {
+      if (mediaRecorder && mediaRecorder.state === "recording") {
+        mediaRecorder.stop();
+      }
+      mediaRecorder?.stream?.getTracks().forEach((track) => track.stop());
+    };
+  }, [mediaRecorder]);
 
-          recorder.ondataavailable = (e) => {
-            const url = URL.createObjectURL(e.data);
-            setAudioURL(url);
-            setAudioBlob(e.data);
-            const transcription = getTranscription(e.data);
-            transcription.then((result) => {
-              setIsRecognizing(false);
-              handleQuerySubmit(result);
-            });
-          };
-        })
-        .catch((err) => {
-          console.error("Error accessing media devices:", err);
-          alert(
-            "Failed to access your microphone. Please ensure it is not being used by another application and that you have granted permission."
-          );
+  const startRecording = async () => {
+    if (!recording) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
         });
-    } else {
-      console.log("Your device does not support audio recording.");
-    }
-  }, [handleQuerySubmit]);
+        const recorder = new MediaRecorder(stream);
+        setMediaRecorder(recorder);
 
-  const startRecording = () => {
-    if (mediaRecorder && mediaRecorder.state === "inactive") {
-      mediaRecorder.start();
-      setRecording(true);
-      console.log("Recording started");
+        recorder.ondataavailable = (e) => {
+          const url = URL.createObjectURL(e.data);
+          setAudioURL(url);
+          setAudioBlob(e.data);
+          const transcription = getTranscription(e.data);
+          transcription.then((result) => {
+            setIsRecognizing(false);
+            handleQuerySubmit(result);
+          });
+        };
+
+        recorder.start();
+        setRecording(true);
+        console.log("Recording started");
+      } catch (err) {
+        console.error("Error accessing media devices:", err);
+      }
     }
   };
 
-  const stopRecording = async () => {
+  const stopRecording = () => {
     if (mediaRecorder && mediaRecorder.state === "recording") {
       mediaRecorder.stop();
+      mediaRecorder.stream.getTracks().forEach((track) => track.stop());
       setRecording(false);
       setIsRecognizing(true);
       console.log("Recording stopped");
