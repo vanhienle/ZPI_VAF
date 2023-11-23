@@ -21,7 +21,7 @@ def get_document():
         print('extracted id=',docID, ', sending sql query to database')
         result = documents.getDocument(docID)
         print('founded: ', result)
-        return (jsonify({"info": result[3]}), 200) if result else (jsonify("false"), 401)
+        return (jsonify({"category": result[0],"title": result[1],"info": result[2],"links": result[-2],"image": result[-4]}), 200) if result else (jsonify("false"), 401)
 
     except psycopg2.Error as e:
         error_message = str(e)
@@ -65,13 +65,16 @@ def get_by_category():
     try:
         request_data = request.get_json()
         category = request_data['category']
+        print('Searching for all articles with category: ', category)
         results = documents.getAllByCategory(category)
+        print('Articles found: ', len(results))
         if len(results) == 0:
-            return jsonify("false"), 401
+            return jsonify([]), 200
 
         acc = []
         for result in results:
-            acc.append({"title": result[2], "info": result[3]})
+            print('Article tuples: ', len(result), ',    article: ', result)
+            acc.append({"id": result[-1], "category": result[0],  "title": result[1], "short": result[-3]})
         return jsonify({"results": acc}), 200
 
     except psycopg2.Error as e:
@@ -85,19 +88,24 @@ def get_by_category():
         return jsonify('false'), 500
 
 
+
+
+
 @docs.route('/documents/get_by_name', methods=['POST'])
 @cross_origin(supports_credentials=True)
 def get_by_name():
     try:
         request_data = request.get_json()
         name = request_data['name']
+        print('Filtered keyword: ', name)
         results = documents.getAllByName(name)
+        print('Found ',len(results),' results')
         if len(results) == 0:
-            return jsonify("false"), 401
+            return jsonify([]), 200
 
         acc = []
         for result in results:
-            acc.append(jsonify({"title": result[2], "info": result[3]}))
+            acc.append({"id": result[0], "category": result[1], "title": result[2], "info": result[3]})
         return jsonify({"results": acc}), 200
 
     except psycopg2.Error as e:
@@ -128,7 +136,7 @@ def get_recommendations():
             return jsonify("false"), 401
 
         print('survey found.')
-        #age = surv[1]
+        age = surv[1]
         kids = int(surv[2])
         #print('kids: ', kids)
         baby = int(surv[3])
@@ -156,11 +164,11 @@ def get_recommendations():
         results = documents.getRecommendations(id, age, kids, baby, teen, adult, accom, insure, study, job, live, refugee, other,
                                      documentType)
         if len(results) == 0:
-            return jsonify("false"), 401
+            return jsonify([]), 404
 
         acc = []
         for result in results:
-            acc.append({"title": result[0], "info": result[1]})
+            acc.append({"title": result[0], "info": result[1], "id": result[3], "category": result[4]})
         return jsonify({"results": acc}), 200
 
     except jwt.ExpiredSignatureError:

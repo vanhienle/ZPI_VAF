@@ -14,6 +14,8 @@ import ChangeProfile from "./pages/Profile/ChangeProfile";
 import ChangePassword from "./pages/Profile/ChangePassword";
 import Survey from "./pages/Survey/Survey";
 import { isLogged } from "./utils/User/isLoggedAPI";
+import DocumentPage from "./pages/DocumentPage/DocumentPage";
+import ChangeSurvey from "./pages/Profile/ChangeSurvey";
 // import LoggedUserRoutes from "./routes/LoggedUserRoutes";
 // import GuestRoutes from "./routes/GuestRoutes";
 // import SurveyRoutes from "./routes/SurveyRoutes";
@@ -45,7 +47,7 @@ const App = () => {
       <Navbar isLogin={isLogin} />
       <Routes>
         <Route element={<Home isLogin={isLogin} />} path="/" />
-        <Route element={<Documents />} path="/documents" />
+        <Route element={<Documents isLogin={isLogin} />} path="/documents" />
         <Route element={<Assistant />} path="/assistant" />
         <Route element={<Accommodation />} path="/accommodation" />
         <Route element={<Map />} path="/map" />
@@ -60,11 +62,13 @@ const App = () => {
           <Route element={<Registration />} path="/signup" />
           <Route element={<Login />} path="/login" />
         </Route> */}
-        <Route element={<Registration />} path="/signup" />
+        <Route element={<Registration />} path="/sign-up" />
         <Route element={<Login />} path="/login" isLogin={isLogin} />
-        <Route element={<ChangeProfile />} path="/changeprofile" />
-        <Route element={<ChangePassword />} path="/changepassword" />
+        <Route element={<ChangeProfile />} path="/change-profile" />
+        <Route element={<ChangePassword />} path="/change-password" />
+        <Route element={<ChangeSurvey />} path="/change-survey" />
         <Route element={<Survey />} path="/survey" />
+        <Route element={<DocumentPage />} path="documents/:id" />
       </Routes>
       {location.pathname !== "/assistant" && <Footer />}
     </>

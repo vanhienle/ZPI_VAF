@@ -31,7 +31,6 @@ import {
 function SurveyForm() {
   const [step, setStep] = useState(1);
   const [error, setError] = useState(false);
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     age: "",
     documents: "None",
