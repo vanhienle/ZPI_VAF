@@ -26,6 +26,8 @@ import surveyImage from "../../assets/images/survey.jpg";
 
 import { isFilledSurvey } from "../../utils/Survey/isFilledSurveyAPI";
 
+import { Link } from "react-router-dom";
+
 const Home = ({ isLogin }) => {
   const [isSurvey, setIsSurvey] = useState(false);
 
@@ -82,12 +84,12 @@ const Home = ({ isLogin }) => {
               className="border-box text-base max-md:text-sm max-sm:text-xs px-4 py-2 w-full max-xl:w-3/4 max-lg:w-4/5 max-md:w-full m-4 rounded-md focus:outline-none"
               placeholder="Ask a question..."
             />
-            <a
-              href="/assistant"
+            <Link
+              to="/assistant"
               className="px-4 py-2 text-base max-md:text-sm max-sm:text-xs rounded-md border-none text-primary-900 bg-secondary-300 hover:bg-secondary-500 hover:text-text-color ease-in-out duration-150"
             >
               {ASSISTANT_BUTTON}
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -181,12 +183,12 @@ const Home = ({ isLogin }) => {
                   </p>
                 </div>
                 <div className="flex justify-center">
-                  <a
-                    href="/change-survey"
+                  <Link
+                    to="/change-survey"
                     className="bg-primary-900 text-background-color text-xl px-4 py-2 rounded-md hover:bg-primary-700 transition-all duration-200 ease-out"
                   >
                     {SURVEY_BUTTON}
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -212,18 +214,18 @@ const Home = ({ isLogin }) => {
                 </p>
               </div>
               <div className="flex justify-evenly">
-                <a
-                  href="/login"
+                <Link
+                  to="/login"
                   className="bg-secondary-300 text-primary-900 text-base max-md:text-sm max-sm:text-xs px-4 py-2 rounded-md hover:bg-secondary-500  hover:text-text-color transition-all duration-200 ease-out"
                 >
                   {SIGN_IN_CONSTANT}
-                </a>
-                <a
-                  href="/sign-up"
+                </Link>
+                <Link
+                  to="/sign-up"
                   className="bg-primary-900 text-base max-md:text-sm max-sm:text-xs px-4 py-2 text-background-color rounded-md hover:bg-primary-700 hover:text-background-color transition-all duration-200 ease-out"
                 >
                   {SIGN_UP_CONSTANT}
-                </a>
+                </Link>
               </div>
             </div>
           </div>
