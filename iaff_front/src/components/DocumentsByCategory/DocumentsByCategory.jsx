@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import survey from "../../assets/images/survey.jpg";
 import Loading from "../../components/Spinner/Loading";
 
@@ -8,8 +7,6 @@ import { getDocumentsByCategory } from "../../utils/Documents/getDocumentsByCate
 const DocumentsByCategory = ({ category }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [articles, setArticles] = useState([]);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     setIsLoading(true);
@@ -49,10 +46,10 @@ const DocumentsByCategory = ({ category }) => {
                 alt="document"
                 className="w-full h-60 object-cover rounded-md"
               ></img>
-              <h1 className="text-primary-900 text-xl hover:text-primary-500 ease-in-out duration-200">
+              <h1 className="text-primary-900 text-xl max-xl:text-lg max-md:text-base hover:text-primary-500 ease-in-out duration-200">
                 {item.title}
               </h1>
-              <p className="text-center hover:text-primary-500 ease-in-out duration-200">
+              <p className="text-center max-md:text-sm max-sm:text-xs hover:text-primary-500 ease-in-out duration-200">
                 {item.short}
               </p>
             </div>

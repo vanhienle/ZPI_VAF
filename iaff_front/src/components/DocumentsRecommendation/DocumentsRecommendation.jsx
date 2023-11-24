@@ -67,27 +67,27 @@ const DocumentsRecommendation = ({ isLogin }) => {
         </div>
       ) : isLogin ? (
         isSurvey ? (
-          <div className="w-3/4 flex flex-col items-center mt-44">
+          <div className="w-3/4 max-2xl:w-full max-xl:w-3/4 max-lg:w-full max-md:w-3/4 max-sm:w-full flex flex-col items-center">
             <h1 className="text-primary-900 text-2xl max-xl:text-xl max-md:text-base font-semibold animate-fade-in">
               Recommended for you:
             </h1>
-            <div className="flex flex-wrap w-full">
+            <div className="flex flex-wrap w-full ease-in-out duration-150">
               {recommended.map((item) => (
                 <a
-                  className="w-1/3 max-xl:w-1/2 max-md:w-full p-8 cursor-pointer animate-fade-in"
+                  className="w-1/3 max-xl:w-1/2 max-md:w-full p-8 cursor-pointer animate-fade-in ease-in-out duration-150"
                   href={`documents/${item.id}`}
                   key={item.id}
                 >
-                  <div className="w-full h-full flex flex-col items-center space-y-2 border-2 shadow-md rounded-md border-solid border-accent-900 hover:scale-105 ease-in-out duration-150 p-4">
+                  <div className="flex flex-col w-full h-full items-center space-y-2 border-2 shadow-md rounded-md border-solid border-accent-900 hover:scale-105 ease-in-out duration-150 p-4">
                     <img
                       src={documents}
                       alt="document"
-                      className="w-full h-60 object-cover rounded-md max-sm:hidden"
+                      className="w-full h-60 max-md:h-56 object-cover rounded-md ease-in-out duration-150"
                     ></img>
-                    <h1 className="text-center text-xl max-2xl:text-lg max-lg:text-base ease-in-out duration-200 text-primary-900 hover:text-primary-700">
+                    <h1 className="text-primary-900 text-xl max-xl:text-lg max-md:text-base hover:text-primary-500 ease-in-out duration-200">
                       {item.title}
                     </h1>
-                    <p className="w-3/4 text-center text-base max-xl:text-sm max-lg:text-xs ease-in-out duration-200 hover:text-primary-700">
+                    <p className="text-center max-md:text-sm max-sm:text-xs hover:text-primary-500 ease-in-out duration-200">
                       {item.short}
                     </p>
                   </div>
