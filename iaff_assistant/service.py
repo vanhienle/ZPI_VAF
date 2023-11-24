@@ -1,4 +1,4 @@
-from fastapi import Body, FastAPI, Request, status, UploadFile, File
+from fastapi import Body, FastAPI, Request, status, UploadFile, File, Form
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
@@ -59,9 +59,9 @@ async def translate(content: Content = Body(...)):
     return await get_translated(content)
 
 @app.post("/assistant_service/transcribe")
-async def transcribe_audio(file: UploadFile = File(...)):
+async def transcribe_audio(file: UploadFile = File(...), lang: str = Form(...)):
     content = await file.read()
-    transcription = await SpeechRecognitionAgent.transcribe(content)
+    transcription = await SpeechRecognitionAgent.transcribe(content, lang)
     return transcription
 
 if __name__ == '__main__':

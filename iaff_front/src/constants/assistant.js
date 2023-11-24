@@ -4,6 +4,7 @@ import flagENG from "../assets/images/gb.svg";
 import flagPL from "../assets/images/pl.svg";
 import flagUA from "../assets/images/ua.svg";
 import flagVN from "../assets/images/vn.svg";
+import flagRU from "../assets/images/ru.svg";
 
 export const message = `Hi, I am your intelligent assistant, happy to help.\nHere are some suggested questions:`;
 
@@ -28,6 +29,7 @@ export const languages = [
   "Belarusian",
   "Ukrainian",
   "Polish",
+  "Russian",
 ];
 
 export const langDict = {
@@ -36,6 +38,7 @@ export const langDict = {
   Belarusian: [flagBY, "беларускі"],
   Ukrainian: [flagUA, "українська"],
   Polish: [flagPL, "Polski"],
+  Russian: [flagRU, "Русский"],
 };
 
 if (
