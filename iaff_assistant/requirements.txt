@@ -3,8 +3,8 @@ fastapi==0.99.1
 tiktoken==0.5.1
 openai==0.28.1
 python-dotenv==1.0.0
-transformers==4.33.2
 instructorembedding==1.0.1
-torch=2.0.1
+torch==2.1.0
 sentence-transformers==2.2.2
 chromadb==0.4.15
+transformers==4.33.2

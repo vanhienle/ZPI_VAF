@@ -7,11 +7,11 @@ import os
 import re
 
 DOC_REPO_DIRECTORY = "documents/"
-HF_EMBEDDINGS = 'BAAI/bge-large-en-v1.5'
+HF_EMBEDDINGS = 'sentence-transformers/msmarco-distilbert-base-v4'
 CHROMA_LOCAL = "chroma_db"
 
 embeddings = HuggingFaceInstructEmbeddings(model_name=HF_EMBEDDINGS)
-vector_store = Chroma(persist_directory=CHROMA_LOCAL, embedding_function=embeddings)
+vector_store = Chroma(persist_directory=CHROMA_LOCAL, embedding_function=embeddings, collection_metadata={"hnsw:space": "cosine"})
 
 def preprocess_docs():    
     doc_paths = []
