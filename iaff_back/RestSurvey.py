@@ -32,6 +32,10 @@ def filled_survey():
         return jsonify('false'), 500
 
 
+def get_survey(survId):
+    return survey.getSurvey(survId)
+
+
 @surv.route('/survey/add_survey',methods=['POST'])
 @cross_origin(supports_credentials=True)
 def add_survey():
