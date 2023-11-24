@@ -5,7 +5,7 @@ import flagPL from "../assets/images/pl.svg";
 import flagUA from "../assets/images/ua.svg";
 import flagVN from "../assets/images/vn.svg";
 
-export const message = `Hi, I am your intelligent assistant from Poland, happy to help.\nHere are some suggested questions:`;
+export const message = `Hi, I am your intelligent assistant, happy to help.\nHere are some suggested questions:`;
 
 export const input = `Send a question...`;
 

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 import "./Assistant.css";
 import {
   HiArrowCircleRight,
@@ -19,6 +20,8 @@ import { getTranslated } from "../../utils/Assistant/getTranslated";
 import AudioRecorder from "./AudioRecorder";
 const Assistant = () => {
   const questionNum = 4;
+  let location = useLocation();
+  const [reloadKey, setReloadKey] = useState(0);
   const [language, setLanguage] = useState(
     localStorage.getItem("lang") || languages[0]
   );
@@ -46,14 +49,11 @@ const Assistant = () => {
   const scrollToBottom = () => {
     if (scrollableChat.current) {
       const { scrollTop, clientHeight, scrollHeight } = scrollableChat.current;
-      if (scrollHeight - scrollTop - clientHeight < 50) {
+      if (scrollHeight - scrollTop - clientHeight < 60) {
         scrollableChat.current.scrollTo({
           top: scrollableChat.current.scrollHeight,
           behavior: "smooth",
         });
-        //setIsAtBottom(true);
-      } else {
-        //setIsAtBottom(false);
       }
     }
   };
@@ -77,6 +77,9 @@ const Assistant = () => {
   };
 
   const handleUserQueryChange = (e) => {
+    if (e.target.value.slice(-1) === "\n" && e.target.value.length === 1) {
+      return;
+    }
     setUserQuery(e.target.value);
     resizeTextarea();
   };
@@ -121,6 +124,7 @@ const Assistant = () => {
       }, 100);
       setTimeout(() => {
         forceScrollToBottom();
+        resizeTextarea();
       }, 50);
     }
   };
@@ -133,31 +137,39 @@ const Assistant = () => {
 
   const translateTexts = async () => {
     setPageLoading(true);
-    const translatedMessage = await getTranslated({
-      content: message,
-      target_language: language,
-    });
-    const translatedPrompt = await getTranslated({
-      content: input,
-      target_language: language,
-    });
-    const translatedSource = await getTranslated({
-      content: source_,
-      target_language: language,
-    });
-    const promises = questionList.map(async (question) => {
-      return await getTranslated({
-        content: question,
+    if (language === "English") {
+      setHelloMessage(message);
+      setPromptInput(input);
+      setSourceDisplay(source_);
+      setSuggestedQuestions(questionList);
+    } else {
+      const translatedMessage = await getTranslated({
+        content: message,
         target_language: language,
       });
-    });
-    const translatedQuestions = await Promise.all(promises);
-    setHelloMessage(translatedMessage);
-    setPromptInput(translatedPrompt);
-    setSourceDisplay(translatedSource);
-    setSuggestedQuestions(translatedQuestions);
+      const translatedPrompt = await getTranslated({
+        content: input,
+        target_language: language,
+      });
+      const translatedSource = await getTranslated({
+        content: source_,
+        target_language: language,
+      });
+      const promises = questionList.map(async (question) => {
+        return await getTranslated({
+          content: question,
+          target_language: language,
+        });
+      });
+      const translatedQuestions = await Promise.all(promises);
+      setHelloMessage(translatedMessage);
+      setPromptInput(translatedPrompt);
+      setSourceDisplay(translatedSource);
+      setSuggestedQuestions(translatedQuestions);
+    }
     setMessages([]);
     setPageLoading(false);
+    setReloadKey((key) => key + 1);
   };
 
   const handleOutsideClick = useCallback(
@@ -169,6 +181,15 @@ const Assistant = () => {
     [isOpen]
   );
 
+  const handleScroll = useCallback(() => {
+    const { scrollTop, clientHeight, scrollHeight } = scrollableChat.current;
+    if (scrollHeight - scrollTop - clientHeight < 120) {
+      setIsAtBottom(true);
+    } else {
+      setIsAtBottom(false);
+    }
+  }, []);
+
   useEffect(() => {
     translateTexts();
     setIsAtBottom(true);
@@ -178,7 +199,7 @@ const Assistant = () => {
     const interval = setInterval(() => {
       const speeds = [30];
       setDelay(speeds[Math.floor(Math.random() * speeds.length)]);
-    }, 2000);
+    }, 1000);
     return () => {
       clearInterval(interval);
     };
@@ -190,15 +211,6 @@ const Assistant = () => {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, [handleOutsideClick]);
-
-  const handleScroll = useCallback(() => {
-    const { scrollTop, clientHeight, scrollHeight } = scrollableChat.current;
-    if (scrollHeight - scrollTop - clientHeight < 80) {
-      setIsAtBottom(true);
-    } else {
-      setIsAtBottom(false);
-    }
-  }, []);
 
   useEffect(() => {
     const div = scrollableChat.current;
@@ -212,7 +224,7 @@ const Assistant = () => {
     if (scrollableChat.current) {
       if (isAnswering) {
         let interval;
-        interval = setInterval(scrollToBottom, 500);
+        interval = setInterval(scrollToBottom, 400);
         return () => {
           if (interval) {
             clearInterval(interval);
@@ -222,7 +234,20 @@ const Assistant = () => {
         forceScrollToBottom();
       }
     }
-  }, [isAnswering, scrollableChat.current]);
+  }, [isAnswering]);
+
+  useEffect(() => {
+    if (!pageLoading && location.state) {
+      handleSetLanguage("English");
+      setTimeout(() => {
+        const homePageQuery = location.state;
+        location.state = null;
+        if (homePageQuery) {
+          handleQuerySubmit(homePageQuery);
+        }
+      }, 200);
+    }
+  }, [pageLoading]);
 
   // useEffect(() => {
   //   if (pageLoading === false) {
@@ -230,7 +255,7 @@ const Assistant = () => {
   //   }
   // }, [pageLoading]);
   return (
-    <div className="mx-auto h-[85vh]">
+    <div key={reloadKey} className="mx-auto h-[85vh]">
       {pageLoading ? (
         <div className="flex items-center justify-center h-[40vh]">
           <div className="spinner border-4 border-accent-500 border-t-4 border-t-accent-900 w-20 h-20 rounded-full mx-auto"></div>
@@ -294,7 +319,7 @@ const Assistant = () => {
                       </div>
                     </div>
                     <div className="flex items-center w-full bg-accent-500 shadow-md rounded-lg">
-                      <div className="m-2">{content}</div>
+                      <div className="m-2 whitespace-pre-line">{content}</div>
                     </div>
                   </div>
                 )}
@@ -352,7 +377,7 @@ const Assistant = () => {
                 )}
               </div>
             ))}
-            <div className="flex h-[17vh]" />
+            <div className="flex h-[17vh] max-sm:h-[12vh]" />
           </div>
         </div>
       )}
@@ -391,7 +416,7 @@ const Assistant = () => {
           />
           {isRecognizing ? (
             <div className="flex items-center justify-center h-full">
-              <div className="spinner border-4 border-accent-500 border-t-4 border-t-accent-900 w-6 h-6 rounded-full mx-auto"></div>
+              <div className="spinner border-4 border-accent-500 border-t-4 border-t-accent-900 w-6 h-6 rounded-full m-0"></div>
             </div>
           ) : (
             <AudioRecorder

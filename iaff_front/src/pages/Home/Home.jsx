@@ -26,10 +26,19 @@ import surveyImage from "../../assets/images/survey.jpg";
 
 import { isFilledSurvey } from "../../utils/Survey/isFilledSurveyAPI";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Home = ({ isLogin }) => {
+  let navigate = useNavigate();
   const [isSurvey, setIsSurvey] = useState(false);
+  const [question, setQuestion] = useState("");
+
+  const handleChangeQuestion = (e) => {
+    setQuestion(e.target.value);
+  };
+  const askAssistant = (q) => {
+    navigate("/assistant", { state: q });
+  };
 
   useEffect(() => {
     async function fetchIsFilledSurvey() {
@@ -83,13 +92,20 @@ const Home = ({ isLogin }) => {
             <input
               className="border-box text-base max-md:text-sm max-sm:text-xs px-4 py-2 w-full max-xl:w-3/4 max-lg:w-4/5 max-md:w-full m-4 rounded-md focus:outline-none"
               placeholder="Ask a question..."
+              value={question}
+              onChange={handleChangeQuestion}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  askAssistant(question);
+                }
+              }}
             />
-            <Link
-              to="/assistant"
+            <button
+              onClick={() => askAssistant(question)}
               className="px-4 py-2 text-base max-md:text-sm max-sm:text-xs rounded-md border-none text-primary-900 bg-secondary-300 hover:bg-secondary-500 hover:text-text-color ease-in-out duration-150"
             >
               {ASSISTANT_BUTTON}
-            </Link>
+            </button>
           </div>
         </div>
       </div>
@@ -104,16 +120,17 @@ const Home = ({ isLogin }) => {
         </h2>
         <div className="flex flex-wrap justify-center mt-6">
           {Q_A.map((item) => (
-            <div
+            <button
               className="w-1/3 h-32 max-lg:h-24 max-md:h-20 max-sm:h-16 max-lg:w-1/2 max-md:w-full p-2"
               key={item.id}
+              onClick={() => askAssistant(item.question)}
             >
               <div className="flex justify-center items-center cursor-pointer ease-in-out duration-150 text-center h-full w-full border-solid border-2 border-accent-900 shadow-lg rounded-md p-2 hover:bg-accent-500">
                 <p className="text-primary-900 text-lg max-2xl:text-base max-md:text-sm max-sm:text-xs">
                   {item.question}
                 </p>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>

@@ -62,7 +62,7 @@ async def query(conv):
         if (conv["language"] == "English"):        
             return get_returned_response(no_information, '')
         else:
-            return get_returned_response(await TranslationAgent.translate(no_information, conv["language"]), '')
+            return get_returned_response(await TranslationAgent.translate(no_information, conv["language"]), '')    
 
     user_input = ""
     for doc in retrieved_docs:
@@ -85,5 +85,6 @@ async def query(conv):
     )
 
     returned_response = response['choices'][0]['message']['content'] + "\n"
+    source = retrieved_docs[0][0].metadata["source"] if retrieved_docs[0][1] >= 0.4 else ""
 
-    return get_returned_response(returned_response, retrieved_docs[0][0].metadata["source"])
+    return get_returned_response(returned_response, source)
