@@ -5,7 +5,7 @@ const Map = () => {
 
   const getMapAPI = () => {};
 
-  return <div>MAP</div>;
+  return <div className="flex justify-center items-center mt-10"></div>;
 };
 
 export default Map;

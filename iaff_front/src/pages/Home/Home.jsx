@@ -61,7 +61,7 @@ const Home = ({ isLogin }) => {
       </div>
 
       {/* Delimiter */}
-      <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-1/2 max-xl:w-3/4 my-6 max-sm:my-4" />
+      <div className="border-solid border-primary-900 bg-primary-900 border rounded-md w-1/2 max-xl:w-3/4 my-6 max-sm:my-4" />
 
       {/* Assistant  Block */}
       <div
@@ -93,7 +93,7 @@ const Home = ({ isLogin }) => {
       </div>
 
       {/* Delimiter */}
-      <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-1/2 max-xl:w-3/4 my-6 max-sm:my-4" />
+      <div className="border-solid border-primary-900 bg-primary-900 border rounded-md w-1/2 max-xl:w-3/4 my-6 max-sm:my-4" />
 
       {/* Questions and Answers */}
       <div className="w-1/2 max-2xl:w-3/4 flex flex-col items-center justify-center my-6 max-sm:my-4">
@@ -106,7 +106,7 @@ const Home = ({ isLogin }) => {
               className="w-1/3 h-32 max-lg:h-24 max-md:h-20 max-sm:h-16 max-lg:w-1/2 max-md:w-full p-2"
               key={item.id}
             >
-              <div className="flex justify-center items-center cursor-pointer ease-in-out duration-150 text-center h-full w-full border-solid border-2 border-accent-900 shadow-lg rounded-md p-2 hover:bg-accent-500">
+              <div className="flex justify-center items-center cursor-pointer ease-in-out duration-150 text-center h-full w-full border-solid border border-accent-900 shadow-lg rounded-md p-2 hover:bg-accent-500">
                 <p className="text-primary-900 text-lg max-2xl:text-base max-md:text-sm max-sm:text-xs">
                   {item.question}
                 </p>
@@ -117,7 +117,7 @@ const Home = ({ isLogin }) => {
       </div>
 
       {/* Delimiter */}
-      <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-1/2 max-xl:w-3/4 my-6 max-sm:my-4" />
+      <div className="border-solid border-primary-900 bg-primary-900 border rounded-md w-1/2 max-xl:w-3/4 my-6 max-sm:my-4" />
 
       {/* Modules block */}
       <div className="w-1/2 max-2xl:w-3/4 flex flex-col space-y-6 items-center justify-center my-6 max-sm:my-4">
@@ -165,7 +165,7 @@ const Home = ({ isLogin }) => {
           <>
             {" "}
             {/* Delimiter */}
-            <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-1/2 max-xl:w-3/4 my-6 max-sm:my-4" />
+            <div className="border-solid border-primary-900 bg-primary-900 border rounded-md w-1/2 max-xl:w-3/4 my-6 max-sm:my-4" />
             {/* Survey Block */}
             <div
               className="bg-no-repeat bg-center bg-cover w-1/2 max-xl:w-3/4 rounded-md my-6 max-sm:my-4"
@@ -195,7 +195,7 @@ const Home = ({ isLogin }) => {
       ) : (
         <>
           {/* Delimiter */}
-          <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-1/2 max-xl:w-3/4 my-6 max-sm:my-4" />
+          <div className="border-solid border-primary-900 bg-primary-900 border rounded-md w-1/2 max-xl:w-3/4 my-6 max-sm:my-4" />
 
           {/* SingIn / SignUp Block */}
           <div
