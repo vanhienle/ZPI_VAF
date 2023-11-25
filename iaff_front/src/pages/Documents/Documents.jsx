@@ -27,9 +27,9 @@ const Documents = ({ isLogin }) => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center mt-6 space-y-12">
+    <div className="flex flex-col items-center justify-center mt-6 space-y-12 max-md:space-y-6">
       {/** Info about module section */}
-      <div className="w-1/2 text-center flex flex-col items-center justify-center space-y-4">
+      <div className="w-1/2 max-md:w-3/4 max-sm:w-full max-sm:px-6 text-center flex flex-col items-center justify-center space-y-4">
         <h1 className="text-primary-900 text-2xl max-xl:text-xl max-md:text-base font-semibold ease-in-out duration-300">
           Documents Page
         </h1>
@@ -41,13 +41,13 @@ const Documents = ({ isLogin }) => {
         </p>
       </div>
       {/** Search of all documents section */}
-      <div className="w-1/2">
+      <div className="w-1/2 max-xl:w-3/4 max-md:w-full px-6">
         <SearchDocuments />
       </div>
       {/** Recommended sections */}
       <DocumentsRecommendation isLogin={isLogin} />
       {/** All Documents */}
-      <div className="w-3/4 flex flex-col items-center">
+      <div className="w-3/4 max-2xl:w-full max-xl:w-3/4 max-lg:w-full max-md:w-3/4 max-sm:w-full flex flex-col items-center">
         <div className="w-full flex justify-evenly flex-wrap">
           {isLoadingCategories ? (
             <div>
