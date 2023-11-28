@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { sendSurvey } from "../../utils/Survey/sendSurveyAPI";
 
 import {
@@ -9,7 +8,6 @@ import {
   SURVEY_YOUR_AGE,
   SURVEY_DOCUMENTS,
   SURVEY_VARIANTS_OF_DOCUMENTS,
-  SURVEY_EU_CITIZEN,
   SURVEY_KIDS,
   SURVEY_HOW_OLD_KIDS,
   SURVEY_KIDS_AGE_MIN,

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { changePassword } from "../../utils/User/changePasswordAPI";
 import { getUserData } from "../../utils/User/getUserDataAPI";
+import { isFilledSurvey } from "../../utils/Survey/isFilledSurveyAPI";
 import Loading from "../../components/Spinner/Loading";
 import {
   ERROR_PASSWORD_VALIDATION,
@@ -69,6 +70,15 @@ const ChangePassword = () => {
     });
   };
 
+  const redirectToSurvey = async () => {
+    const result = await isFilledSurvey();
+    if (result) {
+      navigate("/change-survey");
+    } else {
+      window.location.href("/survey");
+    }
+  };
+
   const validateForm = () => {
     if (
       errors.repeat_new_password === "" &&
@@ -128,12 +138,12 @@ const ChangePassword = () => {
             <p className="text-2xl text-primary-500 m-4 max-lg:text-lg">
               Change Password
             </p>
-            <Link
+            <button
               className="py-2 px-6 text-lg max-lg:text-base max-sm:text-xs font-bold bg-primary-900 hover:bg-primary-500 text-background-color rounded-md focus:outline-none focus:shadow-outline ease-in-out duration-200"
-              to="/change-survey"
+              onClick={redirectToSurvey}
             >
               Survey &#8594;
-            </Link>
+            </button>
           </div>
           {isLoading ? (
             <div className="flex flex-col justify-center items-center h-80 m-3">
