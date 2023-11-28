@@ -1,16 +1,20 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import { FaSearch } from "react-icons/fa";
+
 import { getDocumentsByName } from "../../utils/Documents/getDocumentsByNameAPI";
-import accommodation from "../../assets/images/accommodation.webp";
+
 import Loading from "../Spinner/Loading";
 
+import { NOT_FOUND_MESSAGE } from "../../constants/documentsConstants";
+
+import { FaSearch } from "react-icons/fa";
+
 const SearchDocuments = () => {
+  const searchRef = useRef();
+
   const [searchText, setSearchText] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [articles, setArticles] = useState([]);
   const [searchLoading, setSearchLoading] = useState(false);
-
-  const searchRef = useRef();
 
   const handleSearchText = (value) => {
     setSearchText(value);
@@ -34,20 +38,20 @@ const SearchDocuments = () => {
 
   useEffect(() => {
     setSearchLoading(true);
-    const fetchData = async () => {
+
+    const getFoundDocuments = async () => {
       try {
         const results = await getDocumentsByName(searchText);
         setArticles(results);
         setSearchLoading(false);
-        console.log(results);
       } catch (error) {
-        console.error(error);
+        console.error("Error with getting found items: " + error);
       }
     };
 
     setTimeout(() => {
       if (searchText.trim() !== "" && searchText.length > 3) {
-        fetchData();
+        getFoundDocuments();
       } else {
         setArticles([]);
         setSearchLoading(false);
@@ -58,16 +62,18 @@ const SearchDocuments = () => {
   return (
     <div ref={searchRef} className="relative">
       <div className="flex w-full items-center border-2 rounded-md p-2">
+        {/* Search Input Block */}
         <input
           type="text"
           placeholder="Search..."
           className="w-full outline-none px-2 max-md:text-sm max-sm:text-xs "
-          // Add your search functionality onChange
           onChange={(e) => handleSearchText(e.target.value)}
           onFocus={() => setIsOpen(true)}
         />
         <FaSearch className="text-gray-500" />
       </div>
+
+      {/* Found Items Block */}
       {isOpen ? (
         <div className="absolute z-10 w-full mt-4 flex flex-col space-y-6 p-3 items-start justify-center border-2 border-text-color rounded-md bg-accent-500 bg-opacity-90">
           {searchLoading ? (
@@ -84,7 +90,7 @@ const SearchDocuments = () => {
                 >
                   <div className="w-1/4 max-2xl:w-1/2 max-xl:w-1/4 max-lg:w-1/2 flex">
                     <img
-                      src={accommodation}
+                      src={item.image}
                       alt="document"
                       className="w-40 h-40 rounded-md object-cover"
                     />
@@ -105,7 +111,7 @@ const SearchDocuments = () => {
             </div>
           ) : (
             <h1 className="h-44 w-full flex items-center justify-center text-xl">
-              No results or search is empty!
+              {NOT_FOUND_MESSAGE}
             </h1>
           )}
         </div>

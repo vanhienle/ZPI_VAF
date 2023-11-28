@@ -15,7 +15,7 @@ import {
   questionList,
   languages,
   langDict,
-} from "../../constants/assistant";
+} from "../../constants/assistantConstants";
 import { getTranslated } from "../../utils/Assistant/getTranslated";
 import AudioRecorder from "./AudioRecorder";
 const Assistant = () => {

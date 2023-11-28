@@ -1,4 +1,4 @@
-export const HAVE_AN_ACCOUNT_MESSAGE = "Already have account? Click here - ";
+export const ERROR_SIGN_IN = "Email or password is not correct!";
 
 export const ERROR_NAME_VALIDATION =
   "Name must be between 1 and 30 characters, containing only letters and hyphens!";
@@ -13,6 +13,11 @@ export const ERROR_MATCH_PASSWORD_VALIDATION = "Passwords do not match!";
 
 export const ERROR_FORM_VALIDATION = "Please input all fields correctly";
 
-export const ERROR_FORM_REQUEST = "We have a problem with sign up!";
+export const ERROR_SIGN_UP = "We have a problem with sign up!";
 
-export const CONFIRM = "Confirm";
+export const ERROR_CHANGE_PASSWORD = "Please fill all data correctly!";
+
+export const ERROR_CHANGE_PROFILE =
+  "Current password is incorrect or your fields are in invalid format!";
+
+export const ERROR_SURVEY_MESSAGE = "Please fill all required inputs!";

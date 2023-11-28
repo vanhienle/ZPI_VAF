@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
+
+import { getCategories } from "../../utils/Documents/getAllCategoriesAPI";
+
+import { INTRODUCTION_TEXT } from "../../constants/documentsConstants";
+
+import Loading from "../../components/Spinner/Loading";
 import SearchDocuments from "../../components/SearchDocuments/SearchDocuments";
 import DocumentsByCategory from "../../components/DocumentsByCategory/DocumentsByCategory";
 import DocumentsRecommendation from "../../components/DocumentsRecommendation/DocumentsRecommendation";
-
-import { getCategories } from "../../utils/Documents/getAllCategoriesAPI";
-import Loading from "../../components/Spinner/Loading";
 
 const Documents = ({ isLogin }) => {
   const [categories, setCategories] = useState([]);
@@ -12,18 +15,17 @@ const Documents = ({ isLogin }) => {
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const getAllCategories = async () => {
       try {
         const results = await getCategories();
         setCategories(results);
         setIsLoadingCategories(false);
-        console.log(results);
       } catch (error) {
-        console.error("Error in Documents: " + error);
+        console.error("Error with getting Categories: " + error);
       }
     };
 
-    fetchData();
+    getAllCategories();
   }, []);
 
   return (
@@ -34,10 +36,7 @@ const Documents = ({ isLogin }) => {
           Documents Page
         </h1>
         <p className="text-lg max-2xl:text-base max-md:text-sm max-sm:text-xs mt-6 font-semibold ease-in-out duration-300">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.
+          {INTRODUCTION_TEXT}
         </p>
       </div>
 
@@ -45,9 +44,6 @@ const Documents = ({ isLogin }) => {
       <div className="w-1/2 max-xl:w-3/4 max-md:w-full px-6">
         <SearchDocuments />
       </div>
-
-      {/* Delimiter */}
-      <div className="border-solid border-text-color bg-text-color border rounded-md w-1/2 max-xl:w-3/4 my-6 max-sm:my-4" />
 
       {/** Recommended sections */}
       <DocumentsRecommendation isLogin={isLogin} />
