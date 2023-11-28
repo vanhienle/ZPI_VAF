@@ -8,9 +8,7 @@ import {
   ASSISTANT_BUTTON,
   Q_A_TITLE,
   Q_A,
-  MODULES_TITLE,
   MODULES,
-  MODULES_BUTTON,
   SIGN_IN_TITLE,
   SIGN_IN_DESCRIPTION,
   SURVEY_TITLE,
@@ -20,7 +18,7 @@ import {
 
 import { SIGN_IN_CONSTANT, SIGN_UP_CONSTANT } from "../../constants/main";
 
-import assistantImage from "../../assets/images/assistant.jpg";
+import assistantImage from "../../assets/images/assistant.webp";
 import signInImage from "../../assets/images/signin.jpg";
 import surveyImage from "../../assets/images/survey.jpg";
 
@@ -62,7 +60,7 @@ const Home = ({ isLogin }) => {
   return (
     <div className="flex flex-col items-center justify-center mt-6">
       {/* Application  Block */}
-      <div className="text-center w-1/2 max-2xl:w-3/4 py-6 max-md:py-4 max-sm:py-2">
+      <div className="text-center w-1/2 max-xl:w-3/4 py-6 max-md:py-4 max-sm:py-2">
         <h1 className="text-primary-900 text-2xl max-xl:text-xl max-md:text-base font-semibold ease-in-out duration-300">
           {APP_TITLE}
         </h1>
@@ -76,15 +74,15 @@ const Home = ({ isLogin }) => {
 
       {/* Assistant  Block */}
       <div
-        className="bg-no-repeat bg-center bg-cover w-1/2 max-2xl:w-3/4 rounded-md my-6 max-sm:my-4"
+        className="bg-no-repeat bg-center bg-cover w-1/2 max-xl:w-3/4 rounded-md my-6 max-sm:my-4"
         style={{ backgroundImage: `url(${assistantImage})` }}
       >
-        <div className="bg-primary-900 text-center bg-opacity-80 flex justify-between rounded-md p-14 w-full max-md:p-4 max-xl:flex-col max-xl:justify-center">
+        <div className="bg-primary-900 text-center bg-opacity-60 flex justify-between rounded-md p-14 w-full max-md:p-4 max-xl:flex-col max-xl:justify-center">
           <div className="w-1/2 max-xl:w-full">
             <h2 className="text-background-color text-xl max-xl:text-base font-semibold ease-in-out duration-300">
               {ASSISTANT_TITLE}
             </h2>
-            <p className="text-background-color p-2 mt-2 text-base max-md:text-sm max-sm:text-xs font-semibold whitespace-pre-line ease-in-out duration-300">
+            <p className="text-background-color p-2 mt-2 text-base max-md:text-sm max-sm:text-xs font-bold whitespace-pre-line ease-in-out duration-300">
               {ASSISTANT_DESCRIPTION}
             </p>
           </div>
@@ -114,7 +112,7 @@ const Home = ({ isLogin }) => {
       <div className="border-solid border-primary-900 bg-primary-900 border rounded-md w-1/2 max-xl:w-3/4 my-6 max-sm:my-4" />
 
       {/* Questions and Answers */}
-      <div className="w-1/2 max-2xl:w-3/4 flex flex-col items-center justify-center my-6 max-sm:my-4">
+      <div className="w-1/2 max-xl:w-3/4 flex flex-col items-center justify-center my-6 max-sm:my-4">
         <h2 className="text-2xl max-xl:text-xl max-md:text-base text-primary-900">
           {Q_A_TITLE}
         </h2>
@@ -139,34 +137,26 @@ const Home = ({ isLogin }) => {
       <div className="border-solid border-primary-900 bg-primary-900 border rounded-md w-1/2 max-xl:w-3/4 my-6 max-sm:my-4" />
 
       {/* Modules block */}
-      <div className="w-1/2 max-2xl:w-3/4 flex flex-col space-y-6 items-center justify-center my-6 max-sm:my-4">
-        <h2 className="text-2xl max-xl:text-xl max-md:text-base text-primary-900">
-          {MODULES_TITLE}
-        </h2>
+      <div className="w-1/2 max-xl:w-3/4 flex flex-col space-y-10 items-center justify-center my-6 max-sm:my-4">
         {MODULES.map((item) => (
           <div
-            className="bg-no-repeat bg-center bg-cover rounded-md"
+            className="bg-no-repeat bg-center bg-cover rounded-md cursor-pointer hover:scale-105 ease-in-out duration-200"
             style={{ backgroundImage: `url(${item.image})` }}
+            onClick={() => {
+              window.location.href = item.link;
+            }}
             key={item.id}
           >
             <div
-              className={`bg-accent-900 hover:bg-secondary-300 hover:bg-opacity-50 ease-in-out duration-300 text-center bg-opacity-70 flex flex-col justify-between rounded-md p-8`}
+              className={`bg-accent-900 hover:bg-secondary-300 hover:bg-opacity-70 ease-in-out duration-300 text-center bg-opacity-70 flex flex-col justify-between rounded-md p-8`}
             >
               <div>
                 <h2 className="text-xl max-xl:text-base font-semibold">
                   {item.title}
                 </h2>
-                <p className="text-base max-md:text-sm max-sm:text-xs px-4 my-6 font-semibold">
+                <p className="text-base max-md:text-sm max-sm:text-xs px-4 my-6 font-bold">
                   {item.description}
                 </p>
-              </div>
-              <div className="flex justify-evenly">
-                <a
-                  href={item.link}
-                  className="bg-primary-900 text-background-color text-base max-md:text-sm max-sm:text-xs px-4 py-2 rounded-md hover:bg-primary-500 transition-all duration-200 ease-out"
-                >
-                  {MODULES_BUTTON}
-                </a>
               </div>
             </div>
             <div
@@ -190,7 +180,7 @@ const Home = ({ isLogin }) => {
               className="bg-no-repeat bg-center bg-cover w-1/2 max-xl:w-3/4 rounded-md my-6 max-sm:my-4"
               style={{ backgroundImage: `url(${surveyImage})` }}
             >
-              <div className="bg-secondary-300 text-center bg-opacity-50 flex flex-col justify-between rounded-md p-8">
+              <div className="bg-accent-900 text-center bg-opacity-50 flex flex-col justify-between rounded-md p-8">
                 <div>
                   <h2 className="text-xl max-xl:text-base font-semibold">
                     {SURVEY_TITLE}
@@ -200,12 +190,12 @@ const Home = ({ isLogin }) => {
                   </p>
                 </div>
                 <div className="flex justify-center">
-                  <Link
-                    to="/change-survey"
+                  <a
+                    href="/survey"
                     className="bg-primary-900 text-background-color text-xl px-4 py-2 rounded-md hover:bg-primary-700 transition-all duration-200 ease-out"
                   >
                     {SURVEY_BUTTON}
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>
@@ -221,7 +211,7 @@ const Home = ({ isLogin }) => {
             className="bg-no-repeat bg-center bg-cover w-1/2 max-xl:w-3/4 rounded-md my-6 max-sm:my-4"
             style={{ backgroundImage: `url(${signInImage})` }}
           >
-            <div className="bg-accent-900 text-center bg-opacity-80 flex flex-col justify-between rounded-md p-8">
+            <div className="bg-accent-900 text-center bg-opacity-70 flex flex-col justify-between rounded-md p-8">
               <div>
                 <h2 className="text-xl max-xl:text-base font-semibold">
                   {SIGN_IN_TITLE}
