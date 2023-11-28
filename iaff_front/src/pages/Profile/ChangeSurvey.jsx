@@ -133,9 +133,9 @@ const ChangeSurvey = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center mb-6 mx-6">
-      <div className="flex flex-col border-2 rounded-md border-solid border-accent-900 w-fit mt-8">
-        <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center mb-6 mx-6 transition-all ease-in-out duration-300">
+      <div className="flex flex-col border-2 rounded-md border-solid border-accent-900 w-fit mt-8 transition-all ease-in-out duration-300">
+        <div className="flex flex-col items-center justify-center transition-all ease-in-out duration-300">
           <div className="flex items-center justify-between w-full px-6 pt-6 border-b mb-4">
             <p className="text-2xl text-primary-500 m-4 max-lg:text-lg">
               Survey Settings
@@ -353,7 +353,7 @@ const ChangeSurvey = () => {
                   </div>
                 </div>
                 <p
-                  className="bg-primary-900 w-full py-3 px-4 mb-4 text-lg text-center max-md:text-base max-sm:text-sm hover:bg-primary-500 text-background-color font-bold rounded-lg focus:outline-none focus:shadow-outline ease-in-out duration-200"
+                  className="bg-primary-900 w-full py-3 px-4 mb-4 text-lg text-center max-md:text-base max-sm:text-sm hover:bg-primary-500 text-background-color font-bold rounded-lg focus:outline-none focus:shadow-outline ease-in-out duration-200 cursor-pointer"
                   onClick={handleSubmit}
                 >
                   Update survey
