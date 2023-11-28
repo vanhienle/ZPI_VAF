@@ -46,10 +46,10 @@ const DocumentsByCategory = ({ category }) => {
                 alt="document"
                 className="w-full h-60 object-cover rounded-md"
               ></img>
-              <h1 className="text-primary-900 text-xl max-xl:text-lg max-md:text-base hover:text-primary-500 ease-in-out duration-200">
+              <h1 className="text-primary-900 text-xl max-xl:text-lg max-md:text-base ease-in-out duration-200">
                 {item.title}
               </h1>
-              <p className="text-center max-md:text-sm max-sm:text-xs hover:text-primary-500 ease-in-out duration-200">
+              <p className="text-center max-md:text-sm max-sm:text-xs ease-in-out duration-200">
                 {item.short}
               </p>
             </div>
