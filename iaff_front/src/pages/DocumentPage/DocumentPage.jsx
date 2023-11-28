@@ -33,8 +33,8 @@ const DocumentPage = () => {
           <Loading width={100} height={100} />
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center w-1/2 space-y-10 animate-fade-in">
-          <h1 className="text-3xl text-text-color font-bold">
+        <div className="flex flex-col items-center justify-center w-1/2 max-lg:w-3/4 space-y-10 animate-fade-in">
+          <h1 className="text-3xl max-xl:text-2xl max-lg:text-xl max-md:text-base text-text-color font-bold">
             {document.title}
           </h1>
           <img
@@ -43,7 +43,7 @@ const DocumentPage = () => {
             className="object-cover w-3/4 shadow-lg rounded-xl"
           />
           <div className="border w-full border-text-color rounded-lg"></div>
-          <p className="text-xl font-bold text-center text-accent-300">
+          <p className="text-xl max-lg:text-lg max-md:text-sm font-bold text-center text-accent-300">
             {document.short}
           </p>
           <div className="border w-full border-text-color rounded-lg"></div>
@@ -53,7 +53,7 @@ const DocumentPage = () => {
                 .replace(/\n/g, "<br>")
                 .replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;"),
             }}
-            className="text-lg"
+            className="text-lg max-xl:text-base max-md:text-sm"
           ></p>
           <div className="border w-full border-text-color rounded-lg"></div>
           <p
@@ -67,7 +67,7 @@ const DocumentPage = () => {
                     `<a class="text-primary-700 hover:text-primary-500" href="${match}" target="_blank">${match}</a>`
                 ),
             }}
-            className="text-lg w-full"
+            className="text-lg max-xl:text-base max-md:text-sm w-full"
           ></p>
         </div>
       )}
