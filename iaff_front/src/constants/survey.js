@@ -11,9 +11,18 @@ export const SURVEY_DOCUMENTS = "Documents";
 
 export const SURVEY_VARIANTS_OF_DOCUMENTS = [
   { id: 1, value: "None", name: "None" },
-  { id: 2, value: "Polish Card", name: "Polish Card" },
-  { id: 3, value: "Stale Live Polish Card", name: "Stale Live Polish Card" },
-  { id: 4, value: "VISA", name: "VISA" },
+  { id: 2, value: "Pole's Card", name: "Pole's Card" },
+  {
+    id: 3,
+    value: "Permanent Residence Card",
+    name: "Permanent Residence Card",
+  },
+  {
+    id: 4,
+    value: "Temporary Residence Card",
+    name: "Temporary Residence Card",
+  },
+  { id: 5, value: "VISA", name: "VISA" },
 ];
 
 export const SURVEY_EU_CITIZEN = "Are you a citizen of the European Union?";
@@ -41,6 +50,14 @@ export const TARGETS = [
   { id: 3, title: "Live", value: "isTargetLive" },
   { id: 4, title: "Other", value: "isTargetOther" },
   { id: 5, title: "Refugee", value: "isTargetRefugee" },
+];
+
+export const CHANGE_TARGETS = [
+  { id: 1, title: "Study", value: "study" },
+  { id: 2, title: "Job", value: "job" },
+  { id: 3, title: "Live", value: "live" },
+  { id: 4, title: "Other", value: "other" },
+  { id: 5, title: "Refugee", value: "refugee" },
 ];
 
 export const ERROR_SURVEY = "Please fill all required inputs!";

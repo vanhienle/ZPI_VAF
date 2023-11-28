@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { FaSearch } from "react-icons/fa";
 import { getDocumentsByName } from "../../utils/Documents/getDocumentsByNameAPI";
-import accommodation from "../../assets/images/accomodation.jpg";
+import accommodation from "../../assets/images/accommodation.webp";
 import Loading from "../Spinner/Loading";
 
 const SearchDocuments = () => {

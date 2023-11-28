@@ -1,6 +1,6 @@
 import documentsImage from "../assets/images/documents.jpg";
 import mapImage from "../assets/images/map.jpg";
-import accommodationImage from "../assets/images/accomodation.jpg";
+import accommodationImage from "../assets/images/accommodation.webp";
 
 export const APP_TITLE = "Intelligent Assistant For Foreigners";
 
@@ -38,7 +38,7 @@ export const MODULES = [
     id: 1,
     title: "Documents",
     description:
-      "You need information? In this module we have all the information that could help you. If you haven't found something you are interested in, ask our Intelligent Assistant.",
+      "Are you in search of valuable information? Our expansive module is a treasure trove of knowledge covering a wide array of topics. If you haven't discovered precisely what you're seeking, don't hesitate to reach out to our Intelligent Assistant for help.",
     image: documentsImage,
     color: "accent-900",
     link: "/documents",
@@ -56,7 +56,7 @@ export const MODULES = [
     id: 3,
     title: "Accommodation",
     description:
-      "Everybody needs a place to live. We partnered up with Booking.com, so use this module to find temporary or permanent accommodation.",
+      "Everyone requires a place to call home. Through our collaboration with Booking.com, you can utilize this module to discover both temporary respites and permanent abodes tailored to your needs and preferences. Your perfect living space awaits!",
     image: accommodationImage,
     color: "secondary-300",
     link: "/accommodation",

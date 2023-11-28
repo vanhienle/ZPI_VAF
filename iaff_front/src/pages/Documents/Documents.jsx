@@ -40,12 +40,21 @@ const Documents = ({ isLogin }) => {
           aliquip ex ea commodo consequat.
         </p>
       </div>
+
       {/** Search of all documents section */}
       <div className="w-1/2 max-xl:w-3/4 max-md:w-full px-6">
         <SearchDocuments />
       </div>
+
+      {/* Delimiter */}
+      <div className="border-solid border-text-color bg-text-color border rounded-md w-1/2 max-xl:w-3/4 my-6 max-sm:my-4" />
+
       {/** Recommended sections */}
       <DocumentsRecommendation isLogin={isLogin} />
+
+      {/* Delimiter */}
+      <div className="border-solid border-text-color bg-text-color border rounded-md w-1/2 max-xl:w-3/4 my-6 max-sm:my-4" />
+
       {/** All Documents */}
       <div className="w-3/4 max-2xl:w-full max-xl:w-3/4 max-lg:w-full max-md:w-3/4 max-sm:w-full flex flex-col items-center">
         <div className="w-full flex justify-evenly flex-wrap">

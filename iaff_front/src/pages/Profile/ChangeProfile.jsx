@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { changeProfile } from "../../utils/User/changeProfileAPI";
 import { getUserData } from "../../utils/User/getUserDataAPI";
+import { isFilledSurvey } from "../../utils/Survey/isFilledSurveyAPI";
 import Loading from "../../components/Spinner/Loading";
 
 import {
@@ -19,6 +20,15 @@ const ChangeProfile = () => {
     password: "",
     change_failed: false,
   });
+
+  const redirectToSurvey = async () => {
+    const result = await isFilledSurvey();
+    if (result) {
+      navigate("/change-survey");
+    } else {
+      window.location.href("/survey");
+    }
+  };
 
   const validateName = (value) => {
     const pattern = /^[A-Za-z-]+$/;
@@ -53,11 +63,11 @@ const ChangeProfile = () => {
   useEffect(() => {
     setTimeout(() => {
       getUserData().then((result) => {
-        setFormData({
+        setFormData((formData) => ({
           ...formData,
           name: result.name,
           email_address: result.email,
-        });
+        }));
         setIsLoading(false);
       });
     }, 500);
@@ -113,12 +123,12 @@ const ChangeProfile = () => {
             <p className="text-2xl text-primary-500 m-4 max-lg:text-lg">
               Account Settings
             </p>
-            <Link
+            <button
               className="py-2 px-6 text-lg max-lg:text-base max-sm:text-xs font-bold bg-primary-900 hover:bg-primary-500 text-background-color rounded-md focus:outline-none focus:shadow-outline ease-in-out duration-200"
-              to="/change-survey"
+              onClick={redirectToSurvey}
             >
               Survey &#8594;
-            </Link>
+            </button>
           </div>
           {isLoading ? (
             <div className="flex flex-col justify-center items-center h-80 m-3">

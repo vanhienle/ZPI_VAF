@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { changePassword } from "../../utils/User/changePasswordAPI";
 import { getUserData } from "../../utils/User/getUserDataAPI";
+import { isFilledSurvey } from "../../utils/Survey/isFilledSurveyAPI";
 import Loading from "../../components/Spinner/Loading";
 import {
   ERROR_PASSWORD_VALIDATION,
@@ -11,12 +12,11 @@ import {
 const ChangePassword = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [email, setEmail] = useState("");
+
   const [formData, setFormData] = useState({
     current_password: "",
     new_password: "",
     repeat_new_password: "",
-    password_incorrect: false,
-    password_mismatch: false,
   });
 
   const [errors, setErrors] = useState({});
@@ -67,21 +67,37 @@ const ChangePassword = () => {
     setFormData({
       ...formData,
       [name]: value,
-      password_mismatch: false,
-      password_incorrect: false,
     });
+  };
+
+  const redirectToSurvey = async () => {
+    const result = await isFilledSurvey();
+    if (result) {
+      navigate("/change-survey");
+    } else {
+      window.location.href("/survey");
+    }
+  };
+
+  const validateForm = () => {
+    if (
+      errors.repeat_new_password === "" &&
+      errors.new_password === "" &&
+      formData.current_password !== "" &&
+      formData.new_password !== "" &&
+      formData.repeat_new_password !== ""
+    ) {
+      return true;
+    }
+    return false;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const { current_password, new_password } = formData;
-    if (
-      !formData.password_incorrect &&
-      formData.current_password !== "" &&
-      formData.new_password !== "" &&
-      formData.repeat_new_password !== "" &&
-      formData.new_password === formData.repeat_new_password
-    ) {
+
+    if (validateForm()) {
       try {
         const result = await changePassword(
           email,
@@ -93,17 +109,24 @@ const ChangePassword = () => {
           alert("Password changed successfully");
           navigate(0);
         } else {
-          console.log("Password change failed");
+          alert("Password changed failed! Try Again!");
+          navigate(0);
         }
       } catch (error) {
         console.error("Error: ", error);
       }
     } else {
-      if (formData.new_password !== formData.repeat_new_password) {
-        setFormData({ ...formData, password_mismatch: true });
-      } else {
-        setFormData({ ...formData, password_incorrect: true });
-      }
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        form: "Please fill all data correctly!",
+      }));
+
+      setTimeout(() => {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          form: "",
+        }));
+      }, 5000);
     }
   };
 
@@ -115,12 +138,12 @@ const ChangePassword = () => {
             <p className="text-2xl text-primary-500 m-4 max-lg:text-lg">
               Change Password
             </p>
-            <Link
+            <button
               className="py-2 px-6 text-lg max-lg:text-base max-sm:text-xs font-bold bg-primary-900 hover:bg-primary-500 text-background-color rounded-md focus:outline-none focus:shadow-outline ease-in-out duration-200"
-              to="/change-survey"
+              onClick={redirectToSurvey}
             >
               Survey &#8594;
-            </Link>
+            </button>
           </div>
           {isLoading ? (
             <div className="flex flex-col justify-center items-center h-80 m-3">
@@ -129,16 +152,15 @@ const ChangePassword = () => {
           ) : (
             <form className="w-2/3 max-md:w-3/4" onSubmit={handleSubmit}>
               <div className="flex flex-col space-y-4 mb-3">
+                <p
+                  className={`text-error-900 w-full text-center ${
+                    !errors.form ? "hidden" : ""
+                  }`}
+                >
+                  {errors.form}
+                </p>
                 <div className="flex flex-col space-y-2">
-                  <p
-                    className={`${
-                      formData.password_incorrect
-                        ? "text-error-900"
-                        : "text-primary-900"
-                    } font-bold`}
-                  >
-                    Current Password
-                  </p>
+                  <p className="text-primary-900 font-bold">Current Password</p>
                   <input
                     type="password"
                     name="current_password"
@@ -146,18 +168,11 @@ const ChangePassword = () => {
                     onChange={handleChange}
                     className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border-2 rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
                   />
-                  <p
-                    className={`text-error-900 w-full text-center ${
-                      !formData.password_incorrect ? "hidden" : ""
-                    }`}
-                  >
-                    Current Password is incorrect!
-                  </p>
                 </div>
                 <div className="flex flex-col space-y-2">
                   <p
                     className={`${
-                      formData.password_mismatch
+                      errors.new_password
                         ? "text-error-900"
                         : "text-primary-900"
                     } font-bold`}
@@ -175,9 +190,8 @@ const ChangePassword = () => {
                       }
                     }}
                     onBlur={(e) => {
-                      let inputValue = e.target.value;
                       if (!errors.new_password) {
-                        validatePassword(inputValue);
+                        validatePassword(e.target.value);
                       }
                     }}
                     className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border-2 rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
@@ -185,15 +199,15 @@ const ChangePassword = () => {
                 </div>
                 <p
                   className={`text-error-900 w-full text-center ${
-                    !formData.password_mismatch ? "hidden" : ""
+                    !errors.new_password ? "hidden" : ""
                   }`}
                 >
-                  New Password and Repeat New Password must match!
+                  {errors.new_password}
                 </p>
                 <div className="flex flex-col space-y-2">
                   <p
                     className={`${
-                      formData.password_mismatch
+                      errors.repeat_new_password
                         ? "text-error-900"
                         : "text-primary-900"
                     } font-bold`}
@@ -211,14 +225,20 @@ const ChangePassword = () => {
                       }
                     }}
                     onBlur={(e) => {
-                      let inputValue = e.target.value;
                       if (!errors.repeat_new_password) {
-                        validatePasswordMatch(inputValue);
+                        validatePasswordMatch(e.target.value);
                       }
                     }}
                     className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border-2 rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
                   />
                 </div>
+                <p
+                  className={`text-error-900 w-full text-center ${
+                    !errors.repeat_new_password ? "hidden" : ""
+                  }`}
+                >
+                  {errors.repeat_new_password}
+                </p>
               </div>
               <button
                 className="bg-primary-900 w-full hover:bg-primary-500 text-background-color font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline mt-3 mb-3 ease-in-out duration-200"
