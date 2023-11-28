@@ -5,7 +5,3 @@ export const NAV_LINKS = [
   { href: "/map", label: "MAP" },
   { href: "/accommodation", label: "ACCOMMODATION" },
 ];
-
-export const SETTINGS_CONSTANT = "SETTINGS";
-
-export const LOGOUT_CONSTANT = "LOGOUT";

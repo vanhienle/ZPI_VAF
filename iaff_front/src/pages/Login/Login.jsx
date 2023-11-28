@@ -1,17 +1,15 @@
 import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
-import { copyright } from "../../constants/main";
-import { COPYRIGHT } from "../../constants/main";
-import logo from "../../assets/images/logo.png";
+
 import { login } from "../../utils/User/loginAPI";
 
+import { ERROR_SIGN_IN } from "../../constants/validationErrorsConstants";
 import {
-  ERROR_SIGN_IN,
-  HAVE_ACCOUNT_MESSAGE,
-  CONFIRM,
-} from "../../constants/signIn";
+  SIGN_IN_CONSTANT,
+  SIGN_UP_CONSTANT,
+  COPYRIGHT,
+} from "../../constants/mainConstants";
 
-import { SIGN_IN_CONSTANT, SIGN_UP_CONSTANT } from "../../constants/main";
+import logo from "../../assets/images/logo.png";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -34,11 +32,10 @@ const Login = () => {
         if (result) {
           window.location.href = "/";
         } else {
-          console.log("Login failed!");
           setFormData({ ...formData, login_failed: true });
         }
       } catch (error) {
-        console.error("Error: ", error.message);
+        console.error("Error with login: ", error.message);
       }
     } else {
       setFormData({ ...formData, login_failed: true });
@@ -47,6 +44,7 @@ const Login = () => {
   return (
     <div className="max-w-md mx-auto my-14">
       <div className="flex items-center flex-col bg-white drop-shadow-md rounded-xl border-primary-900 border-2 px-10 pt-0 pb-0 m-4">
+        {/* Intro Information */}
         <img
           className="relative z-0 h-16 -top-8 rounded-xl drop-shadow-lg "
           alt="logoImage"
@@ -57,10 +55,13 @@ const Login = () => {
             {SIGN_IN_CONSTANT}
           </h1>
         </div>
+
+        {/* Form for login */}
         <form
           className="flex flex-col gap-2 w-full mt-4"
           onSubmit={handleSubmit}
         >
+          {/* Main Errors */}
           <p
             className={`text-error-900 mb-5 ${
               !formData.login_failed ? "hidden" : "text-center"
@@ -68,6 +69,8 @@ const Login = () => {
           >
             {ERROR_SIGN_IN}
           </p>
+
+          {/* Email Input */}
           <div className="mb-4">
             <input
               type="text"
@@ -80,6 +83,8 @@ const Login = () => {
               className="border-2 border-accent-900 text-text-color rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900"
             />
           </div>
+
+          {/* Password Input */}
           <div className="mb-4">
             <input
               type="password"
@@ -92,10 +97,12 @@ const Login = () => {
               className="border-2 border-accent-900 text-text-color rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900"
             />
           </div>
+
+          {/* Link to Sign Up */}
           <div>
             <div>
               <p className="text-center text-sm">
-                {HAVE_ACCOUNT_MESSAGE}
+                Don't have an account?
                 <a
                   href="/signup"
                   className="text-primary-500 hover:text-primary-900 ease-in-out duration-150 ml-2"
@@ -104,12 +111,14 @@ const Login = () => {
                 </a>
               </p>
             </div>
+
+            {/* Confirm Button */}
             <div className="flex items-center justify-between mt-4">
               <button
                 className="bg-primary-900 w-full hover:bg-primary-700 text-background-color py-2 px-4 text-lg max-2xl:text-base rounded-lg ease-in-out duration-150 focus:drop-shadow-sm-primary-900 focus:outline-none focus:shadow-outline"
                 type="submit"
               >
-                {CONFIRM}
+                Confirm
               </button>
             </div>
           </div>

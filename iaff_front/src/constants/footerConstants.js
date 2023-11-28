@@ -4,8 +4,6 @@ import tech_python from "../assets/images/tech_python.png";
 import tech_react from "../assets/images/tech_react.png";
 import tech_tailwind from "../assets/images/tech_tailwind.png";
 
-export const TECHNOLOGY_STACK_TITLE = "Technology Stack";
-
 export const TECHNOLOGY_STACK = [
   { id: 1, src: tech_docker },
   { id: 2, src: tech_postgre },
@@ -14,72 +12,84 @@ export const TECHNOLOGY_STACK = [
   { id: 5, src: tech_tailwind },
 ];
 
-export const ABOUT_PROJECT_TITLE = "About Project";
-
 export const ABOUT_PROJECT =
-  "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit.";
-
-export const USEFUL_LINKS_TITLE = "Useful Links";
+  "Welcome to IAFF - your guide for residency and citizenship. Developed for a diploma at Wrocław University of Science and Technology.";
 
 export const USEFUL_LINKS = [
   {
     id: 1,
-    link: "https://pl.wikipedia.org/wiki/Wikipedia:Strona_g%C5%82%C3%B3wna",
-    name: "first",
+    link: "https://www.gov.pl/",
+    name: "GOV",
   },
   {
     id: 2,
-    link: "https://pl.wikipedia.org/wiki/Wikipedia:Strona_g%C5%82%C3%B3wna",
-    name: "second",
+    link: "https://nawa.gov.pl/",
+    name: "NAWA",
   },
   {
     id: 3,
-    link: "https://pl.wikipedia.org/wiki/Wikipedia:Strona_g%C5%82%C3%B3wna",
-    name: "third",
+    link: "https://visaguide.world/europe/poland-visa/",
+    name: "Visa Guide",
   },
   {
     id: 4,
-    link: "https://pl.wikipedia.org/wiki/Wikipedia:Strona_g%C5%82%C3%B3wna",
-    name: "fourth",
+    link: "https://magfin.pl/en/",
+    name: "MAGFIN",
   },
   {
     id: 5,
-    link: "https://pl.wikipedia.org/wiki/Wikipedia:Strona_g%C5%82%C3%B3wna",
-    name: "fifth",
+    link: "https://www.airbnb.pl/",
+    name: "Airbnb",
   },
 ];
 
-export const MAIN_CONTACTS_TITLE = "Main Contacts";
-
-export const MAIN_CONTACTS = [
+export const USEFUL_CONTACTS = [
   {
     id: 1,
-    name: "first",
-    phone: "991",
+    name: "Emergency Number",
+    phone: "112",
   },
   {
     id: 2,
-    name: "second",
-    phone: "991",
+    name: "Emergency Notification Center",
+    phone: "997 / 998",
   },
   {
     id: 3,
-    name: "third",
-    phone: "991",
+    name: "Ambulance",
+    phone: "999",
   },
   {
     id: 4,
-    name: "fourth",
+    name: "Power Outages",
     phone: "991",
   },
   {
     id: 5,
-    name: "fifth",
-    phone: "991",
+    name: "Municipal Guards",
+    phone: "986",
+  },
+  {
+    id: 6,
+    name: "Roadside Assistance",
+    phone: "981",
+  },
+  {
+    id: 7,
+    name: "Emergency in Mountains and Water Rescue",
+    phone: "985",
+  },
+  {
+    id: 8,
+    name: "Gas Emergency",
+    phone: "992",
+  },
+  {
+    id: 9,
+    name: "Police Number",
+    phone: "995",
   },
 ];
-
-export const CONTACT_TITLE = "Contact";
 
 export const CONTACT = [
   { id: 1, value: "Politechnika Wrocławska, Wrocław, Poland", icon: "fa-home" },
