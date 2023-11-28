@@ -55,6 +55,7 @@ const ND_MARKER_ICONS_BY_TYPE = {
   'shopping_mall': 'local_mall',
   'primary_school': 'school',
   'secondary_school': 'school',
+  'university': 'school',
   'bank': 'money',
   'atm': 'atm',
   'tourist_attraction': 'local_see',
@@ -91,8 +92,7 @@ function NeighborhoodDiscovery(configuration) {
   /** Initializes the interactive map and adds place markers. */
   function initializeMap() {
     const mapOptions = configuration.mapOptions;
-    widget.mapBounds = new google.maps.Circle(
-      {center: widget.center, radius: configuration.mapRadius}).getBounds();
+    widget.mapBounds = new google.maps.Circle({center: widget.center, radius: configuration.mapRadius}).getBounds();
     mapOptions.restriction = {latLngBounds: widget.mapBounds};
     mapOptions.mapTypeControlOptions = {position: google.maps.ControlPosition.TOP_RIGHT};
     widget.map = new google.maps.Map(widgetEl.querySelector('.map'), mapOptions);
@@ -384,8 +384,8 @@ function NeighborhoodDiscovery(configuration) {
         const { lat, lng } = data.results[0].geometry.location;
 
         // Update the map center with the obtained latitude and longitude
-        CONFIGURATION.mapOptions.center.lat = lat;
-        CONFIGURATION.mapOptions.center.lng = lng;
+        configuration.mapOptions.center.lat = lat;
+        configuration.mapOptions.center.lng = lng;
         initializeMap();
       } else {
         // Handle cases where the city input is not valid or no results are found
@@ -396,4 +396,45 @@ function NeighborhoodDiscovery(configuration) {
       console.error('Error fetching data:', error);
     });
   }
+
+  document.getElementById('updateMapBtn').addEventListener('click', updateMapCenter);
+/*
+  function updatePOI() {
+    const checkboxes = document.querySelectorAll('.poi-checkbox input[type="checkbox"]');
+    const selectedPOITypes = [];
+  
+    checkboxes.forEach((checkbox) => {
+      if (checkbox.checked) {
+        const poiType = checkbox.value;
+        selectedPOITypes.push(poiType);
+      }
+    });
+  
+    searchPOIs(selectedPOITypes);
+  }
+  
+  function searchPOIs(selectedPOITypes) {
+    const placesToSearch = []; // Array to hold the found places
+  
+    const fetchAndProcessPlace = function(poiType) {
+      const requestFields = [
+        'name', 'types', 'geometry.location', 'formatted_address', 'photo', 'url'
+      ];
+      
+      // Fetch places for each selected POI type
+      widget.fetchPlaceDetails(poiType, requestFields, (place) => {
+        // Process fetched place data
+        if (place && place.placeId) {
+          placesToSearch.push(place);
+        }
+      });
+    };
+  
+    // Loop through selected POI types and fetch place details
+    selectedPOITypes.forEach((poiType) => {
+      fetchAndProcessPlace(poiType);
+    });
+
+  document.getElementById('updatePOIBtn').addEventListener('click', updatePOI);
+  */
 }

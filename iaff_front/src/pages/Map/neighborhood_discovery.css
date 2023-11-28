@@ -1,7 +1,17 @@
-html, body {
+.neighborhood-discovery{
   height: 100%;
-  margin: 0;
-  padding: 0;
+  margin: 5;
+  padding: 500px;
+}
+
+.columns {
+  display: flex;
+}
+
+.columns .poi-checkboxes .column {
+  flex: 1;
+  column-count: 7;
+  column-gap: 20px;
 }
 
 .neighborhood-discovery {

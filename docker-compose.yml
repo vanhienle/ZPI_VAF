@@ -4,7 +4,7 @@ services:
   backend:
     build: ./iaff_back
     ports:
-      - "8000:8000"
+      - "5000:5000"
     depends_on:
       - database
 
@@ -16,12 +16,12 @@ services:
   assistant:
     build: ./iaff_assistant
     ports:
-      - "9000:9000"
+      - "8085:8085"
     depends_on:
       - database
 
   database:
-    image:
+    image: 
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "!"
