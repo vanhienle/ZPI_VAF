@@ -5,9 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42017070-eea9-4b63-adc2-ae16001f1bca" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/ZPI_VAF.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ZPI_VAF.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/iaff_assistant/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/iaff_back/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/iaff_back/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/iaff_front/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/iaff_front/src/pages/Map/neighborhood_discovery.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/iaff_front/src/pages/Map/neighborhood_discovery.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/iaff_front/src/pages/Map/neighborhood_discovery.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/batch_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/batch_pipeline.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/realtime_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/realtime_pipeline.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/service.py" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_back/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_back/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_back/module.py" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_back/module.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_front/src/pages/Map/Map.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_front/src/pages/Map/Map.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,9 +60,14 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/iaff_assistant" />
   </component>
-  <component name="RunManager" selected="Python.batch_pipeline">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/iaff_assistant" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.app">
     <configuration name="app" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />

@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./iaff_back
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
+
+  frontend:
+    build: ./iaff_front
+    ports:
+      - "3000:3000"
+
+  assistant:
+    build: ./iaff_assistant
+    ports:
+      - "9000:9000"
+    depends_on:
+      - database
+
+  database:
+    image:
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "!"
+      POSTGRES_DB: "ClientDatabase"
+    ports:
+      - "5432:5432"

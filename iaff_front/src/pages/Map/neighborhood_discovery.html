@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Neighborhood Discovery</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/handlebars/4.7.7/handlebars.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link href="neighborhood_discovery.css" rel="stylesheet">
+    <script src="neighborhood_discovery.js"></script>
+    <script>
+      const CONFIGURATION = {
+        "capabilities": {"search":true,"distances":false,"directions":false,"contacts":false,"atmospheres":false,"thumbnails":false},
+        "pois": [
+          {"placeId": "ChIJTeWAPIzMHkcRXOfYhMkscBI"},
+          {"placeId": "ChIJSS5pkozMHkcRwi0fMeV66cI"},
+          {"placeId": "ChIJ0cxQolvMHkcRYAlBuLnx1gg"},
+          {"placeId": "ChIJkUWehmHMHkcRR-72WJvPCFg"},
+          {"placeId": "ChIJK6UEcvfMHkcR0iGDJoZsIgc"},
+          {"placeId": "ChIJcZnfau_MHkcRXYlfX6-PRTU"},
+          {"placeId": "ChIJ1Q2PpY3MHkcRvTUYTttPWPc"},
+          {"placeId": "ChIJZ3M3po3MHkcRP3mWsGLJPYo"},
+          {"placeId": "ChIJwW4S2uTMHkcRh-xOGEZVdxo"},
+          {"placeId": "ChIJK6UEcvfMHkcRGDePQvvQqow"},
+          {"placeId": "ChIJYVASOCnNHkcR1ZVMyr7T68w"},
+          {"placeId": "ChIJ55j7A2PMHkcRVrjfaQJBbx8"},
+          {"placeId": "ChIJtT6XOGPMHkcRapL1TUAZ7jM"},
+          {"placeId": "ChIJ8cYmWlzMHkcR8Me3vLWkPYA"},
+          {"placeId": "ChIJ6eFsD_TMHkcRxdd5F5AgcDA"},
+          {"placeId": "ChIJg9RcI5fMHkcR_Arnp6f8hMg"},
+          {"placeId": "ChIJsaxq1ozMHkcR3eCCfLpqqNg"},
+          {"placeId": "ChIJE_6X1PTMHkcRih4yLzCLScU"},
+          {"placeId": "ChIJE38_53zMHkcReoAy19TSAik"},
+          {"placeId": "ChIJVVTZTmDMHkcRnl0OAlZ2awk"},
+          {"placeId": "ChIJoToG_fTMHkcRvnEOTBVeaVw"},
+          {"placeId": "ChIJNRrVjpHMHkcRJQi1T1VJNUk"},
+          {"placeId": "ChIJT8zquI3MHkcRT8t5IL-qhGs"},
+          {"placeId": "ChIJ5wBcUV_MHkcRRKzYUEIvqqU"},
+          {"placeId": "ChIJKxmlafTMHkcR_PkBM6iDxQc"},
+          {"placeId": "ChIJ_5GtRYjMHkcRZ2AReH2lFh4"},
+          {"placeId": "ChIJ4zhh8f_LHkcRZR176W3kK3c"},
+          {"placeId": "ChIJg6nGq5HMHkcRWJuyeGge0EQ"},
+          {"placeId": "ChIJnS-z1MPMHkcRRvnHE4M3QJE"},
+          {"placeId": "ChIJUxgwTmPMHkcRzDb-tZbqTow"},
+          {"placeId": "ChIJOwbJb4_MHkcRbsSvjTxSoE8"},
+          {"placeId": "ChIJD9QJdobMHkcR3Zue3XF-eJE"},
+          {"placeId": "ChIJP0Q4h33MHkcRhzsGZq-CWAk"},
+          {"placeId": "ChIJvem2uorMHkcRE6YaCeojDv0"},
+          {"placeId": "ChIJQydDxGPMHkcR78Da8tbzYm4"},
+          {"placeId": "ChIJd6DMsIfMHkcRXC5OjK1d-l8"},
+          {"placeId": "ChIJlcAIuPHMHkcRINwR4lH5EI0"}
+        ],
+        "mapRadius": 6000,
+        "mapOptions": {"center":{"lat":52.2296756,"lng":21.0122287},"fullscreenControl":true,"mapTypeControl":true,"streetViewControl":false,"zoom":16,"zoomControl":true,"maxZoom":20,"mapId":""},
+        "mapsApiKey": "AIzaSyC1ktpwTsLjkF1x3qR94HPcH3JCRFIYQdg"
+      };
+
+      function initMap() {
+        new NeighborhoodDiscovery(CONFIGURATION);
+      }
+    </script>
+    <script id="nd-place-results-tmpl" type="text/x-handlebars-template">
+      {{#each places}}
+        <li class="place-result">
+          <div class="text">
+            <button class="name">{{name}}</button>
+            <div class="info">{{type}}</div>
+          </div>
+        </li>
+      {{/each}}
+    </script>
+    <script id="nd-place-details-tmpl" type="text/x-handlebars-template">
+      <div class="navbar">
+        <button class="back-button">
+          <img class="icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/arrow_back/v11/24px.svg" alt="back"/>
+          Back
+        </button>
+      </div>
+      <header>
+        <h2>{{name}}</h2>
+        <div class="info">
+          <a href="{{url}}" target="_blank">See on Google Maps</a>
+        </div>
+        {{#if type}}
+          <div class="info">{{type}}</div>
+        {{/if}}
+      </header>
+      <div class="section">
+        {{#if address}}
+          <div class="contact">
+            <img src="https://fonts.gstatic.com/s/i/googlematerialicons/place/v10/24px.svg" alt="Address" class="icon"/>
+            <div class="text">
+              {{address}}
+            </div>
+          </div>
+        {{/if}}
+      </div>
+      {{#if photos}}
+        <div class="photos section">
+          {{#each photos}}
+            <button class="photo" style="background-image:url({{urlLarge}})" aria-label="show photo in viewer"></button>
+          {{/each}}
+        </div>
+      {{/if}}
+      {{#if html_attributions}}
+        <div class="section">
+          {{#each html_attributions}}
+            <p class="attribution">{{{this}}}</p>
+          {{/each}}
+        </div>
+      {{/if}}
+    </script>
+  </head>
+  <body>
+    <div class="neighborhood-discovery">
+      <input type="text" id="cityInput" placeholder="Enter a city">
+      <button onclick="updateMapCenter()">Search</button>
+      <div class="poi-checkboxes">
+        <label class="poi-checkbox">
+          <input type="checkbox" value="Restaurants & cafes"> Restaurants & cafes
+        </label>
+        <label class="poi-checkbox">
+          <input type="checkbox" value="Arts & entertainments"> Arts & entertainments
+        </label>
+        <label class="poi-checkbox">
+          <input type="checkbox" value="Schools"> Schools
+        </label>
+        <label class="poi-checkbox">
+          <input type="checkbox" value="Groceries"> Groceries
+        </label>
+        <label class="poi-checkbox">
+          <input type="checkbox" value="Shopping"> Shopping
+        </label>
+        <label class="poi-checkbox">
+          <input type="checkbox" value="Parks & gyms"> Parks & gyms
+        </label>
+        <label class="poi-checkbox">
+          <input type="checkbox" value="Nightlife"> Nightlife
+        </label>
+        <label class="poi-checkbox">
+          <input type="checkbox" value="ATMs & banks"> ATMs and banks
+        </label>
+        <label class="poi-checkbox">
+          <input type="checkbox" value="Tourist attractions"> Tourist attractions
+        </label>
+        <label class="poi-checkbox">
+          <input type="checkbox" value="Laundromat"> Laundromat
+        </label>
+        <label class="poi-checkbox">
+          <input type="checkbox" value="Post office"> Post office
+        </label>
+        <label class="poi-checkbox">
+          <input type="checkbox" value="Library"> Library
+        </label>
+        <label class="poi-checkbox">
+          <input type="checkbox" value="Hospitals & pharmacies"> Hospitals & pharmacies
+        </label>
+        <label class="poi-checkbox">
+          <input type="checkbox" value="Police & fire stations"> Police & fire stations
+        </label>
+      </div>
+      <div class="places-panel panel no-scroll">
+        <div class="results">
+          <ul class="place-results-list"></ul>
+        </div>
+        <button class="show-more-button sticky">
+          <span>Show More</span>
+          <img class="right" src="https://fonts.gstatic.com/s/i/googlematerialicons/expand_more/v11/24px.svg" alt="expand"/>
+        </button>
+      </div>
+      <div class="details-panel panel"></div>
+      <div class="map"></div>
+      <div class="photo-modal">
+        <img alt="place photo" src=""/>
+        <div>
+          <button class="back-button">
+            <img class="icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/arrow_back/v11/24px.svg" alt="back"/>
+          </button>
+          <div class="photo-text">
+            <div class="photo-place"></div>
+            <div class="photo-attrs">Photo by <span></span></div>
+          </div>
+        </div>
+      </div>
+      <svg class="marker-pin" xmlns="http://www.w3.org/2000/svg" width="26" height="38" fill="none">
+        <path d="M13 0C5.817 0 0 5.93 0 13.267c0 7.862 5.59 10.81 9.555 17.624C12.09 35.248 11.342 38 13 38c1.723 0 .975-2.817 3.445-7.043C20.085 24.503 26 21.162 26 13.267 26 5.93 20.183 0 13 0Z"/>
+      </svg>
+    </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1ktpwTsLjkF1x3qR94HPcH3JCRFIYQdg&callback=initMap&libraries=places,geometry&solution_channel=GMP_QB_neighborhooddiscovery_v2_c" async defer></script>
+  </body>
+</html>

@@ -7,16 +7,15 @@ from RestDocuments import docs as docs_blueprint
 from RestAssistant import assist as assist_blueprint
 from userAccess import Access, User
 
+
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'Accordingtoallknownlawsofaviationthereisnowayabeeshouldbeabletofly'
     # cors = CORS(app, resources={r"/api/*": {"origins": "http://156.17.147.54:3000", "supports_credentials": True}})
-    #app.config.update(SESSION_COOKIE_SAMESITE="None", SESSION_COOKIE_SECURE=True)
+    # app.config.update(SESSION_COOKIE_SAMESITE="None", SESSION_COOKIE_SECURE=True)
     cross_origin(automatic_options=True)
 
     cors = CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
-
-
 
     app.config['CORS_HEADERS'] = 'Content-Type'
     # app.config.update(
@@ -53,7 +52,8 @@ def create_app():
 
     return app
 
-app= create_app()
+
+app = create_app()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
