@@ -117,7 +117,7 @@ const Navbar = ({ isLogin }) => {
                 onClick={() => setIsOpen(!isOpen)}
               />
               {isOpen && (
-                <div className="absolute z-10 right-0 top-16 bg-background-color border-accent-900 border-t-2 border-e-2 rounded-md shadow-xl">
+                <div className="z-10 absolute right-0 top-16 bg-background-color border-accent-900 border-t-2 border-e-2 rounded-md shadow-xl">
                   <ul className="py-6 px-6 space-y-4 flex flex-col items-center">
                     <Link
                       to="/change-profile"

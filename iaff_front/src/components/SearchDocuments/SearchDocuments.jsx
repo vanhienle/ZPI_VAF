@@ -80,13 +80,13 @@ const SearchDocuments = () => {
                 <a
                   key={item.id}
                   href={`documents/${item.id}`}
-                  className="flex justify-between items-center p-3 rounded-md hover:bg-accent-900 hover:scale-95 hover:bg-opacity-60 w-full cursor-pointer ease-in-out duration-300"
+                  className="flex justify-between items-center p-3 rounded-md hover:bg-accent-700 hover:scale-95 hover:bg-opacity-60 w-full cursor-pointer ease-in-out duration-300"
                 >
                   <div className="w-1/4 max-2xl:w-1/2 max-xl:w-1/4 max-lg:w-1/2 flex">
                     <img
                       src={accommodation}
                       alt="document"
-                      className="w-40 h-40 rounded-md"
+                      className="w-40 h-40 rounded-md object-cover"
                     />
                   </div>
                   <div className="w-3/4 max-2xl:w-1/2 max-xl:w-3/4 max-lg:w-1/2 flex max-2xl:flex-col max-xl:flex-row max-lg:flex-col justify-around max-2xl:items-center max-2xl:justify-center max-xl:items-start max-xl:justify-around max-lg:items-center max-lg:justify-center">

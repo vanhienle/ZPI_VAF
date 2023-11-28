@@ -291,7 +291,7 @@ const Assistant = () => {
                         (question, index) =>
                           index < questionNum && (
                             <button
-                              className="ease-in-out duration-150 text-base border-solid border-2 border-accent-900 bg-accent-500 rounded-md hover:bg-accent-900 text-center m-2 h-16 max-sm:h-14 animate-fade-in"
+                              className="ease-in-out duration-150 text-base border-solid border-2 border-accent-900 bg-accent-500 rounded-md hover:bg-accent-900 text-center m-2 h-16 max-sm:h-14"
                               onClick={() => {
                                 handleQuerySubmit(question);
                               }}
