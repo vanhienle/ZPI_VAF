@@ -14,21 +14,19 @@ documents = Documents()
 @cross_origin(supports_credentials=True)
 def get_document():
     try:
-        print('invoking get_document method')
         request_data = request.get_json()
-        print('extracting id from json')
         docID = request_data['documentId']
-        print('extracted id=',docID, ', sending sql query to database')
+        print('(get_document) extracted id=',docID, ', sending sql query to database')
         result = documents.getDocument(docID)
         print('founded: ', result)
-        return (jsonify({"category": result[0],"title": result[1],"info": result[2],"links": result[-2],"image": result[-4]}), 200) if result else (jsonify("false"), 401)
+        return (jsonify({"category": result[0],"title": result[1],"info": result[2],"links": result[-3],"short": result[-4], "image": result[-1]}), 200) if result else (jsonify("false"), 401)
 
     except psycopg2.Error as e:
         error_message = str(e)
         print("SQL error:", error_message)
         documents.DBConnection.commit()
         return jsonify('false'), 500
-    except RuntimeError as e:
+    except Exception as e:
         error_message = str(e)
         print("Unknown error:", error_message)
         return jsonify('false'), 500
@@ -52,7 +50,7 @@ def get_categories():
         print("SQL error:", error_message)
         documents.DBConnection.commit()
         return jsonify('false'), 500
-    except RuntimeError as e:
+    except Exception as e:
         error_message = str(e)
         print("Unknown error:", error_message)
         return jsonify('false'), 500
@@ -73,8 +71,8 @@ def get_by_category():
 
         acc = []
         for result in results:
-            print('Article tuples: ', len(result), ',    article: ', result)
-            acc.append({"id": result[-1], "category": result[0],  "title": result[1], "short": result[-3]})
+            acc.append({"id": result[-2], "category": result[0],  "title": result[1], "short": result[-4], "image": result[-1]})
+
         return jsonify({"results": acc}), 200
 
     except psycopg2.Error as e:
@@ -82,7 +80,7 @@ def get_by_category():
         print("SQL error:", error_message)
         documents.DBConnection.commit()
         return jsonify('false'), 500
-    except RuntimeError as e:
+    except Exception as e:
         error_message = str(e)
         print("Unknown error:", error_message)
         return jsonify('false'), 500
@@ -101,11 +99,11 @@ def get_by_name():
         results = documents.getAllByName(name)
         print('Found ',len(results),' results')
         if len(results) == 0:
-            return jsonify([]), 200
+            return jsonify({"results": []}), 200
 
         acc = []
         for result in results:
-            acc.append({"id": result[0], "category": result[1], "title": result[2], "info": result[3]})
+            acc.append({"id": result[-2], "category": result[0], "title": result[1], "short": result[-4], "image": result[-1]})
         return jsonify({"results": acc}), 200
 
     except psycopg2.Error as e:
@@ -113,7 +111,7 @@ def get_by_name():
         print("SQL error:", error_message)
         documents.DBConnection.commit()
         return jsonify('false'), 500
-    except RuntimeError as e:
+    except Exception as e:
         error_message = str(e)
         print("Unknown error:", error_message)
         return jsonify('false'), 500
@@ -122,9 +120,8 @@ def get_by_name():
 @docs.route('/documents/get_recommendations', methods=['POST'])
 @cross_origin(supports_credentials=True)
 def get_recommendations():
-    print('attempt at getting recommended info')
     token = request.headers.get('token')
-    print('received token: ', token)
+    print('(get_recommendations) received token: ', token)
     try:
         id = check_token(token)
         if not id:
@@ -138,29 +135,17 @@ def get_recommendations():
         print('survey found.')
         age = surv[1]
         kids = int(surv[2])
-        #print('kids: ', kids)
         baby = int(surv[3])
-        #print('baby: ', baby)
         teen = int(surv[4])
-        #print('teen: ', teen)
         adult = int(surv[5])
-        #print('adult: ', adult)
         accom = int(surv[6])
-        #print('accom: ', accom)
         insure = int(surv[7])
-        #print('insure: ', insure)
         study = int(surv[8])
-        #print('study: ', study)
         job = int(surv[9])
-        #print('job: ', job)
         live = int(surv[10])
-        #print('live: ', live)
         refugee = int(surv[11])
-        #print('refugee: ', refugee)
         other = int(surv[12])
-        #print('other: ', other)
         documentType = surv[13]
-        print('Filtering data to get most scoring info for user according to their survey')
         results = documents.getRecommendations(id, age, kids, baby, teen, adult, accom, insure, study, job, live, refugee, other,
                                      documentType)
         if len(results) == 0:
@@ -168,7 +153,7 @@ def get_recommendations():
 
         acc = []
         for result in results:
-            acc.append({"title": result[0], "info": result[1], "id": result[3], "category": result[4]})
+            acc.append({"title": result[0], "short": result[1], "id": result[3], "category": result[4], "image": result[-1]})
         return jsonify({"results": acc}), 200
 
     except jwt.ExpiredSignatureError:
@@ -180,7 +165,7 @@ def get_recommendations():
         print("SQL error:", error_message)
         documents.DBConnection.commit()
         return jsonify('false'), 500
-    except RuntimeError as e:
+    except Exception as e:
         error_message = str(e)
         print("Unknown error:", error_message)
         return jsonify('false'), 500

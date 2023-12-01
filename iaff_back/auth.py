@@ -1,24 +1,17 @@
-import datetime
-
-from flask import  request, jsonify, Blueprint, current_app, session, make_response #make_response # Blueprint, render_template, redirect, url_for,
-#from flask_restful import reqparse
-from flask_login import login_user, login_required, logout_user, current_user, login_remembered
+from flask import  request, jsonify, Blueprint, current_app
 from flask_cors import cross_origin
 from werkzeug.security import generate_password_hash, check_password_hash
 from userAccess import Access
 import psycopg2
 import jwt
+import datetime
 
 auth = Blueprint('auth', __name__)
-
-#userPostArgs = reqparse.RequestParser()
-#userPostArgs.add_argument("name",type=str,help="User name",required=True)
-#userPostArgs.add_argument("password",type=str,help="User password",required=True)
-
 access = Access()
 
 def create_token(user_id):
-    payload = {'UserID': user_id}
+    payload = {'UserID': user_id,
+               "exp": datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(hours=12)}
     token = jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm='HS256')
     print('Creating token: ', token)
     return token
@@ -33,7 +26,7 @@ def verify(email, password):
     hashed_password = result[1]
 
     if not check_password_hash(hashed_password, password):
-        print('User password:', password, ' does not encrypt into hashed password: ', hashed_password)
+        print('User password: does not encrypt into hashed password: ', hashed_password)
         return None
 
     print('Verified user: ', email)
@@ -49,7 +42,7 @@ def verifyId(id, password):
     hashed_password = result[2]
 
     if not check_password_hash(hashed_password, password):
-        print('User password:', password, ' does not encrypt into hashed password: ', hashed_password)
+        print('User password: does not encrypt into hashed password: ', hashed_password)
         return None
 
     print('Verified user id: ', id)
@@ -59,13 +52,12 @@ def verifyId(id, password):
 @auth.route('/users/login', methods=['POST'])
 @cross_origin(supports_credentials=True)
 def login_post():
-    print('somebody tried to log in')
     request_data = request.get_json()
 
     email = request_data['email']
     password = request_data['password']
 
-    print('verifying user: ', request_data)
+    print('(Login) verifying user: ', request_data)
 
     result = verify(email, password)
     if not result:
@@ -74,7 +66,6 @@ def login_post():
     print('user verified with id: ', result[0], ', creating token...')
     token = create_token(result[0])
 
-    print('saving token in the database')
     access.DBCursor.execute("UPDATE users SET Token = %s WHERE UserID = %s", (token, result[0]))
     access.DBConnection.commit()
     return jsonify({'token': token}), 200
@@ -83,23 +74,20 @@ def login_post():
 @auth.route('/users/signup',methods=['POST'])
 @cross_origin(supports_credentials=True)
 def signup_post():
-    print('somebody tried to sign up')
-    # args = userPostArgs.parse_args()
     request_data = request.get_json()
     email = request_data['email']
     password = request_data['password']
     name = request_data['name']
 
-    print('verifying user: ', request_data)
+    print('(Sign up) verifying user: ', request_data)
     password = generate_password_hash(password, method='sha256')
     result = access.signup(email=email, password=password, name=name)
     if not result:
         return jsonify({'Error': 'Failed to sign up'}), 500
 
-    print('user verified with id: ', result[0], ', creating token...')
+    print('user verified with id: ', result[0])
     token = create_token(result[0])
 
-    print('saving token in the database')
     access.DBCursor.execute("UPDATE users SET Token = %s WHERE UserID = %s", (token, result[0]))
     access.DBConnection.commit()
     return jsonify({'token': token}), 200
@@ -119,9 +107,8 @@ def check_token(token):
 @auth.route('/users/is_logged', methods=['POST'])
 @cross_origin(supports_credentials=True)
 def is_logged():
-    print('checking authorization of a token')
     token = request.headers.get('token')
-    print('received token: ', token)
+    print('(is logged) received token: ', token)
     if token is None:
         return jsonify('false'), 401
     try:
@@ -140,10 +127,9 @@ def is_logged():
 @auth.route('/users/logout', methods=['POST'])
 @cross_origin(supports_credentials=True)
 def logout():
-    print('somebody tried to log out')
     token = request.headers.get('token')
 
-    print('got token: ', token)
+    print('(log out) got token: ', token)
 
     try:
         id = check_token(token)
@@ -161,12 +147,12 @@ def logout():
         print('Unknown error')
         return jsonify('false'), 500
 
+
 @auth.route('/users/get_user_data', methods=['POST'])
 @cross_origin(supports_credentials=True)
 def get_user_data():
-    print('getting data of user with token')
     token = request.headers.get('token')
-    print('received token: ', token)
+    print('(get_user_data) received token: ', token)
     try:
         id = check_token(token)
         if not id:
@@ -184,11 +170,6 @@ def get_user_data():
         access.DBConnection.commit()
         return jsonify({"Error": error_message}), 500
 
-
-@auth.route('/ab',methods=['GET'])
-def ab():
-    test = {"key": "data"}
-    return jsonify(test), 200
 
 @auth.route('/users/change_password',methods=['PUT'])
 @cross_origin()

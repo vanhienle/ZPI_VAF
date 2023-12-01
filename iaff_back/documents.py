@@ -14,46 +14,47 @@ class Documents:
 
 
     def getDocument(self, id):
-        print('inside get document')
         self.DBCursor.execute(
             """SELECT * 
             FROM documents 
             WHERE Id = %(Id)s""",
             {'Id': id})
         result = self.DBCursor.fetchone()
-        print('After query=', result)
         return result
 
 
     def getCategories(self):
-        print('inside get all by category')
-        self.DBCursor.execute("""SELECT DISTINCT Category  FROM documents""")
-        return self.DBCursor.fetchall()
+        conn, curs = self.createDBCursor()
+        curs.execute("""SELECT DISTINCT Category  FROM documents""")
+        result = curs.fetchall()
+        curs.close()
+        conn.close()
+        return result
 
 
     def getAllByCategory(self, category):
-        print('inside get all by category')
-        self.DBCursor.execute(
+        conn, curs = self.createDBCursor()
+        curs.execute(
             """SELECT * 
             FROM documents 
             WHERE Category = %(Category)s""",
             {'Category': category})
-        return self.DBCursor.fetchall()
+        result = curs.fetchall()
+        curs.close()
+        conn.close()
+        return result
 
 
     def getAllByName(self, name):
-        print('inside get all by name')
-
         self.DBCursor.execute(
             """SELECT * 
             FROM documents 
-            WHERE position(%(Name)s in LOWER(title))>0;""",
+            WHERE position(%(Name)s in LOWER(title))>0 OR position(%(Name)s in LOWER(category))>0;""",
             {'Name': name.lower()})
         return self.DBCursor.fetchall()
 
 
     def addDocument(self, category, title, short, info, age, kids, accom, insure, study, job, live, refugee, other, documenttype, image, links):
-        print('inside add survey')
         self.DBCursor.execute(
             """INSERT INTO documents (category, title, info, age, kids, accom, insure, study, job, live, refugee, other, "documentType", image, short, links) 
             VALUES (%(Category)s,%(Title)s,%(Info)s,%(Age)s,%(Accom)s,%(Insure)s,%(Study)s,%(Job)s,%(Live)s,%(Refugee)s,%(Other)s,%(DocumentType)s,%(Image)s,%(Short)s,%(Links)s)""",
@@ -76,14 +77,16 @@ class Documents:
         self.DBConnection.commit()
         return True
 
+
     def getRecommendations(self, id, age, kids, baby, teen, adult, accom, insure, study, job, live, refugee, other, documenttype):
-        print('inside get recommendations')
-        self.DBCursor.execute(
+        conn, curs = self.createDBCursor()
+        curs.execute(
             """SELECT title,
-            info, 
+            short, 
             (Kids*%(Kids)s+Accom*%(Accom)s+Insure*%(Insure)s+Study*%(Study)s+Job*%(Job)s+Live*%(Live)s+Refugee*%(Refugee)s+Other*%(Other)s) AS score,
             id,
-            category
+            category,
+            image
             FROM documents 
             ORDER BY score DESC
             LIMIT 6
@@ -98,9 +101,9 @@ class Documents:
              'Live': live,
              'Refugee': refugee,
              'Other': other})
-        results = self.DBCursor.fetchall()
-        for res in results:
-            print("score: ", res[2],"=>", res[0])
+        results = curs.fetchall()
+        curs.close()
+        conn.close()
         return results
 
 
