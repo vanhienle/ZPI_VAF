@@ -3,7 +3,6 @@ import { useNavigate, Link } from "react-router-dom";
 
 import { changePassword } from "../../utils/User/changePasswordAPI";
 import { getUserData } from "../../utils/User/getUserDataAPI";
-import { isFilledSurvey } from "../../utils/Survey/isFilledSurveyAPI";
 
 import Loading from "../../components/Spinner/Loading";
 
@@ -78,12 +77,7 @@ const ChangePassword = () => {
   };
 
   const redirectToSurvey = async () => {
-    const result = await isFilledSurvey();
-    if (result) {
-      navigate("/change-survey");
-    } else {
-      window.location.href("/survey");
-    }
+    navigate("/survey");
   };
 
   const validateForm = () => {
@@ -139,7 +133,7 @@ const ChangePassword = () => {
 
   return (
     <div className="flex flex-col items-center justify-center mb-6">
-      <div className="flex flex-col border-2 rounded-md border-solid border-accent-900 w-2/5 max-xl:w-3/5 max-lg:w-3/4 mt-8">
+      <div className="flex flex-col border rounded-md border-accent-900 w-2/5 max-xl:w-3/5 max-lg:w-3/4 mt-6">
         <div className="flex flex-col items-center justify-center">
           {/* Header for Change Passwords */}
           <div className="flex items-center justify-between w-full px-6 pt-6 border-b mb-4">
@@ -177,7 +171,7 @@ const ChangePassword = () => {
                     name="current_password"
                     value={formData.current_password}
                     onChange={handleChange}
-                    className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border-2 rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
+                    className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
                   />
                 </div>
 
@@ -207,7 +201,7 @@ const ChangePassword = () => {
                         validatePassword(e.target.value);
                       }
                     }}
-                    className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border-2 rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
+                    className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
                   />
                 </div>
 
@@ -246,7 +240,7 @@ const ChangePassword = () => {
                         validatePasswordMatch(e.target.value);
                       }
                     }}
-                    className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border-2 rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
+                    className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
                   />
                 </div>
 

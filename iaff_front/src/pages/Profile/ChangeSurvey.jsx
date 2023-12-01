@@ -134,7 +134,7 @@ const ChangeSurvey = () => {
 
   return (
     <div className="flex flex-col items-center justify-center mb-6 mx-6 transition-all ease-in-out duration-300">
-      <div className="flex flex-col border-2 rounded-md border-solid border-accent-900 w-fit mt-8 transition-all ease-in-out duration-300">
+      <div className="flex flex-col border rounded-md border-accent-900 w-fit mt-6 transition-all ease-in-out duration-300">
         <div className="flex flex-col items-center justify-center transition-all ease-in-out duration-300">
           {/* Header for Change Survey */}
           <div className="flex items-center justify-between w-full px-6 pt-6 border-b mb-4">
@@ -156,7 +156,7 @@ const ChangeSurvey = () => {
             </p>
           )}
           {isLoading ? (
-            <div className="flex flex-col justify-center items-center w-96 h-40 m-40">
+            <div className="flex flex-col justify-center items-center w-96 max-md:w-40 max-sm:w-20 h-40 m-40">
               <Loading width={80} height={80} radius={12} widthContainer={96} />
             </div>
           ) : (
@@ -178,7 +178,7 @@ const ChangeSurvey = () => {
                           name="age"
                           value={formData.age}
                           onChange={handleChange}
-                          className="text-base max-md:text-sm max-sm:text-xs border-accent-900 text-text-color border-2 rounded-lg w-3/4 py-2 px-4 leading-tight focus:outline-none focus:border-primary-900"
+                          className="text-base max-md:text-sm max-sm:text-xs border-accent-900 text-text-color border rounded-lg w-3/4 py-2 px-4 leading-tight focus:outline-none focus:border-primary-900"
                         />
                       </div>
 
@@ -192,7 +192,7 @@ const ChangeSurvey = () => {
                           name="documenttype"
                           value={formData.documenttype}
                           onChange={handleChange}
-                          className="text-base max-md:text-sm max-sm:text-xs bg-background-color border-accent-900 text-text-color border-2 rounded-lg w-full py-2 px-4 leading-tight focus:outline-none focus:border-primary-900"
+                          className="text-base max-md:text-sm max-sm:text-xs bg-background-color border-accent-900 text-text-color border rounded-lg w-full py-2 px-4 leading-tight focus:outline-none focus:border-primary-900"
                         >
                           {DOCUMENTS_LIST.map((item) => (
                             <option value={item.value} key={item.id}>

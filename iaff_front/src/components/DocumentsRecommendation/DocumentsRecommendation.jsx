@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import { getRecommendations } from "../../utils/Documents/getRecommendationAPI";
-import { isFilledSurvey } from "../../utils/Survey/isFilledSurveyAPI";
 
 import Loading from "../../components/Spinner/Loading";
 import TextLoading from "../../components/Spinner/TextLoading";
@@ -18,9 +17,8 @@ import {
 import signInImage from "../../assets/images/signin.jpg";
 import surveyImage from "../../assets/images/survey.jpg";
 
-const DocumentsRecommendation = ({ isLogin }) => {
+const DocumentsRecommendation = ({ isLogin, isSurvey }) => {
   const [recommendedDocuments, setRecommendedDocuments] = useState([]);
-  const [isSurvey, setIsSurvey] = useState(false);
   const [isLoadingVariants, setIsLoadingVariants] = useState(true);
   const [isLoadingRecommendations, setIsLoadingRecommendations] =
     useState(true);
@@ -36,28 +34,16 @@ const DocumentsRecommendation = ({ isLogin }) => {
       }
     };
 
-    async function fetchIsFilledSurvey() {
-      try {
-        const resultSurvey = await isFilledSurvey();
-        setIsSurvey(resultSurvey);
-        return resultSurvey;
-      } catch (error) {
-        console.error(
-          "Error with checking is survey was filled: " + error.message
-        );
-      }
-    }
-
     if (isLogin) {
-      if (fetchIsFilledSurvey()) {
+      if (isSurvey) {
         getRecommendation();
       }
     }
 
     setTimeout(() => {
       setIsLoadingVariants(false);
-    }, 500);
-  }, [isLogin]);
+    }, 1000);
+  }, [isLogin, isSurvey]);
 
   return (
     <>

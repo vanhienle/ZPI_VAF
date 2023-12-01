@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import { login } from "../../utils/User/loginAPI";
 
@@ -43,7 +44,7 @@ const Login = () => {
   };
   return (
     <div className="max-w-md mx-auto my-14">
-      <div className="flex items-center flex-col bg-white drop-shadow-md rounded-xl border-primary-900 border-2 px-10 pt-0 pb-0 m-4">
+      <div className="flex items-center flex-col bg-white drop-shadow-md rounded-xl border-primary-900 border px-10 pt-0 pb-0 m-4">
         {/* Intro Information */}
         <img
           className="relative z-0 h-16 -top-8 rounded-xl drop-shadow-lg "
@@ -51,7 +52,7 @@ const Login = () => {
           src={logo}
         />
         <div className="text-center">
-          <h1 className="text-primary-900 text-2xl max-2xl:text-xl font-bold">
+          <h1 className="text-primary-900 text-2xl max-2xl:text-xl">
             {SIGN_IN_CONSTANT}
           </h1>
         </div>
@@ -80,7 +81,7 @@ const Login = () => {
               maxLength="100"
               value={formData.email_address}
               onChange={handleChange}
-              className="border-2 border-accent-900 text-text-color rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900"
+              className="border border-accent-900 text-text-color rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900"
             />
           </div>
 
@@ -94,7 +95,7 @@ const Login = () => {
               maxLength="30"
               value={formData.password}
               onChange={handleChange}
-              className="border-2 border-accent-900 text-text-color rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900"
+              className="border border-accent-900 text-text-color rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900"
             />
           </div>
 
@@ -103,12 +104,12 @@ const Login = () => {
             <div>
               <p className="text-center text-sm">
                 Don't have an account?
-                <a
-                  href="/signup"
+                <Link
+                  to="/sign-up"
                   className="text-primary-500 hover:text-primary-900 ease-in-out duration-150 ml-2"
                 >
                   {SIGN_UP_CONSTANT}
-                </a>
+                </Link>
               </p>
             </div>
 

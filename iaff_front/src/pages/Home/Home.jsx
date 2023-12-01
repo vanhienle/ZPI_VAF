@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-import { isFilledSurvey } from "../../utils/Survey/isFilledSurveyAPI";
 
 import {
   SIGN_IN_CONSTANT,
@@ -20,34 +18,17 @@ import assistantImage from "../../assets/images/assistant.webp";
 import signInImage from "../../assets/images/signin.jpg";
 import surveyImage from "../../assets/images/survey.jpg";
 
-const Home = ({ isLogin }) => {
+const Home = ({ isLogin, isSurvey }) => {
   let navigate = useNavigate();
-  const [isSurvey, setIsSurvey] = useState(false);
   const [question, setQuestion] = useState("");
 
   const handleChangeQuestion = (e) => {
     setQuestion(e.target.value);
   };
+
   const askAssistant = (q) => {
     navigate("/assistant", { state: q });
   };
-
-  useEffect(() => {
-    async function getIsFilledSurvey() {
-      try {
-        const resultSurvey = await isFilledSurvey();
-        setIsSurvey(resultSurvey);
-      } catch (error) {
-        console.error(
-          "Error with getting is filled survey info: " + error.message
-        );
-      }
-    }
-
-    if (isLogin) {
-      getIsFilledSurvey();
-    }
-  }, [isLogin]);
 
   return (
     <div className="flex flex-col items-center justify-center mt-6">

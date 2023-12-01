@@ -9,7 +9,7 @@ import SearchDocuments from "../../components/SearchDocuments/SearchDocuments";
 import DocumentsByCategory from "../../components/DocumentsByCategory/DocumentsByCategory";
 import DocumentsRecommendation from "../../components/DocumentsRecommendation/DocumentsRecommendation";
 
-const Documents = ({ isLogin }) => {
+const Documents = ({ isLogin, isSurvey }) => {
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState("Cards");
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
@@ -46,7 +46,7 @@ const Documents = ({ isLogin }) => {
       </div>
 
       {/** Recommended sections */}
-      <DocumentsRecommendation isLogin={isLogin} />
+      <DocumentsRecommendation isLogin={isLogin} isSurvey={isSurvey} />
 
       {/* Delimiter */}
       <div className="border-solid border-text-color bg-text-color border rounded-md w-1/2 max-xl:w-3/4 my-6 max-sm:my-4" />
