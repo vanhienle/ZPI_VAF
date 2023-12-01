@@ -205,7 +205,7 @@ const Navbar = ({ isLogin }) => {
                           <ul className="flex justify-evenly items-center mb-2">
                             <Link
                               to="/change-profile"
-                              onClick={() => setIsOpen(!isOpen)}
+                              onClick={() => setToggleMenu(false)}
                               className="px-2 py-2 flex items-center justify-start cursor-pointer text-text-color text-lg max-md:text-base hover:text-primary-500 rounded-lg hover:bg-accent-500 ease-in-out duration-300"
                             >
                               <HiOutlineCog size={30} className="mr-2" />
