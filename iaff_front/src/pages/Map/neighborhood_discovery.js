@@ -25,7 +25,7 @@ function formatPlaceType(str) {
 }
 
 /** Number of POIs to show on widget load. */
-const ND_NUM_PLACES_INITIAL = 5;
+const ND_NUM_PLACES_INITIAL = 50;
 
 /** Number of additional POIs to show when 'Show More' button is clicked. */
 const ND_NUM_PLACES_SHOW_MORE = 5;
@@ -84,6 +84,8 @@ function NeighborhoodDiscovery(configuration) {
   initializePlaceDetails();
   initializeSidePanel();
   updateMapCenter();
+  //testUpdatePois();
+  //updateSelectedPOIs();
 
   // Initialize additional capabilities ----------------------------------
 
@@ -167,6 +169,7 @@ function NeighborhoodDiscovery(configuration) {
     for (let place of widget.places) {
       placeIdsToDetails.set(place.placeId, place);
       place.fetchedFields = new Set(['place_id']);
+      console.log(place.placeId);
     }
 
     widget.fetchPlaceDetails = function(placeId, fields, callback) {
@@ -240,10 +243,8 @@ function NeighborhoodDiscovery(configuration) {
     const placeResultsEl = widgetEl.querySelector('.place-results-list');
     const showMoreButtonEl = widgetEl.querySelector('.show-more-button');
     const photoModalEl = widgetEl.querySelector('.photo-modal');
-    const detailsTemplate = Handlebars.compile(
-        document.getElementById('nd-place-details-tmpl').innerHTML);
-    const resultsTemplate = Handlebars.compile(
-        document.getElementById('nd-place-results-tmpl').innerHTML);
+    const detailsTemplate = Handlebars.compile(document.getElementById('nd-place-details-tmpl').innerHTML);
+    const resultsTemplate = Handlebars.compile(document.getElementById('nd-place-results-tmpl').innerHTML);
 
     // Show specified POI photo in a modal.
     const showPhotoModal = function(photo, placeName) {
@@ -364,7 +365,7 @@ function NeighborhoodDiscovery(configuration) {
       }
     };
     showNextPlaces(ND_NUM_PLACES_INITIAL);
-
+    
     showMoreButtonEl.addEventListener('click', () => {
       placesPanelEl.classList.remove('no-scroll');
       showMoreButtonEl.classList.remove('sticky');
@@ -374,67 +375,104 @@ function NeighborhoodDiscovery(configuration) {
 
   function updateMapCenter() {
     const input = document.getElementById('cityInput').value;
+    let addedPlaceIds = [];
 
-    // Fetch latitude and longitude for the entered city using Geocoding API
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${input}&key=AIzaSyC1ktpwTsLjkF1x3qR94HPcH3JCRFIYQdg`)
-    .then(response => response.json())
-    .then(data => {
-      // Check if the response contains valid data
-      if (data.status === 'OK' && data.results && data.results.length > 0) {
-        const { lat, lng } = data.results[0].geometry.location;
-
-        // Update the map center with the obtained latitude and longitude
-        configuration.mapOptions.center.lat = lat;
-        configuration.mapOptions.center.lng = lng;
-        initializeMap();
-      } else {
-        // Handle cases where the city input is not valid or no results are found
-        console.error('Invalid city input or no results found.');
+    function getSelectedOption() {
+      const options = document.getElementsByName('poiOption');
+      for (let i = 0; i < options.length; i++) {
+          if (options[i].checked) {
+              return options[i].value;
+          }
       }
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-    });
-  }
+      return null;
+    }
 
-  document.getElementById('updateMapBtn').addEventListener('click', updateMapCenter);
-/*
-  function updatePOI() {
-    const checkboxes = document.querySelectorAll('.poi-checkbox input[type="checkbox"]');
-    const selectedPOITypes = [];
+    function clearSidePanel() {
+      const detailsPanelEl = document.querySelector('.details-panel');
+      const placeResultsEl = document.querySelector('.place-results-list');
+      const photoModalEl = document.querySelector('.photo-modal');
   
-    checkboxes.forEach((checkbox) => {
-      if (checkbox.checked) {
-        const poiType = checkbox.value;
-        selectedPOITypes.push(poiType);
+      // Clear details panel content
+      detailsPanelEl.innerHTML = '';
+  
+      // Clear place results list content
+      placeResultsEl.innerHTML = '';
+  
+      // Clear photo modal content and reset image source
+      const imgEl = photoModalEl.querySelector('img');
+      imgEl.src = '';
+      photoModalEl.querySelector('.photo-place').textContent = '';
+      photoModalEl.querySelector('.photo-attrs span').innerHTML = '';
+      const attributionEl = photoModalEl.querySelector('.photo-attrs a');
+      if (attributionEl) {
+          attributionEl.removeAttribute('href');
+          attributionEl.textContent = '';
       }
-    });
-  
-    searchPOIs(selectedPOITypes);
-  }
-  
-  function searchPOIs(selectedPOITypes) {
-    const placesToSearch = []; // Array to hold the found places
-  
-    const fetchAndProcessPlace = function(poiType) {
-      const requestFields = [
-        'name', 'types', 'geometry.location', 'formatted_address', 'photo', 'url'
-      ];
-      
-      // Fetch places for each selected POI type
-      widget.fetchPlaceDetails(poiType, requestFields, (place) => {
-        // Process fetched place data
-        if (place && place.placeId) {
-          placesToSearch.push(place);
+    }
+
+    const selectedOption = getSelectedOption();
+
+    if (selectedOption) {
+      // Fetch latitude and longitude for the entered city using Geocoding API
+      fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${input}&key=AIzaSyC1ktpwTsLjkF1x3qR94HPcH3JCRFIYQdg`)
+      .then(response => response.json())
+      .then(data => {
+        // Check if the response contains valid data
+        if (data.status === 'OK' && data.results && data.results.length > 0) {
+          const { lat, lng } = data.results[0].geometry.location;
+
+          // Update the map center with the obtained latitude and longitude
+          configuration.mapOptions.center.lat = lat;
+          configuration.mapOptions.center.lng = lng;
+
+          widget.places = []; // Clear existing places
+          addedPlaceIds = [];
+          const placesService = new google.maps.places.PlacesService(widget.map);
+
+          // Fetch places for the new location based on the updated center
+          const request = {
+            location: { lat, lng },
+            radius: configuration.mapRadius || 5000, // Set your desired radius
+            type: selectedOption // Change this to your desired place type
+          };
+
+          placesService.nearbySearch(request, (results, status) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+              clearSidePanel();
+              // Add fetched places to the widget
+              results.forEach(place => {
+                const placeExists = widget.places.some(existingPlace => existingPlace.placeId === place.place_id);
+
+                if (!placeExists) {
+                  const newPlace = {
+                    placeId: place.place_id,
+                    name: place.name,
+                    coords: place.geometry.location,
+                    // Add other properties you want to include
+                  };
+                  widget.addPlaceMarker(newPlace); // Add markers to the map
+                  widget.places.push(newPlace); // Add places to the widget
+                }
+              });
+
+              // Initialize map and place details with the new places
+              initializeMap();
+              initializePlaceDetails();
+              initializeSidePanel();
+            } else {
+              console.error('Places service request failed. Status:', status);
+            }
+          });
+        } else {
+          // Handle cases where the city input is not valid or no results are found
+          console.error('Invalid city input or no results found.');
         }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
       });
-    };
-  
-    // Loop through selected POI types and fetch place details
-    selectedPOITypes.forEach((poiType) => {
-      fetchAndProcessPlace(poiType);
-    });
+    }
+  }
 
-  document.getElementById('updatePOIBtn').addEventListener('click', updatePOI);
-  */
+  document.getElementById('updatePOIBtn').addEventListener('click', updateMapCenter);
 }

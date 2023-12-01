@@ -6,11 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="42017070-eea9-4b63-adc2-ae16001f1bca" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iaff_assistant/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iaff_back/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_back/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iaff_front/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_front/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iaff_front/src/pages/Map/neighborhood_discovery.css" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_front/src/pages/Map/neighborhood_discovery.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_front/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_front/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_front/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_front/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/iaff_front/src/pages/Map/neighborhood_discovery.html" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_front/src/pages/Map/neighborhood_discovery.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/iaff_front/src/pages/Map/neighborhood_discovery.js" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_front/src/pages/Map/neighborhood_discovery.js" afterDir="false" />
     </list>
@@ -125,7 +122,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701181738654</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Add search box for map">
+      <created>1701191087608</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1701191087608</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -142,6 +146,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Temp" />
     <MESSAGE value="Added map" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added map" />
+    <MESSAGE value="Add search box for map" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add search box for map" />
   </component>
 </project>

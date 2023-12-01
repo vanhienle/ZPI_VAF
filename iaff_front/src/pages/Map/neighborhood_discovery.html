@@ -13,7 +13,7 @@
     <script>
       const CONFIGURATION = {
         "capabilities": {"search":true,"distances":false,"directions":false,"contacts":false,"atmospheres":false,"thumbnails":false},
-        /*"pois": [
+        "pois": [
           {"placeId": "ChIJTeWAPIzMHkcRXOfYhMkscBI"},
           {"placeId": "ChIJSS5pkozMHkcRwi0fMeV66cI"},
           {"placeId": "ChIJ0cxQolvMHkcRYAlBuLnx1gg"},
@@ -51,7 +51,7 @@
           {"placeId": "ChIJQydDxGPMHkcR78Da8tbzYm4"},
           {"placeId": "ChIJd6DMsIfMHkcRXC5OjK1d-l8"},
           {"placeId": "ChIJlcAIuPHMHkcRINwR4lH5EI0"}
-        ],*/
+        ],
         "mapRadius": 6000,
         "mapOptions": {"center":{"lat":52.2296756,"lng":21.0122287},"fullscreenControl":true,"mapTypeControl":true,"streetViewControl":false,"zoom":16,"zoomControl":true,"maxZoom":20,"mapId":""},
         "mapsApiKey": "AIzaSyC1ktpwTsLjkF1x3qR94HPcH3JCRFIYQdg"
@@ -116,68 +116,66 @@
   <body>
     <div class="searchBox">
       <input type="text" id="cityInput" placeholder="Enter a city">
-      <button id="updateMapBtn">Search</button>
     </div>
     <div class="columns">
-      <div class="poi-checkboxes">
-      <!-- First column -->
+      <div class="poi-radio-buttons">
         <div class="column">
-          <label class="poi-checkbox">
-            <input type="checkbox" value="Restaurants & cafes"> Restaurants & cafes
+          <label class="poi-radio">
+            <input type="radio" name="poiOption" value="restaurant"> Restaurants
           </label>
-          <label class="poi-checkbox">
-            <input type="checkbox" value="Arts & entertainments"> Arts & entertainments
+          <label class="poi-radio">
+            <input type="radio" name="poiOption" value="fire_station"> Fire stations
           </label>
         </div>
         <div class="column">
-          <label class="poi-checkbox">
-            <input type="checkbox" value="Schools"> Schools
+          <label class="poi-radio">
+            <input type="radio" name="poiOption" value="school"> Schools
           </label>
-          <label class="poi-checkbox">
-            <input type="checkbox" value="Groceries"> Groceries
-          </label>
-        </div>
-        <div class="column">
-          <label class="poi-checkbox">
-            <input type="checkbox" value="Shopping"> Shopping
-          </label>
-          <label class="poi-checkbox">
-            <input type="checkbox" value="Parks & gyms"> Parks & gyms
+          <label class="poi-radio">
+            <input type="radio" name="poiOption" value="park"> Parks
           </label>
         </div>
         <div class="column">
-          <label class="poi-checkbox">
-            <input type="checkbox" value="Nightlife"> Nightlife
+          <label class="poi-radio">
+            <input type="radio" name="poiOption" value="shopping_mall"> Shopping
           </label>
-          <label class="poi-checkbox">
-            <input type="checkbox" value="ATMs & banks"> ATMs and banks
-          </label>
-        </div>
-        <div class="column">
-          <label class="poi-checkbox">
-            <input type="checkbox" value="Tourist attractions"> Tourist attractions
-          </label>
-          <label class="poi-checkbox">
-            <input type="checkbox" value="Laundromat"> Laundromat
+          <label class="poi-radio">
+            <input type="radio" name="poiOption" value="gym"> Gyms
           </label>
         </div>
         <div class="column">
-          <label class="poi-checkbox">
-            <input type="checkbox" value="Post office"> Post office
+          <label class="poi-radio">
+            <input type="radio" name="poiOption" value="night_club"> Nightlife
           </label>
-          <label class="poi-checkbox">
-            <input type="checkbox" value="Library"> Library
+          <label class="poi-radio">
+            <input type="radio" name="poiOption" value="atm"> ATMs
           </label>
         </div>
         <div class="column">
-          <label class="poi-checkbox">
-            <input type="checkbox" value="Hospitals & pharmacies"> Hospitals & pharmacies
+          <label class="poi-radio">
+            <input type="radio" name="poiOption" value="tourist_attraction"> Tourist attractions
           </label>
-          <label class="poi-checkbox">
-            <input type="checkbox" value="Police & fire stations"> Police & fire stations
+          <label class="poi-radio">
+            <input type="radio" name="poiOption" value="laundry"> Laundromat
           </label>
         </div>
-        <button id="updatePOIBtn">Filters</button>
+        <div class="column">
+          <label class="poi-radio">
+            <input type="radio" name="poiOption" value="post_office"> Post office
+          </label>
+          <label class="poi-radio">
+            <input type="radio" name="poiOption" value="library"> Library
+          </label>
+        </div>
+        <div class="column">
+          <label class="poi-radio">
+            <input type="radio" name="poiOption" value="hospital"> Hospitals
+          </label>
+          <label class="poi-radio">
+            <input type="radio" name="poiOption" value="police"> Police
+          </label>
+        </div>
+        <button id="updatePOIBtn">Filter</button>
       </div>
     </div>
     <div class="neighborhood-discovery">
