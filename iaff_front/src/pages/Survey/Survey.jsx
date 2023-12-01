@@ -96,27 +96,29 @@ function SurveyForm() {
   };
 
   return (
-    <div className="flex items-center justify-center h-1/2">
-      <div className="max-w-md mx-auto bg-background-color rounded-md shadow border-accent-900 border-solid border-2 m-16 p-6">
+    <div className="flex items-center justify-center w-full h-fit pt-6 px-6">
+      <div className="max-w-lg mx-auto bg-background-color rounded-md shadow-lg border-accent-900 border px-16 max-md:px-6 py-10">
         {/* Welcome Block */}
         {step === 1 && (
           <div className="text-center">
-            <h2 className="text-primary-900 text-2xl font-semibold mb-4">
+            <h2 className="text-primary-900 text-2xl max-xl:text-xl max-lg:text-lg font-semibold mb-4">
               Recommendation Survey
             </h2>
-            <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-full my-4" />
-            <p className="my-4 text-lg">{WELCOME_SURVEY_MESSAGE}</p>
+            <div className="border-solid border-primary-900 bg-primary-900 border rounded-md w-full my-4" />
+            <p className="my-4 text-lg max-lg:text-base max-md:text-sm p-3">
+              {WELCOME_SURVEY_MESSAGE}
+            </p>
 
             {/* Footer */}
-            <div className="flex justify-around">
+            <div className="flex justify-between">
               <a
                 href="/"
-                className="text-lg text-primary-500 hover:text-primary-900 ease-in-out duration-150 py-2 px-4"
+                className="text-lg max-md:text-base text-primary-500 hover:text-primary-900 ease-in-out duration-150 py-2 px-4"
               >
                 Fill Later
               </a>
               <button
-                className="rounded-md bg-primary-900 py-2 px-4 text-lg text-background-color hover:bg-primary-700 ease-in-out duration-150"
+                className="rounded-md bg-primary-900 py-2 px-4 text-lg max-md:text-base text-background-color hover:bg-primary-700 ease-in-out duration-150"
                 onClick={handleNext}
               >
                 Next
@@ -129,14 +131,14 @@ function SurveyForm() {
         {step === 2 && (
           <div>
             <div className="text-center">
-              <h2 className="text-primary-900 text-2xl font-semibold mb-4">
+              <h2 className="text-primary-900 text-2xl max-xl:text-xl max-lg:text-lg font-semibold mb-4">
                 Survey : About Me
               </h2>
-              <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-full my-4" />
+              <div className="border-solid border-primary-900 bg-primary-900 border rounded-md w-full my-4" />
             </div>
 
             {/* Main Error Message */}
-            <div className="flex flex-col text-lg gap-2">
+            <div className="flex flex-col text-lg max-lg:text-base max-md:text-sm gap-2">
               {error ? (
                 <p className="text-center text-error-900">
                   {ERROR_SURVEY_MESSAGE}
@@ -148,7 +150,7 @@ function SurveyForm() {
               {/* Age and Document Block */}
               <div className="flex justify-between w-full">
                 {/* Age Input */}
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-2">
                   <label>
                     Your Age:
                     <span className="text-error-900">*</span>
@@ -158,12 +160,12 @@ function SurveyForm() {
                     name="age"
                     value={formData.age}
                     onChange={handleChange}
-                    className="border-accent-900 text-text-color border-2 rounded-lg w-3/4 py-2 px-4 leading-tight focus:outline-none focus:border-primary-900"
+                    className=" border-accent-900 text-text-color border rounded-lg w-3/4 py-2 px-4 leading-tight focus:outline-none focus:border-primary-900"
                   />
                 </div>
 
                 {/* Document Select List */}
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-2">
                   <label>
                     Your Document:
                     <span className="text-error-900">*</span>
@@ -172,7 +174,7 @@ function SurveyForm() {
                     name="documents"
                     value={formData.documents}
                     onChange={handleChange}
-                    className="bg-background-color border-accent-900 text-text-color border-2 rounded-lg w-full py-2 px-4 leading-tight focus:outline-none focus:border-primary-900"
+                    className="bg-background-color border-accent-900 text-text-color border rounded-lg w-full py-2 px-4 leading-tight focus:outline-none focus:border-primary-900"
                   >
                     {DOCUMENTS_LIST.map((item) => (
                       <option value={item.value} key={item.id}>
@@ -326,13 +328,13 @@ function SurveyForm() {
               {/* Footer */}
               <div className="flex justify-between mt-4">
                 <button
-                  className="rounded-md bg-accent-900 py-2 px-4 text-lg text-primary-900 hover:bg-accent-500 ease-in-out duration-150"
+                  className="rounded-md bg-accent-900 py-2 px-4 text-lg max-md:text-base text-primary-900 hover:bg-accent-500 ease-in-out duration-150"
                   onClick={handleBack}
                 >
                   Back
                 </button>
                 <button
-                  className="rounded-md bg-primary-900 py-2 px-4 text-lg text-background-color hover:bg-primary-700 ease-in-out duration-150"
+                  className="rounded-md bg-primary-900 py-2 px-4 text-lg max-md:text-base text-background-color hover:bg-primary-700 ease-in-out duration-150"
                   onClick={handleNext}
                 >
                   Next
@@ -346,18 +348,18 @@ function SurveyForm() {
         {step === 3 && (
           <div>
             <div className="text-center">
-              <h2 className="text-primary-900 text-2xl font-semibold mb-4">
+              <h2 className="text-primary-900 text-2xl max-xl:text-xl max-lg:text-lg font-semibold mb-4">
                 Survey : Your Targets
               </h2>
-              <div className="border-solid border-primary-900 bg-primary-900 border-2 rounded-md w-full my-4" />
+              <div className="border-solid border-primary-900 bg-primary-900 border rounded-md w-full my-4" />
             </div>
-            <div className="flex flex-col text-lg gap-2">
-              <label>{TARGET_QUESTION}</label>
+            <div className="flex flex-col text-lg gap-2 pt-6 px-6">
+              <label className="mb-6 max-md:text-sm">{TARGET_QUESTION}</label>
 
               {/* Targets Checkboxes */}
               {TARGETS_LIST.map((item) => (
                 <div
-                  className="flex justify-between w-1/2 items-center"
+                  className="flex justify-between w-1/2 items-center max-md:text-sm"
                   key={item.id}
                 >
                   <p>{item.title}:</p>
@@ -372,7 +374,7 @@ function SurveyForm() {
               ))}
 
               {/* Footer */}
-              <div className="flex justify-between mt-4">
+              <div className="flex justify-between w-full mt-16">
                 <button
                   className="rounded-md bg-accent-900 py-2 px-4 text-lg text-primary-900 hover:bg-accent-500 ease-in-out duration-150"
                   onClick={handleBack}

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import { signup } from "../../utils/User/signupAPI";
 
@@ -141,7 +142,7 @@ const Registration = () => {
 
   return (
     <div className="max-w-md mx-auto my-14">
-      <div className="flex items-center flex-col bg-white drop-shadow-md rounded-xl border-primary-900 border-2 px-10 pt-0 pb-0 m-4">
+      <div className="flex items-center flex-col bg-white drop-shadow-md rounded-xl border-primary-900 border px-10 pt-0 pb-0 m-4">
         {/* Header for Sign Up */}
         <img
           className="relative z-0 h-16 -top-8 rounded-xl drop-shadow-lg "
@@ -149,7 +150,7 @@ const Registration = () => {
           src={logo}
         />
         <div className="text-center">
-          <h1 className="text-primary-900 text-2xl max-2xl:text-xl font-bold">
+          <h1 className="text-primary-900 text-2xl max-2xl:text-xl">
             {SIGN_UP_CONSTANT}
           </h1>
 
@@ -167,11 +168,11 @@ const Registration = () => {
           {/* Name Input */}
           <div>
             <input
-              className={`border-2 ${
+              className={`${
                 errors.name
                   ? "border-error-900 text-error-900"
                   : "border-accent-900 text-text-color"
-              } rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
+              } border rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
               id="name"
               type="text"
               placeholder="Name"
@@ -203,11 +204,11 @@ const Registration = () => {
           {/* Email Input */}
           <div>
             <input
-              className={`border-2 ${
+              className={`${
                 errors.email
                   ? "border-error-900 text-error-900"
                   : "border-accent-900 text-text-color"
-              } rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
+              } border  rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
               id="email"
               type="email"
               placeholder="Email"
@@ -239,11 +240,11 @@ const Registration = () => {
           {/* Password Input */}
           <div>
             <input
-              className={`border-2 ${
+              className={`${
                 errors.password
                   ? "border-error-900 text-error-900"
                   : "border-accent-900 text-text-color"
-              } rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
+              } border rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
               id="password"
               type="password"
               placeholder="Password"
@@ -275,12 +276,12 @@ const Registration = () => {
           {/* Repeat Password Input */}
           <div>
             <input
-              className={`border-2 ${
+              className={`${
                 errors.repeatPassword
                   ? "border-error-900 text-error-900"
                   : "border-accent-900 text-text-color"
-              } rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
-              id="password"
+              } border rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
+              id="repeat-password"
               type="password"
               placeholder="Repeat Password"
               required
@@ -313,13 +314,13 @@ const Registration = () => {
             {/* Link to Sign In */}
             <div>
               <p className="text-center text-sm">
-                Already have an account? ---
-                <a
-                  href="/login"
-                  className="text-primary-500 hover:text-primary-900 ease-in-out duration-150"
+                Already have an account?
+                <Link
+                  to="/login"
+                  className="text-primary-500 hover:text-primary-900 ease-in-out duration-150 ml-2"
                 >
                   {SIGN_IN_CONSTANT}
-                </a>
+                </Link>
               </p>
             </div>
 

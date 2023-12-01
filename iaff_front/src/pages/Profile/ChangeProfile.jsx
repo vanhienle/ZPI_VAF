@@ -3,7 +3,6 @@ import { useNavigate, Link } from "react-router-dom";
 
 import { changeProfile } from "../../utils/User/changeProfileAPI";
 import { getUserData } from "../../utils/User/getUserDataAPI";
-import { isFilledSurvey } from "../../utils/Survey/isFilledSurveyAPI";
 
 import Loading from "../../components/Spinner/Loading";
 
@@ -30,13 +29,8 @@ const ChangeProfile = () => {
     change_failed: false,
   });
 
-  const redirectToSurvey = async () => {
-    const result = await isFilledSurvey();
-    if (result) {
-      navigate("/change-survey");
-    } else {
-      window.location.href("/survey");
-    }
+  const redirectToSurvey = () => {
+    navigate("/survey");
   };
 
   const validateName = (value) => {
@@ -124,7 +118,7 @@ const ChangeProfile = () => {
 
   return (
     <div className="flex flex-col items-center justify-center mb-6">
-      <div className="flex flex-col border-2 rounded-md border-solid border-accent-900 w-2/5 max-xl:w-3/5 max-lg:w-3/4 mt-8">
+      <div className="flex flex-col border rounded-md border-accent-900 w-2/5 max-xl:w-3/5 max-lg:w-3/4 mt-6">
         <div className="flex flex-col items-center justify-center">
           {/* Header for Change Profile Data */}
           <div className="flex items-center justify-between w-full px-6 pt-6 border-b mb-4">
@@ -170,11 +164,11 @@ const ChangeProfile = () => {
                         validateName(inputValue);
                       }
                     }}
-                    className={`border-2 ${
+                    className={`${
                       errors.name
                         ? "border-error-900 text-error-900"
                         : "border-accent-700 text-text-color focus:border-primary-900"
-                    } leading-tight focus:outline-none text-lg max-2xl:text-base rounded-lg w-full py-2 px-4 focus:shadow-outline`}
+                    } border leading-tight focus:outline-none text-lg max-2xl:text-base rounded-lg w-full py-2 px-4 focus:shadow-outline`}
                   />
 
                   {/* Change Name Error */}
@@ -210,11 +204,11 @@ const ChangeProfile = () => {
                         validateEmail(inputValue);
                       }
                     }}
-                    className={`border-2 ${
+                    className={`${
                       errors.email
                         ? "border-error-900 text-error-900"
                         : "border-accent-700 text-text-color focus:border-primary-900"
-                    } leading-tight focus:outline-none text-lg max-2xl:text-base rounded-lg w-full py-2 px-4 focus:shadow-outline`}
+                    } border leading-tight focus:outline-none text-lg max-2xl:text-base rounded-lg w-full py-2 px-4 focus:shadow-outline`}
                   />
 
                   {/* Change Email Error */}
@@ -233,7 +227,7 @@ const ChangeProfile = () => {
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className="border-2 border-accent-700 text-text-color focus:border-primary-900 leading-tight focus:outline-none text-lg max-2xl:text-base rounded-lg w-full py-2 px-4 focus:shadow-outline"
+                    className="border border-accent-700 text-text-color focus:border-primary-900 leading-tight focus:outline-none text-lg max-2xl:text-base rounded-lg w-full py-2 px-4 focus:shadow-outline"
                   />
                 </div>
               </div>
