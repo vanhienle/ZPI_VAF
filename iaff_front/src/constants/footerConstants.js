@@ -41,6 +41,21 @@ export const USEFUL_LINKS = [
     link: "https://www.airbnb.pl/",
     name: "Airbnb",
   },
+  {
+    id: 6,
+    link: "https://jakdojade.pl/onboarding",
+    name: "JakDojade",
+  },
+  {
+    id: 7,
+    link: "https://www.intercity.pl/en/",
+    name: "PKP Intercity",
+  },
+  {
+    id: 8,
+    link: "https://www.booking.com/index.en-gb.html?lang=en-gb&soz=1&lang_changed=1",
+    name: "Booking",
+  },
 ];
 
 export const USEFUL_CONTACTS = [
