@@ -11,12 +11,15 @@ import { getAnswer } from "../../utils/Assistant/getAnswer";
 import {
   message,
   input,
+  article_,
   source_,
   questionList,
   languages,
   langDict,
 } from "../../constants/assistant";
 import { getTranslated } from "../../utils/Assistant/getTranslated";
+import { getDocumentsByName } from "../../utils/Documents/getDocumentsByNameAPI";
+import logo from "../../assets/images/logo.png";
 import AudioRecorder from "./AudioRecorder";
 const Assistant = () => {
   const questionNum = 4;
@@ -29,6 +32,7 @@ const Assistant = () => {
   const toggleDropdown = () => setIsOpen(!isOpen);
   const [helloMessage, setHelloMessage] = useState(message);
   const [promptInput, setPromptInput] = useState(input);
+  const [articleDisplay, setArticleDisplay] = useState(article_);
   const [sourceDisplay, setSourceDisplay] = useState(source_);
   const [suggestedQuestions, setSuggestedQuestions] = useState(questionList);
   const scrollableChat = useRef(null);
@@ -42,6 +46,7 @@ const Assistant = () => {
   const [userQuery, setUserQuery] = useState("");
   const [delay, setDelay] = useState(30);
   const [messages, setMessages] = useState([]);
+  const [documentIDs, setDocumentIDs] = useState({});
   const urlPattern = /(https?:\/\/\S+|www\.\S+)/gi;
   const domainPattern = /https?:\/\/([^\/\s]+)/;
   const menuRef = useRef();
@@ -76,6 +81,22 @@ const Assistant = () => {
     }
   };
 
+  const handleSetDocumentIDs = async (articles) => {
+    for (let i = 0; i < articles.length; i++) {
+      const article = articles[i];
+      if (!(article in documentIDs)) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        const result = await getDocumentsByName(article);
+        if (result.length > 0) {
+          setDocumentIDs((prevIDs) => ({
+            ...prevIDs,
+            [article]: result[0].id,
+          }));
+        }
+      }
+    }
+  };
+
   const handleUserQueryChange = (e) => {
     if (e.target.value.slice(-1) === "\n" && e.target.value.length === 1) {
       return;
@@ -107,6 +128,7 @@ const Assistant = () => {
             content: q || userQuery,
           },
         ]).then((answer) => {
+          handleSetDocumentIDs(answer.articles);
           setLoading(false);
           setMessages([
             ...messages,
@@ -118,6 +140,7 @@ const Assistant = () => {
               role: "assistant",
               content: "" + answer.response,
               source: answer.source.match(urlPattern),
+              articles: answer.articles,
             },
           ]);
         });
@@ -140,6 +163,7 @@ const Assistant = () => {
     if (language === "English") {
       setHelloMessage(message);
       setPromptInput(input);
+      setArticleDisplay(article_);
       setSourceDisplay(source_);
       setSuggestedQuestions(questionList);
     } else {
@@ -149,6 +173,10 @@ const Assistant = () => {
       });
       const translatedPrompt = await getTranslated({
         content: input,
+        target_language: language,
+      });
+      const translatedArticle = await getTranslated({
+        content: article_,
         target_language: language,
       });
       const translatedSource = await getTranslated({
@@ -164,6 +192,7 @@ const Assistant = () => {
       const translatedQuestions = await Promise.all(promises);
       setHelloMessage(translatedMessage);
       setPromptInput(translatedPrompt);
+      setArticleDisplay(translatedArticle);
       setSourceDisplay(translatedSource);
       setSuggestedQuestions(translatedQuestions);
     }
@@ -291,7 +320,7 @@ const Assistant = () => {
                         (question, index) =>
                           index < questionNum && (
                             <button
-                              className="ease-in-out duration-150 text-base border-solid border-2 border-accent-900 bg-accent-500 rounded-md hover:bg-accent-900 text-center m-2 h-16 max-sm:h-14 animate-fade-in"
+                              className="text-base border-solid border-2 border-accent-900 bg-accent-500 rounded-md hover:bg-accent-900 text-center m-2 h-16 max-sm:h-14"
                               onClick={() => {
                                 handleQuerySubmit(question);
                               }}
@@ -305,7 +334,7 @@ const Assistant = () => {
                 )}
               </div>
             </div>
-            {messages.map(({ role, content, source }, index) => (
+            {messages.map(({ role, content, source, articles }, index) => (
               <div>
                 {role === "user" && (
                   <div className="flex gap-4 mt-8">
@@ -344,6 +373,37 @@ const Assistant = () => {
                             text={content}
                             setIsWriting={setIsAnswering}
                           />
+                          {articles !== undefined &&
+                            articles !== null &&
+                            articles.length > 0 &&
+                            (index + 1 !== messages.length || !isAnswering) && (
+                              <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5 mt-4">
+                                <div>{articleDisplay}</div>
+                                {articles.map(
+                                  (article, index) =>
+                                    documentIDs[article] &&
+                                    index === 0 && (
+                                      <a
+                                        className="flex items-center gap-2 rounded-lg border border-accent-900 hover:border-accent-700 bg-background-color px-2 py-1.5 leading-none"
+                                        href={
+                                          "documents/" + documentIDs[article]
+                                        }
+                                        target="_blank"
+                                        rel="noreferrer"
+                                      >
+                                        <img
+                                          className="h-3.5 rounded"
+                                          src={logo}
+                                          alt="Study In Poland"
+                                        ></img>
+                                        <div className="font-semibold">
+                                          {article}
+                                        </div>
+                                      </a>
+                                    )
+                                )}
+                              </div>
+                            )}
                           {source !== undefined &&
                             source !== null &&
                             (index + 1 !== messages.length || !isAnswering) && (
@@ -356,9 +416,10 @@ const Assistant = () => {
                                     className="flex items-center gap-2 rounded-lg border border-accent-900 hover:border-accent-700 bg-background-color px-2 py-1.5 leading-none"
                                     href={link}
                                     target="_blank"
+                                    rel="noreferrer"
                                   >
                                     <img
-                                      class="h-3.5 w-3.5 rounded"
+                                      className="h-3.5 w-3.5 rounded"
                                       src={
                                         "https://www.google.com/s2/favicons?sz=64&domain_url=" +
                                         link.match(domainPattern)[1]
@@ -419,53 +480,57 @@ const Assistant = () => {
               <div className="spinner border-4 border-accent-500 border-t-4 border-t-accent-900 w-6 h-6 rounded-full m-0"></div>
             </div>
           ) : (
-            <AudioRecorder
-              handleQuerySubmit={handleQuerySubmit}
-              setIsRecognizing={setIsRecognizing}
-            />
+            !pageLoading && (
+              <AudioRecorder
+                handleQuerySubmit={handleQuerySubmit}
+                setIsRecognizing={setIsRecognizing}
+              />
+            )
           )}
         </div>
-
-        <div ref={menuRef} className="relative inline-block">
-          <div>
-            <button
-              type="button"
-              className="inline-flex justify-center p-3"
-              onClick={toggleDropdown}
-            >
-              <img
-                src={langDict[language][0]}
-                className="w-6 max-lg:w-6 max-md:w-6 mr-1"
-                alt="Logo"
-              />
-              <HiChevronUp
-                className="w-10 cursor-pointer text-primary-900 hover:text-primary-500 transition-all duration-200 ease-in-out animate-fade-in"
-                size={20}
-              />
-            </button>
-          </div>
-
-          {isOpen && (
-            <div className="absolute right-0 bottom-16 mb-1 w-36 bg-background-color border divide-y divide-primary-500 rounded-md ring-1 ring-black ring-opacity-5">
-              {languages.map((lang) => (
-                <div>
-                  <button
-                    type="button"
-                    className="p-2 flex items-center justify-start w-full hover:bg-accent-500"
-                    onClick={() => handleSetLanguage(lang)}
-                  >
-                    <img
-                      src={langDict[lang][0]}
-                      className="w-6 max-lg:w-6 max-md:w-6 mr-2"
-                      alt="Logo"
-                    />
-                    <p>{langDict[lang][1]}</p>
-                  </button>
-                </div>
-              ))}
+        {!pageLoading && (
+          <div ref={menuRef} className="relative inline-block">
+            <div>
+              <button
+                type="button"
+                className="inline-flex justify-center p-3"
+                onClick={toggleDropdown}
+              >
+                <img
+                  src={langDict[language][0]}
+                  className="w-6 max-lg:w-6 max-md:w-6 mr-1"
+                  alt="Logo"
+                />
+                <HiChevronUp
+                  className="w-10 cursor-pointer text-primary-900 hover:text-primary-500 transition-all duration-200 ease-in-out animate-fade-in"
+                  size={20}
+                />
+              </button>
             </div>
-          )}
-        </div>
+
+            {isOpen && (
+              <div className="absolute right-0 bottom-16 mb-1 w-36 bg-background-color border divide-y divide-primary-500 rounded-md ring-1 ring-black ring-opacity-5">
+                {languages.map((lang) => (
+                  <div>
+                    <button
+                      type="button"
+                      className="p-2 flex items-center justify-start w-full hover:bg-accent-500"
+                      onClick={() => handleSetLanguage(lang)}
+                    >
+                      <img
+                        src={langDict[lang][0]}
+                        className="w-6 max-lg:w-6 max-md:w-6 mr-2"
+                        alt="Logo"
+                      />
+                      <p>{langDict[lang][1]}</p>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         <HiArrowCircleRight
           className="cursor-pointer text-primary-900 hover:text-primary-500 transition-all duration-200 ease-in-out animate-fade-in"
           size={50}
