@@ -1,30 +1,29 @@
 import React, { useState } from "react";
-import logo from "../../assets/images/logo.png";
+import { Link } from "react-router-dom";
+
 import { signup } from "../../utils/User/signupAPI";
 
 import {
   COPYRIGHT,
   SIGN_IN_CONSTANT,
   SIGN_UP_CONSTANT,
-} from "../../constants/main";
-
+} from "../../constants/mainConstants";
 import {
-  HAVE_AN_ACCOUNT_MESSAGE,
   ERROR_NAME_VALIDATION,
   ERROR_EMAIL_VALIDATION,
   ERROR_PASSWORD_VALIDATION,
   ERROR_MATCH_PASSWORD_VALIDATION,
-  ERROR_FORM_REQUEST,
   ERROR_FORM_VALIDATION,
-  CONFIRM,
-} from "../../constants/signUp";
+  ERROR_SIGN_UP,
+} from "../../constants/validationErrorsConstants";
+
+import logo from "../../assets/images/logo.png";
 
 const Registration = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
-
   const [errors, setErrors] = useState({});
 
   const isFieldsFilledValidate = () => {
@@ -121,17 +120,16 @@ const Registration = () => {
         if (result) {
           window.location.href = "/survey";
         } else {
-          console.log("Sign Up failed!");
           setErrors((prevErrors) => ({
             ...prevErrors,
             form: ERROR_FORM_VALIDATION,
           }));
         }
       } catch (error) {
-        console.error("Error: ", error.message);
+        console.error("Error with registration: ", error.message);
         setErrors((prevErrors) => ({
           ...prevErrors,
-          form: ERROR_FORM_REQUEST,
+          form: ERROR_SIGN_UP,
         }));
       }
     } else {
@@ -144,16 +142,19 @@ const Registration = () => {
 
   return (
     <div className="max-w-md mx-auto my-14">
-      <div className="flex items-center flex-col bg-white drop-shadow-md rounded-xl border-primary-900 border-2 px-10 pt-0 pb-0 m-4">
+      <div className="flex items-center flex-col bg-white drop-shadow-md rounded-xl border-primary-900 border px-10 pt-0 pb-0 m-4">
+        {/* Header for Sign Up */}
         <img
           className="relative z-0 h-16 -top-8 rounded-xl drop-shadow-lg "
           alt="logoImage"
           src={logo}
         />
         <div className="text-center">
-          <h1 className="text-primary-900 text-2xl max-2xl:text-xl font-bold">
+          <h1 className="text-primary-900 text-2xl max-2xl:text-xl">
             {SIGN_UP_CONSTANT}
           </h1>
+
+          {/* Main Error Message */}
           {errors.form && (
             <p className="text-error-900 text-base max-2xl:text-sm text-center mt-2">
               {errors.form}
@@ -164,13 +165,14 @@ const Registration = () => {
           onSubmit={handleSubmit}
           className="flex flex-col gap-6 w-full mt-4"
         >
+          {/* Name Input */}
           <div>
             <input
-              className={`border-2 ${
+              className={`${
                 errors.name
                   ? "border-error-900 text-error-900"
                   : "border-accent-900 text-text-color"
-              } rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
+              } border rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
               id="name"
               type="text"
               placeholder="Name"
@@ -190,19 +192,23 @@ const Registration = () => {
                 }
               }}
             />
+
+            {/* Name Error */}
             {errors.name && (
               <p className="text-error-900 text-base max-2xl:text-sm mb-0 text-center">
                 {errors.name}
               </p>
             )}
           </div>
+
+          {/* Email Input */}
           <div>
             <input
-              className={`border-2 ${
+              className={`${
                 errors.email
                   ? "border-error-900 text-error-900"
                   : "border-accent-900 text-text-color"
-              } rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
+              } border  rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
               id="email"
               type="email"
               placeholder="Email"
@@ -222,19 +228,23 @@ const Registration = () => {
                 }
               }}
             />
+
+            {/* Email Error */}
             {errors.email && (
               <p className="text-error-900 text-base max-2xl:text-sm mb-0 text-center">
                 {errors.email}
               </p>
             )}
           </div>
+
+          {/* Password Input */}
           <div>
             <input
-              className={`border-2 ${
+              className={`${
                 errors.password
                   ? "border-error-900 text-error-900"
                   : "border-accent-900 text-text-color"
-              } rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
+              } border rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
               id="password"
               type="password"
               placeholder="Password"
@@ -254,20 +264,24 @@ const Registration = () => {
                 }
               }}
             />
+
+            {/* Password Error */}
             {errors.password && (
               <p className="text-error-900 text-base max-2xl:text-sm mb-0 text-center">
                 {errors.password}
               </p>
             )}
           </div>
+
+          {/* Repeat Password Input */}
           <div>
             <input
-              className={`border-2 ${
+              className={`${
                 errors.repeatPassword
                   ? "border-error-900 text-error-900"
                   : "border-accent-900 text-text-color"
-              } rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
-              id="password"
+              } border rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
+              id="repeat-password"
               type="password"
               placeholder="Repeat Password"
               required
@@ -286,35 +300,44 @@ const Registration = () => {
                 }
               }}
             />
+
+            {/* Repeat Password Error */}
             {errors.repeatPassword && (
               <p className="text-error-900 text-base max-2xl:text-sm mb-0 text-center">
                 {errors.repeatPassword}
               </p>
             )}
           </div>
+
+          {/* Submit Block */}
           <div>
+            {/* Link to Sign In */}
             <div>
               <p className="text-center text-sm">
-                {HAVE_AN_ACCOUNT_MESSAGE}
-                <a
-                  href="/login"
-                  className="text-primary-500 hover:text-primary-900 ease-in-out duration-150"
+                Already have an account?
+                <Link
+                  to="/login"
+                  className="text-primary-500 hover:text-primary-900 ease-in-out duration-150 ml-2"
                 >
                   {SIGN_IN_CONSTANT}
-                </a>
+                </Link>
               </p>
             </div>
+
+            {/* Confirm Button */}
             <div className="flex items-center justify-between mt-4">
               <button
                 className="bg-primary-900 w-full hover:bg-primary-700 text-background-color py-2 px-4 text-lg max-2xl:text-base rounded-lg ease-in-out duration-150 focus:drop-shadow-sm-primary-900 focus:outline-none focus:shadow-outline"
                 type="submit"
                 onClick={handleSubmit}
               >
-                {CONFIRM}
+                Confirm
               </button>
             </div>
           </div>
         </form>
+
+        {/* Footer */}
         <div className="mt-2">
           <p className="text-center text-sm max-2xl:text-xs mb-8 mt-6">
             {COPYRIGHT}

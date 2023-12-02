@@ -1,12 +1,16 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import logo from "../../assets/images/logo.png";
-import {
-  NAV_LINKS,
-  SETTINGS_CONSTANT,
-  LOGOUT_CONSTANT,
-} from "../../constants/navbar";
-import { SIGN_IN_CONSTANT, SIGN_UP_CONSTANT } from "../../constants/main";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+
+import { logout } from "../../utils/User/logoutAPI";
+
+import Loading from "../Spinner/Loading";
+
+import { NAV_LINKS } from "../../constants/navbarConstants";
+import {
+  SIGN_IN_CONSTANT,
+  SIGN_UP_CONSTANT,
+} from "../../constants/mainConstants";
+
 import {
   HiOutlineMenu,
   HiOutlineMenuAlt3,
@@ -15,32 +19,26 @@ import {
   HiOutlineCog,
 } from "react-icons/hi";
 
-import Loading from "../Spinner/Loading";
-import { logout } from "../../utils/User/logoutAPI";
+import logo from "../../assets/images/logo.png";
 
 const Navbar = ({ isLogin }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [toggleMenu, setToggleMenu] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-
   const location = useLocation();
   const navigate = useNavigate();
 
   const menuRef = useRef();
   const dropdownRef = useRef();
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [toggleMenu, setToggleMenu] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
   const handleLogout = async () => {
     try {
-      const result = await logout();
-      if (result) {
-        console.log("Logout successful");
-      } else {
-        console.log("Unauthorized or error occurred");
-      }
+      await logout();
       setIsOpen(!isOpen);
       navigate(0);
     } catch (error) {
-      console.error("Error: ", error.message);
+      console.error("Error with logout: ", error.message);
     }
   };
 
@@ -81,7 +79,7 @@ const Navbar = ({ isLogin }) => {
           />
         </a>
 
-        {/* Navbar Menu list */}
+        {/* Navbar Menu List */}
         <ul className="flex-1 flex justify-center items-center gap-10 mb-0 max-lg:hidden animate-fade-in">
           {NAV_LINKS.map((item) => (
             <li key={item.label}>
@@ -99,8 +97,7 @@ const Navbar = ({ isLogin }) => {
           ))}
         </ul>
 
-        {/* Navbar sign in / sing up links*/}
-
+        {/* Navbar Right Menu Block*/}
         <div className="flex gap-3 max-2xl:gap-2 leading-normal">
           {isLoading ? (
             <div className="max-lg:hidden block">
@@ -111,13 +108,14 @@ const Navbar = ({ isLogin }) => {
               ref={dropdownRef}
               className="relative max-lg:hidden flex animate-fade-in w-40 justify-center"
             >
+              {/* Logged User Right Menu */}
               <HiUser
                 size={37}
                 className=" text-primary-900 p-1 cursor-pointer rounded-full bg-background-color border-2 border-solid border-primary-900 hover:text-primary-500 hover:border-primary-500 ease-in-out duration-200"
                 onClick={() => setIsOpen(!isOpen)}
               />
               {isOpen && (
-                <div className="absolute z-10 right-0 top-16 bg-background-color border-accent-900 border-t-2 border-e-2 rounded-md shadow-xl">
+                <div className="z-10 absolute right-0 top-16 bg-background-color border-accent-900 border-t-2 border-e-2 rounded-md shadow-xl">
                   <ul className="py-6 px-6 space-y-4 flex flex-col items-center">
                     <Link
                       to="/change-profile"
@@ -125,7 +123,7 @@ const Navbar = ({ isLogin }) => {
                       className="px-2 flex items-center justify-start cursor-pointer text-text-color text-base hover:text-primary-500 duration-300 ease-in-out"
                     >
                       <HiOutlineCog size={30} className="mr-2" />
-                      {SETTINGS_CONSTANT}
+                      SETTINGS
                     </Link>
                     <p
                       className="px-2 flex items-center justify-start cursor-pointer text-text-color text-base hover:text-primary-500 ease-in-out duration-300"
@@ -134,7 +132,7 @@ const Navbar = ({ isLogin }) => {
                       }}
                     >
                       <HiOutlineLogout size={30} className="mr-2" />
-                      {LOGOUT_CONSTANT}
+                      LOGOUT
                     </p>
                   </ul>
                 </div>
@@ -142,6 +140,7 @@ const Navbar = ({ isLogin }) => {
             </div>
           ) : (
             <>
+              {/* Sign In | Sign Up Block */}
               <Link
                 to="/login"
                 onClick={() => setToggleMenu(false)}
@@ -159,7 +158,7 @@ const Navbar = ({ isLogin }) => {
             </>
           )}
 
-          {/* Toggle Icons */}
+          {/* Toggle Menu Icons */}
           <div ref={menuRef} className="ml-6 hidden max-lg:block">
             <HiOutlineMenuAlt3
               className={`${
@@ -197,6 +196,7 @@ const Navbar = ({ isLogin }) => {
                   ))}
                   {isLogin ? (
                     <>
+                      {/* User Functions Block */}
                       <li className="hidden max-lg:block">
                         <hr />
                       </li>
@@ -209,7 +209,7 @@ const Navbar = ({ isLogin }) => {
                               className="px-2 py-2 flex items-center justify-start cursor-pointer text-text-color text-lg max-md:text-base hover:text-primary-500 rounded-lg hover:bg-accent-500 ease-in-out duration-300"
                             >
                               <HiOutlineCog size={30} className="mr-2" />
-                              {SETTINGS_CONSTANT}
+                              SETTINGS
                             </Link>
                             <p
                               className="px-2 py-2 flex items-center justify-start cursor-pointer text-text-color text-lg max-md:text-base hover:text-primary-500 rounded-lg hover:bg-accent-500 ease-in-out duration-300"
@@ -218,7 +218,7 @@ const Navbar = ({ isLogin }) => {
                               }}
                             >
                               <HiOutlineLogout size={30} className="mr-2" />
-                              {LOGOUT_CONSTANT}
+                              LOGOUT
                             </p>
                           </ul>
                         </div>
@@ -226,6 +226,7 @@ const Navbar = ({ isLogin }) => {
                     </>
                   ) : (
                     <>
+                      {/* Sign In | Sign Up Block */}
                       <li className="hidden max-md:block">
                         <hr />
                       </li>

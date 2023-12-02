@@ -4,6 +4,9 @@ import math
 import psycopg2
 import pandas as pd
 
+from io import BytesIO
+import base64
+
 class Documents:
     def __init__(self) -> None:
         self.DBConnection, self.DBCursor = self.createDBCursor()
@@ -17,17 +20,54 @@ class Documents:
         return conn, conn.cursor()
 
     def purgeDocument(self):
-        print('inside purge document')
         self.DBCursor.execute("""DELETE FROM documents""")
         self.DBConnection.commit()
         return True
 
     def addDocument(self, category, title, short, info, age, kids, accom, insure, study, job, live, refugee, other,
                     documenttype, image, links):
-        print('inside add document')
         self.DBCursor.execute(
-            """INSERT INTO documents (category, title, info, age, kids, accom, insure, study, job, live, refugee, other, "documentType", image, short, links) 
-            VALUES (%(Category)s,%(Title)s,%(Info)s,%(Age)s,%(Kids)s,%(Accom)s,%(Insure)s,%(Study)s,%(Job)s,%(Live)s,%(Refugee)s,%(Other)s,%(DocumentType)s,%(Image)s,%(Short)s,%(Links)s)""",
+            """INSERT INTO documents (category, title, info, age, kids, accom, insure, study, job, live, refugee, other, "documentType", short, links, image) 
+            VALUES (%(Category)s,%(Title)s,%(Info)s,%(Age)s,%(Kids)s,%(Accom)s,%(Insure)s,%(Study)s,%(Job)s,%(Live)s,%(Refugee)s,%(Other)s,%(DocumentType)s,%(Short)s,%(Links)s,%(Image)s)""",
+            {'Category': category,
+             'Title': title,
+             'Short': short,
+             'Info': info,
+             'Age': str(age),
+             'Kids': str(kids),
+             'Accom': str(accom),
+             'Insure': str(insure),
+             'Study': str(study),
+             'Job': str(job),
+             'Live': str(live),
+             'Refugee': str(refugee),
+             'Other': str(other),
+             'DocumentType': documenttype,
+             'Image': image,
+             'Links': links})
+        self.DBConnection.commit()
+        return True
+
+    def updateDocument(self, category, title, short, info, age, kids, accom, insure, study, job, live, refugee, other,
+                    documenttype, image, links):
+        self.DBCursor.execute(
+            """UPDATE documents 
+            SET category=%(Category)s,
+            info=%(Info)s,
+            age=%(Age)s, 
+            kids=%(Kids)s, 
+            accom=%(Accom)s, 
+            insure=%(Insure)s, 
+            study=%(Study)s, 
+            job=%(Job)s, 
+            live=%(Live)s, 
+            refugee=%(Refugee)s, 
+            other=%(Other)s, 
+            "documentType"=%(DocumentType)s, 
+            image=%(Image)s, 
+            short=%(Short)s, 
+            links=%(Links)s
+            WHERE title = %(Title)s""",
             {'Category': category,
              'Title': title,
              'Short': short,
@@ -59,10 +99,21 @@ class DocumentAdder:
 
         return files
 
-    def insertData(self):
+
+    def getImage(self, path):
+        with open(path, "rb") as image:
+            s = base64.b64encode(image.read())
+            a = bytes(s)
+            arr = BytesIO(a).read()
+        return arr
+
+    def InsertOrUpdateData(self):
         files = self.getAllFiles()
         docs = Documents()
         docs.purgeDocument()
+        print("insert: 1")
+        print("update: 2")
+        inpt = int(input("insert or update data?:"))
 
         for file in files:
             print(file)
@@ -84,10 +135,11 @@ class DocumentAdder:
             refugee = 0 if "refugee" not in df or math.isnan(df["refugee"][0]) else df["refugee"][0]
             other = 0 if "other" not in df or math.isnan(df["other"][0]) else df["other"][0]
             documentType = None if "documentType" not in df or df["documentType"].isnull else df["documentType"][0]
-            image = None
+            image = None if "image" not in df else df["image"][0]
             links = None if "useful_links" not in df else df["useful_links"][0]
-            print(links)
-            docs.addDocument(category,title,desc,info,age,kids,accom,insure,study,job,live,refugee,other,documentType,image,links)
+            if inpt == 1: docs.addDocument(category,title,desc,info,age,kids,accom,insure,study,job,live,refugee,other,documentType,image,links)
+            elif inpt == 2: docs.updateDocument(category, title, desc, info, age, kids, accom, insure, study, job, live,
+                                           refugee, other, documentType, image, links)
 
 dc = DocumentAdder('C://Users/vano/Documents/GitHub/ZPI_VAF/iaff_assistant/documents')
-dc.insertData()
+dc.InsertOrUpdateData()

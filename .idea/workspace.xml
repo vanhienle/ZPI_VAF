@@ -5,9 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42017070-eea9-4b63-adc2-ae16001f1bca" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/ZPI_VAF.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ZPI_VAF.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/Citizenship/Polish Citizenship.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/Citizenship/Polish Citizenship.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/Insurance/Health Insurance.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/Insurance/Health Insurance.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/PESEL/PESEL.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/PESEL/PESEL.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/Poles Card/Poles Card.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/Poles Card/Poles Card.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/Refugee/Refugee.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/Refugee/Refugee.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/Residence Card/Permanent Residence Permit.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/Residence Card/Permanent Residence Permit.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/Residence Card/Temporary Residence Permit.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/Residence Card/Temporary Residence Permit.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/School/School.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/School/School.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/Student/Cost of living.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/Student/Cost of living.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/Student/Erasmus.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/Student/Erasmus.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/Student/NAWA.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/Student/NAWA.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/Student/Study in Poland.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/Student/Study in Poland.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/VISA/Poland Visa.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/VISA/Poland Visa.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_front/src/pages/Map/Map.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_front/src/pages/Map/Map.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,16 +52,19 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2WZpvpxhrK4wnDlbg4A8UulHTvg" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;
+  }
+}</component>
   <component name="RunManager" selected="Python.batch_pipeline">
     <configuration name="app" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <option name="INTERPRETER_OPTIONS" value="" />

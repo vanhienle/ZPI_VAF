@@ -1,5 +1,4 @@
-from flask import  request, jsonify, Blueprint, make_response # Blueprint, render_template, redirect, url_for,
-from flask_login import login_user, login_required, logout_user, current_user
+from flask import  request, jsonify, Blueprint
 from flask_cors import cross_origin
 from auth import check_token
 from survey import Survey
@@ -34,6 +33,7 @@ def filled_survey():
 
 def get_survey(survId):
     return survey.getSurvey(survId)
+
 
 @surv.route('/survey/get_survey',methods=['POST'])
 @cross_origin(supports_credentials=True)
@@ -105,7 +105,7 @@ def add_survey():
 
         result = survey.addSurvey(id, age, kids, baby, teen, adult, accom, insure, study, job, live, refugee, other,
                                   documenttype)
-        print('Added to sql database')
+        print('Survey added to sql database')
 
         if not result:
             print('Failed to add data')
@@ -152,7 +152,7 @@ def update_survey():
 
         survey.updateSurvey(id, age, kids, baby, teen, adult, accom, insure, study, job, live, refugee, other,
                                   documenttype)
-        print('Updated sql database')
+        print('Updated survey in sql database')
         return jsonify("true"), 200
 
     except jwt.ExpiredSignatureError:
