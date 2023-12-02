@@ -1,14 +1,12 @@
-from langchain.embeddings import HuggingFaceEmbeddings, HuggingFaceInstructEmbeddings
+from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores import Chroma
 import tiktoken
 import openai
 from dotenv import load_dotenv
-import numpy as np
 import os
 import TranslationAgent
 
 HF_EMBEDDINGS = 'sentence-transformers/msmarco-distilbert-base-v4'
-#HF_EMBEDDINGS = 'BAAI/bge-large-en-v1.5'
 CHROMA_LOCAL = "chroma_db"
 
 load_dotenv()
@@ -44,8 +42,8 @@ def num_tokens_from_messages(messages):
     num_tokens += 2 
     return num_tokens
 
-def get_returned_response(answer, source):
-    return {"response": answer, "source": source}
+def get_returned_response(answer, source='', articles=[]):
+    return {"response": answer, "source": source, "articles": articles}
 
 async def query(conv):               
     messages = []
@@ -60,9 +58,9 @@ async def query(conv):
 
     if (retrieved_docs[0][1] < 0.3):
         if (conv["language"] == "English"):        
-            return get_returned_response(no_information, '')
+            return get_returned_response(no_information)
         else:
-            return get_returned_response(await TranslationAgent.translate(no_information, conv["language"]), '')    
+            return get_returned_response(await TranslationAgent.translate(no_information, conv["language"]))    
 
     user_input = ""
     for doc in retrieved_docs:
@@ -86,5 +84,9 @@ async def query(conv):
 
     returned_response = response['choices'][0]['message']['content'] + "\n"
     source = retrieved_docs[0][0].metadata["source"] if retrieved_docs[0][1] >= 0.4 else ""
+    articles = []
+    for doc in retrieved_docs:
+        if (doc[1] >= 0.4 and doc[0].metadata["article"] not in articles):
+            articles.append(doc[0].metadata["article"])
 
-    return get_returned_response(returned_response, source)
+    return get_returned_response(returned_response, source, articles)

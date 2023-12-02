@@ -11,9 +11,8 @@ import asyncio
 
 DOC_REPO_DIRECTORY = "documents/"
 HF_EMBEDDINGS = 'sentence-transformers/msmarco-distilbert-base-v4'
-#HF_EMBEDDINGS = 'BAAI/bge-large-en-v1.5'
 CHROMA_LOCAL = "chroma_db"
-LANGUAGES = ["English", "Polish", "Vietnamese", "Belarusian", "Ukrainian"]
+LANGUAGES = ["English", "Polish", "Vietnamese", "Belarusian", "Ukrainian", "Russian"]
 embeddings = HuggingFaceEmbeddings(model_name=HF_EMBEDDINGS)
 vector_store = Chroma(persist_directory=CHROMA_LOCAL, embedding_function=embeddings, collection_metadata={"hnsw:space": "cosine"})
 
@@ -51,11 +50,13 @@ async def ingest_doc(doc_path):
     df = pd.read_excel(doc_path)                
 
     links = df['useful_links'][0]
+    article = df['title'][0]
     content = df['info'][0]    
 
     chunks = text_splitter.split_text(text=content)
     for i, chunk in enumerate(chunks):
         metadata = {"source": links,
+                    "article": article,
                     "English": chunk}
         tasks = []
         for lang in LANGUAGES:            
