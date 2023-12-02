@@ -10,8 +10,6 @@ export const message = `Hi, I am your intelligent assistant, happy to help.\nHer
 
 export const input = `Send a question...`;
 
-export const article_ = `Article: `;
-
 export const source_ = `Learn more: `;
 
 const suggestedQuestionsForGuests = [
