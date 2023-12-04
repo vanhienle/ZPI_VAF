@@ -82,20 +82,20 @@ const Filters = ({ handleSearchHotels, handleSetInformation }) => {
   };
 
   const handleSetGuestCount = (e) => {
-    const value = e.target.value;
-    if (/^[1-9]\d*$/.test(value)) {
-      setGuestCount(Number(value));
-    } else if (value === "") {
+    const value = parseInt(e.target.value, 10);
+    if (!isNaN(value) && value > 0) {
       setGuestCount(value);
+    } else {
+      setGuestCount(1);
     }
   };
 
   const handleSetRoomCount = (e) => {
-    const value = e.target.value;
-    if (/^[1-9]\d*$/.test(value)) {
-      setRoomCount(Number(value));
-    } else if (value === "") {
+    const value = parseInt(e.target.value, 10);
+    if (!isNaN(value) && value > 0) {
       setRoomCount(value);
+    } else {
+      setRoomCount(1);
     }
   };
 
@@ -313,7 +313,8 @@ const Filters = ({ handleSearchHotels, handleSetInformation }) => {
             </label>
             <input
               className="border border-accent-900 focus:border-primary-700 outline-none p-3 w-full rounded-lg"
-              type="text"
+              type="number"
+              min="1"
               value={guestCount}
               onChange={handleSetGuestCount}
             />
@@ -324,7 +325,8 @@ const Filters = ({ handleSearchHotels, handleSetInformation }) => {
             </label>
             <input
               className="border border-accent-900 focus:border-primary-700 outline-none p-3 w-full rounded-lg"
-              type="text"
+              type="number"
+              min="1"
               value={roomCount}
               onChange={handleSetRoomCount}
             />
