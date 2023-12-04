@@ -167,34 +167,27 @@ const Assistant = () => {
       setSourceDisplay(source_);
       setSuggestedQuestions(questionList);
     } else {
-      const translatedMessage = await getTranslated({
-        content: message,
-        target_language: language,
-      });
-      const translatedPrompt = await getTranslated({
-        content: input,
-        target_language: language,
-      });
-      const translatedArticle = await getTranslated({
-        content: article_,
-        target_language: language,
-      });
-      const translatedSource = await getTranslated({
-        content: source_,
-        target_language: language,
-      });
-      const promises = questionList.map(async (question) => {
-        return await getTranslated({
-          content: question,
-          target_language: language,
-        });
-      });
-      const translatedQuestions = await Promise.all(promises);
-      setHelloMessage(translatedMessage);
-      setPromptInput(translatedPrompt);
-      setArticleDisplay(translatedArticle);
-      setSourceDisplay(translatedSource);
-      setSuggestedQuestions(translatedQuestions);
+      let translations;
+
+      const contentToTranslate = [
+        message,
+        input,
+        article_,
+        source_,
+        ...questionList,
+      ];
+
+      const translationPromises = contentToTranslate.map((content) =>
+        getTranslated({ content, target_language: language })
+      );
+
+      translations = await Promise.all(translationPromises);
+
+      setHelloMessage(translations[0]);
+      setPromptInput(translations[1]);
+      setArticleDisplay(translations[2]);
+      setSourceDisplay(translations[3]);
+      setSuggestedQuestions(translations.slice(4));
     }
     setMessages([]);
     setPageLoading(false);
@@ -454,7 +447,7 @@ const Assistant = () => {
         </button>
       )}
 
-      <div className="fixed bottom-0 flex w-full px-60 max-2xl:px-15 max-xl:px-10 max-lg:px-2 py-4 bg-accent-500">
+      <div className="absolute bottom-0 flex w-full px-60 max-2xl:px-15 max-xl:px-10 max-lg:px-2 py-4 bg-accent-500">
         <div className="w-full flex border-solid border border-text-color bg-background-color rounded-lg p-3">
           <textarea
             ref={textareaRef}
