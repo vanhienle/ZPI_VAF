@@ -16,11 +16,9 @@ export async function getDestinations(keyword) {
     if (response.status === 200) {
       const result = await response.json();
       return result;
-    } else if (response.status === 401) {
-      const error = await response.json();
-      throw new Error(error.Error);
     } else {
-      throw new Error("Internal server error");
+      alert("An error has occurred. Please try again later!");
+      return null;
     }
   } catch (error) {}
 }

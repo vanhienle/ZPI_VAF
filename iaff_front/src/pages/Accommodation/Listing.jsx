@@ -29,26 +29,28 @@ const Listing = ({ id, params, filterParams }) => {
       key={id}
       className="flex flex-row rounded-xl bg-background-color shadow-lg w-full mb-8"
     >
-      <img
-        src={params.max_photo_url}
-        alt="Listing"
-        className="object-cover w-80 max-md:w-60 max-sm:w-40 h-60 max-sm:h-40 rounded-xl"
-      />
-      <div className="px-6 flex flex-col justify-start w-2/3 max-sm:w-3/5">
-        <h5 className="text-gray-900 text-xl font-medium mb-2">
+      <div>
+        <img
+          src={params.max_photo_url}
+          alt="Listing"
+          className="object-cover w-80 max-md:w-60 max-sm:w-40 h-60 max-sm:h-40 rounded-xl"
+        />
+      </div>
+      <div className="px-6 max-sm:px-3 flex flex-col justify-start w-2/3 max-sm:w-3/5">
+        <h1 className="text-xl max-md:text-lg max-sm:text-base font-medium mb-2">
           {params.hotel_name}
-        </h5>
+        </h1>
         {params.review_score &&
           params.review_nr &&
           params.review_score_word && (
-            <p className="text-gray-600 text-xs mb-4">
+            <p className="text-xs mb-4 ">
               {params.review_score} ({params.review_nr}){" "}
               {params.review_score_word}
             </p>
           )}
         <div className="flex flex-wrap flex-grow mb-4 w-full">
           {params.class > 0 && (
-            <div className="text-sm text-gray-700 inline-flex items-center mr-2 mb-2 bg-gray-200 rounded-full px-3 py-1">
+            <div className="text-sm max-sm:text-xs inline-flex items-center mr-2 mb-2 rounded-full px-3 py-1">
               <i className="fas fa-hotel mr-1"></i>
               {params.class}-star hotel
             </div>
@@ -56,15 +58,15 @@ const Listing = ({ id, params, filterParams }) => {
           {Object.keys(facilityMap).map(
             (key, index) =>
               facilities.includes(key) && (
-                <div className="text-sm text-gray-700 inline-flex items-center mr-2 mb-2 bg-gray-200 rounded-full px-3 py-1">
+                <div className="text-sm max-sm:text-xs inline-flex items-center mr-2 mb-2 rounded-full px-3 py-1">
                   <i className={`mr-1 ${facilityMap[key][1]}`}></i>
                   {facilityMap[key][0]}
                 </div>
               )
           )}
         </div>
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-3xl max-sm:text-xl font-bold text-gray-900">
+        <div className="flex items-center justify-between mb-6 max-sm:mb-3">
+          <span className="text-3xl max-md:text-2xl max-sm:text-xl font-bold">
             {params.price_breakdown.currency}{" "}
             {Math.ceil(params.price_breakdown.all_inclusive_price)}
           </span>

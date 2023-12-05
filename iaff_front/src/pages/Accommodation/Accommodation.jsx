@@ -49,6 +49,7 @@ const Accommodation = () => {
         setPages(
           Array.from({ length: Math.min(newMaxPage, 4) }, (_, i) => i + 1)
         );
+        setActivePage(1);
       }
     } else {
       handleSetInformation("No listings found");
