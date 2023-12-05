@@ -83,19 +83,19 @@ const Filters = ({ handleSearchHotels, handleSetInformation }) => {
 
   const handleSetGuestCount = (e) => {
     const value = parseInt(e.target.value, 10);
-    if (!isNaN(value) && value > 0) {
-      setGuestCount(value);
+    if (!isNaN(value)) {
+      setGuestCount(Math.max(1, value));
     } else {
-      setGuestCount(1);
+      setGuestCount(null);
     }
   };
 
   const handleSetRoomCount = (e) => {
     const value = parseInt(e.target.value, 10);
-    if (!isNaN(value) && value > 0) {
-      setRoomCount(value);
+    if (!isNaN(value)) {
+      setRoomCount(Math.max(1, value));
     } else {
-      setRoomCount(1);
+      setRoomCount(null);
     }
   };
 
