@@ -2,6 +2,7 @@ from flask_login import UserMixin
 import pika
 import psycopg2
 
+
 class Survey:
     def __init__(self) -> None:
         # self.connection, self.channel = self.createChannel()
@@ -15,13 +16,11 @@ class Survey:
                                 password="!")
         return conn, conn.cursor()
 
-
     def createChannel(self):
         connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
         channel = connection.channel()
         channel.queue_declare(queue='user')
         return connection, channel
-
 
     def getSurvey(self, id):
         self.DBCursor.execute(
@@ -33,8 +32,8 @@ class Survey:
         print('After query=', result)
         return result
 
-
-    def addSurvey(self, id, age, kids, baby, teen, adult, accom, insure, study, job, live, refugee, other, documenttype):
+    def addSurvey(self, id, age, kids, baby, teen, adult, accom, insure, study, job, live, refugee, other,
+                  documenttype):
         print('inside add survey')
         self.DBCursor.execute(
             """INSERT INTO survey (UserID,Age,Kids,Baby,Teen,Adult,Accom,Insure,Study,Job,Live,Refugee,Other,DocumentType) 
@@ -56,8 +55,8 @@ class Survey:
         self.DBConnection.commit()
         return self.getSurvey(id)
 
-
-    def updateSurvey(self, id, age, kids, baby, teen, adult, accom, insure, study, job, live, refugee, other, documenttype):
+    def updateSurvey(self, id, age, kids, baby, teen, adult, accom, insure, study, job, live, refugee, other,
+                     documenttype):
         print('inside update survey')
         self.DBCursor.execute(
             """UPDATE survey SET Age=%(Age)s,
@@ -90,7 +89,6 @@ class Survey:
              'DocumentType': documenttype})
         self.DBConnection.commit()
         return True
-
 
     def fin(self):
         self.DBConnection.close()

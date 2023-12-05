@@ -21,10 +21,11 @@ services:
       - database
 
   database:
-    image: 
+    image: postgres:latest
+    container_name: diploma-postgres
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "!"
-      POSTGRES_DB: "ClientDatabase"
+      POSTGRES_DB: "clientdb"
     ports:
       - "5432:5432"
