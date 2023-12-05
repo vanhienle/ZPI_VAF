@@ -11,7 +11,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import Assistant from "./pages/Assistant/Assistant";
 import Accommodation from "./pages/Accommodation/Accommodation";
-import Map from "./pages/Map/Map";
+import Maps from "./pages/Maps/Maps";
 import Registration from "./pages/Registration/Registration";
 import Login from "./pages/Login/Login";
 import ChangeProfile from "./pages/Profile/ChangeProfile";
@@ -74,7 +74,7 @@ const App = () => {
         />
         <Route element={<Assistant />} path="/assistant" />
         <Route element={<Accommodation />} path="/accommodation" />
-        <Route element={<Map />} path="/map" />
+        <Route element={<Maps />} path="/map" />
         <Route element={<DocumentPage />} path="documents/:id" />
 
         <Route element={<LoggedUserRoutes isLogin={isLogin} />}>

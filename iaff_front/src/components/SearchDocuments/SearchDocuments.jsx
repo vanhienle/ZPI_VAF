@@ -61,7 +61,7 @@ const SearchDocuments = () => {
 
   return (
     <div ref={searchRef} className="relative">
-      <div className="flex w-full items-center border-2 rounded-md p-2">
+      <div className="flex w-full items-center border rounded-md p-2">
         {/* Search Input Block */}
         <input
           type="text"
@@ -75,7 +75,7 @@ const SearchDocuments = () => {
 
       {/* Found Items Block */}
       {isOpen ? (
-        <div className="absolute z-10 w-full mt-4 flex flex-col space-y-6 p-3 items-start justify-center border-2 border-text-color rounded-md bg-accent-500 bg-opacity-90">
+        <div className="absolute z-10 w-full mt-4 flex flex-col space-y-6 p-3 items-start justify-center border border-text-color rounded-md bg-accent-500 bg-opacity-90">
           {searchLoading ? (
             <div className="h-44 w-full flex items-center justify-center">
               <Loading />
