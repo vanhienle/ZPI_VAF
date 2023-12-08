@@ -2,6 +2,11 @@ export const DEFAULT_LAT = 52.23;
 
 export const DEFAULT_LNG = 21.0111;
 
+export const CANT_FIND_CITY =
+  "If you can't find your city in the list, don't worry! You can still search for it.";
+
+export const CANT_FIND_TYPE = "Please, choose one from types in list!";
+
 export const FILTERS = [
   { id: 1, name: "Hospital" },
   { id: 2, name: "Police" },

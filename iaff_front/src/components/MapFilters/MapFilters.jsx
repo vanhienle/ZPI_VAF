@@ -1,5 +1,10 @@
 import React, { useRef, useCallback, useState, useEffect } from "react";
-import { FILTERS, CITIES } from "../../constants/mapConstants";
+import {
+  FILTERS,
+  CITIES,
+  CANT_FIND_CITY,
+  CANT_FIND_TYPE,
+} from "../../constants/mapConstants";
 
 const MapFilters = (props) => {
   const {
@@ -143,10 +148,7 @@ const MapFilters = (props) => {
                   ))
                 ) : (
                   <div className="w-full flex flex-col items-center justify-around">
-                    <p className="text-center m-4">
-                      If you can't find your city in the list, don't worry! You
-                      can still search for it.
-                    </p>
+                    <p className="text-center m-4">{CANT_FIND_CITY}</p>
                     <button
                       className="m-4 rounded-md text-background-color bg-primary-900 hover:bg-primary-700 px-4 py-2 ease-in-out duration-150"
                       onClick={handleSearchButtonClick}
@@ -201,9 +203,7 @@ const MapFilters = (props) => {
                   </>
                 ) : (
                   <div className="w-full flex flex-col items-center justify-around">
-                    <p className="text-center m-4">
-                      Please, choose one from types in list!
-                    </p>
+                    <p className="text-center m-4">{CANT_FIND_TYPE}</p>
                   </div>
                 )}
               </div>
