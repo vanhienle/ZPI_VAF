@@ -36,7 +36,7 @@ const Maps = () => {
   });
 
   return (
-    <div className="flex w-full max-md:flex-col">
+    <div className="flex w-full max-md:flex-col h-[90vh] min-h-[500px]">
       <div className="flex flex-col w-1/3 max-md:w-full z-40 max-md:mb-4">
         <MapFilters
           chosenCity={chosenCity}
@@ -71,7 +71,7 @@ const Maps = () => {
         )}
       </div>
       {isLoaded ? (
-        <div className=" w-2/3 h-[38.75rem] max-md:w-full">
+        <div className=" w-2/3 h-full max-md:w-full">
           <Map
             isLoaded={isLoaded}
             filter={chosenType}
