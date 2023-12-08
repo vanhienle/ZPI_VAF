@@ -15,7 +15,7 @@ const Maps = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [isMoreButtonDisabled, setIsMoreButtonDisabled] = useState();
+  const [isMoreButtonDisabled, setIsMoreButtonDisabled] = useState(true);
   const [getNextPage, setGetNextPage] = useState(null);
 
   const handlePagination = (nextPageFunction) => {
@@ -36,14 +36,15 @@ const Maps = () => {
   });
 
   return (
-    <div className="flex w-full">
-      <div className="flex flex-col w-1/3">
+    <div className="flex w-full max-md:flex-col">
+      <div className="flex flex-col w-1/3 max-md:w-full z-40 max-md:mb-4">
         <MapFilters
           chosenCity={chosenCity}
           setChosenCity={setChosenCity}
           chosenType={chosenType}
           setChosenType={setChosenType}
           setChosenPlace={setChosenPlace}
+          setIsMoreButtonDisabled={setIsMoreButtonDisabled}
         />
         <MapResults
           places={places}
@@ -54,21 +55,36 @@ const Maps = () => {
           setIsLoading={setIsLoading}
           handleMoreButtonClick={handleMoreButtonClick}
           isMoreButtonDisabled={isMoreButtonDisabled}
+          setPlaceClicked={setPlaceClicked}
         />
+        {isMoreButtonDisabled ? (
+          <button className="mx-4 px-4 py-2 rounded-md text-lg bg-accent-900 text-accent-300 cursor-default hidden max-md:block">
+            Load More
+          </button>
+        ) : (
+          <button
+            className="mx-4 px-4 py-2 rounded-md text-lg bg-primary-900 text-background-color hover:bg-primary-700 ease-in-out duration-150 hidden max-md:block"
+            onClick={handleMoreButtonClick}
+          >
+            Load More
+          </button>
+        )}
       </div>
       {isLoaded ? (
-        <div className=" w-2/3 h-[38.75rem]">
+        <div className=" w-2/3 h-[38.75rem] max-md:w-full">
           <Map
             isLoaded={isLoaded}
             filter={chosenType}
             city={chosenCity}
             places={places}
             setPlaces={setPlaces}
+            placeClicked={placeClicked}
             setPlaceClicked={setPlaceClicked}
             setIsLoading={setIsLoading}
             handlePagination={handlePagination}
             setIsMoreButtonDisabled={setIsMoreButtonDisabled}
             setChosenPlace={setChosenPlace}
+            chosenPlace={chosenPlace}
           />
         </div>
       ) : (

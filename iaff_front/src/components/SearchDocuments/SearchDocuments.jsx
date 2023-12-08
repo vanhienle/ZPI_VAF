@@ -95,14 +95,14 @@ const SearchDocuments = () => {
                       className="w-40 h-40 rounded-md object-cover"
                     />
                   </div>
-                  <div className="w-3/4 max-2xl:w-1/2 max-xl:w-3/4 max-lg:w-1/2 flex max-2xl:flex-col max-xl:flex-row max-lg:flex-col justify-around max-2xl:items-center max-2xl:justify-center max-xl:items-start max-xl:justify-around max-lg:items-center max-lg:justify-center">
-                    <div className="w-full flex flex-col text-center">
+                  <div className="w-3/4 max-2xl:w-1/2 max-xl:w-3/4 max-lg:w-1/2 flex max-2xl:flex-col max-xl:flex-row max-lg:flex-col items-center justify-between max-2xl:items-center max-2xl:justify-center max-xl:items-center max-xl:justify-between max-lg:items-center max-lg:justify-center">
+                    <div className="w-1/3 max-2xl:w-full max-xl:w-1/3 max-lg:w-full h-feet flex flex-col text-center items-center">
                       <h1 className="text-primary-900 font-bold text-lg">
                         {item.title}
                       </h1>
                       <p className="font-bold">{item.category}</p>
                     </div>
-                    <p className="text-base text-center max-sm:hidden">
+                    <p className="w-2/3 max-2xl:w-full max-xl:w-2/3 max-lg:w-full text-base text-center max-sm:hidden">
                       {item.short}
                     </p>
                   </div>

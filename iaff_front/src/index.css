@@ -8,3 +8,37 @@
     margin: 0 auto;
   }
 }
+
+/* Common styles for all browsers */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #000072 #f1f1f1;
+}
+
+/* Scroll bar stylings */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #000072;
+  border-radius: 0px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #0000ae;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
