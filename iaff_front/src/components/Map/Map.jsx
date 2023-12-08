@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { GoogleMap, InfoWindow, Marker } from "@react-google-maps/api";
 import { DEFAULT_LAT, DEFAULT_LNG } from "../../constants/mapConstants";
 import mapImage from "../../assets/images/map.jpg";
@@ -18,11 +18,8 @@ const Map = (props) => {
     chosenPlace,
   } = props;
 
-  const infoWindowRef = useRef();
-
   const [center, setCenter] = useState({ lat: DEFAULT_LAT, lng: DEFAULT_LNG });
   const [map, setMap] = useState(null);
-  const [selectedMarker, setSelectedMarker] = useState(null);
 
   const onLoad = useCallback(function callback(map) {
     setMap(map);
@@ -95,30 +92,9 @@ const Map = (props) => {
     }
   }, [filter, map]);
 
-  const handleOutsideInfoWindowClick = useCallback(
-    (e) => {
-      const infoWindowElement = document.querySelector(".gm-style-iw");
-
-      if (
-        selectedMarker &&
-        infoWindowElement &&
-        !infoWindowElement.contains(e.target)
-      ) {
-        setSelectedMarker(null);
-        setPlaceClicked(null);
-        setChosenPlace(null);
-      }
-    },
-    [selectedMarker]
-  );
-
-  useEffect(() => {
-    document.addEventListener("click", handleOutsideInfoWindowClick);
-
-    return () => {
-      document.removeEventListener("click", handleOutsideInfoWindowClick);
-    };
-  }, [handleOutsideInfoWindowClick]);
+  const handleMapClick = () => {
+    setPlaceClicked(null);
+  };
 
   return (
     <>
@@ -134,6 +110,7 @@ const Map = (props) => {
           zoomControl: true,
         }}
         onLoad={onLoad}
+        onClick={handleMapClick}
       >
         {places.map((place) => (
           <Marker
@@ -151,41 +128,39 @@ const Map = (props) => {
             onClick={() => {
               setPlaceClicked(place);
               setChosenPlace(null);
-              setSelectedMarker(place);
             }}
           />
         ))}
-        {selectedMarker && (
+        {placeClicked && (
           <InfoWindow
-            ref={infoWindowRef}
-            position={selectedMarker.geometry.location}
-            mapContainerClassName="hidden max-md:block w-feet h-feet"
+            position={placeClicked.geometry.location}
+            mapContainerClassName="w-feet h-feet"
             onCloseClick={() => {
-              setSelectedMarker(null);
               setPlaceClicked(null);
-              setChosenPlace(null);
             }}
           >
-            <div className="p-4 flex flex-col gap-3">
-              <h1 className="text-base font-semibold text-primary-900 text-center">
-                {selectedMarker.name}
+            <div className="p-4 flex flex-col items-center gap-3 w-feet max-md:w-64">
+              <h1 className="text-xs w-1/2 font-semibold text-primary-900 text-center max-md:text-base">
+                {placeClicked.name}
               </h1>
               <img
                 src={
-                  selectedMarker.photos
-                    ? selectedMarker.photos[0].getUrl({
+                  placeClicked.photos
+                    ? placeClicked.photos[0].getUrl({
                         maxWidth: 500,
                         maxHeight: 500,
                       })
                     : mapImage
                 }
                 alt="place"
-                className="w-full rounded-md h-44 object-cover"
+                className="w-64 max-md:w-full rounded-md h-32 max-md:h-44 object-cover"
               />
-              <p className="text-left">{selectedMarker.vicinity}</p>
+              <p className="text-center hidden max-md:block">
+                {placeClicked.vicinity}
+              </p>
               <a
-                href={`https://www.google.com/maps?q=${selectedMarker.vicinity},${selectedMarker.name}`}
-                className="text-left hover:text-primary-500"
+                href={`https://www.google.com/maps?q=${placeClicked.vicinity},${placeClicked.name}`}
+                className="px-4 py-2 border text-center rounded-md hover:bg-accent-500 hidden max-md:block ease-in-out duration-200"
                 target="_blank"
                 rel="noreferrer"
               >

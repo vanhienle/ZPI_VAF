@@ -61,39 +61,37 @@ const App = () => {
   }, [isLogin]);
 
   return (
-    <div className="flex flex-col">
+    <div>
       <Navbar isLogin={isLogin} />
-      <div className="flex-grow">
-        <Routes>
+      <Routes>
+        <Route
+          element={<Home isLogin={isLogin} isSurvey={isFilled} />}
+          path="/"
+        />
+        <Route
+          element={<Documents isLogin={isLogin} isSurvey={isFilled} />}
+          path="/documents"
+        />
+        <Route element={<Assistant />} path="/assistant" />
+        <Route element={<Accommodation />} path="/accommodation" />
+        <Route element={<Maps />} path="/map" />
+        <Route element={<DocumentPage />} path="documents/:id" />
+
+        <Route element={<LoggedUserRoutes isLogin={isLogin} />}>
+          <Route element={<ChangeProfile />} path="/change-profile" />
+          <Route element={<ChangePassword />} path="/change-password" />
+
           <Route
-            element={<Home isLogin={isLogin} isSurvey={isFilled} />}
-            path="/"
+            element={isFilled ? <ChangeSurvey /> : <Survey />}
+            path="/survey"
           />
-          <Route
-            element={<Documents isLogin={isLogin} isSurvey={isFilled} />}
-            path="/documents"
-          />
-          <Route element={<Assistant />} path="/assistant" />
-          <Route element={<Accommodation />} path="/accommodation" />
-          <Route element={<Maps />} path="/map" />
-          <Route element={<DocumentPage />} path="documents/:id" />
+        </Route>
 
-          <Route element={<LoggedUserRoutes isLogin={isLogin} />}>
-            <Route element={<ChangeProfile />} path="/change-profile" />
-            <Route element={<ChangePassword />} path="/change-password" />
-
-            <Route
-              element={isFilled ? <ChangeSurvey /> : <Survey />}
-              path="/survey"
-            />
-          </Route>
-
-          <Route element={<GuestRoutes isLogin={isLogin} />}>
-            <Route element={<Registration />} path="/sign-up" />
-            <Route element={<Login />} path="/login" />
-          </Route>
-        </Routes>
-      </div>
+        <Route element={<GuestRoutes isLogin={isLogin} />}>
+          <Route element={<Registration />} path="/sign-up" />
+          <Route element={<Login />} path="/login" />
+        </Route>
+      </Routes>
       {location.pathname !== "/assistant" && location.pathname !== "/map" && (
         <Footer />
       )}
