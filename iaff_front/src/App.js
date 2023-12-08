@@ -92,7 +92,9 @@ const App = () => {
           <Route element={<Login />} path="/login" />
         </Route>
       </Routes>
-      {location.pathname !== "/assistant" && <Footer />}
+      {location.pathname !== "/assistant" && location.pathname !== "/map" && (
+        <Footer />
+      )}
     </div>
   );
 };

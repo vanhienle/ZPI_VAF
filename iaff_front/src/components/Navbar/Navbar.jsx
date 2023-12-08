@@ -68,7 +68,7 @@ const Navbar = ({ isLogin }) => {
   }, [handleOutsideClick]);
 
   return (
-    <header className="py-3 px-4 z-10 w-full bg-background-color shadow-md">
+    <header className="py-3 px-4 z-50 w-full bg-background-color shadow-md">
       <nav className="flex justify-between items-center max-container">
         {/* Navbar Logo of Application */}
         <a href="/">
