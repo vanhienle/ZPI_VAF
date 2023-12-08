@@ -6,9 +6,16 @@ import { FaStar } from "react-icons/fa";
 import { FaMapMarkerAlt } from "react-icons/fa";
 
 const MapPlaceDetails = (props) => {
-  const { chosenPlace, setChosenPlace, isLoading, setIsLoading } = props;
+  const {
+    chosenPlace,
+    setChosenPlace,
+    isLoading,
+    setIsLoading,
+    setPlaceClicked,
+  } = props;
 
   const handleBackButtonClick = () => {
+    setPlaceClicked(chosenPlace);
     setChosenPlace(null);
   };
 

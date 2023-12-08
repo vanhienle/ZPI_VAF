@@ -2,7 +2,12 @@ import React, { useRef, useCallback, useState, useEffect } from "react";
 import { FILTERS, CITIES } from "../../constants/mapConstants";
 
 const MapFilters = (props) => {
-  const { setChosenCity, setChosenType, setChosenPlace } = props;
+  const {
+    setChosenCity,
+    setChosenType,
+    setChosenPlace,
+    setIsMoreButtonDisabled,
+  } = props;
 
   const dropdownCityRef = useRef();
   const dropdownTypeRef = useRef();
@@ -58,8 +63,10 @@ const MapFilters = (props) => {
     } else {
       setInputType("");
       setChosenType(null);
+      setFilteredTypeOptions(FILTERS);
       setIsDropdownTypeOpen(false);
       setChosenPlace(null);
+      setIsMoreButtonDisabled(true);
     }
   };
 
@@ -116,9 +123,9 @@ const MapFilters = (props) => {
             className="border border-primary-900 rounded-md py-2 px-4 w-full text-base focus:outline-none focus:border-primary-500"
           />
           {isDropdownCityOpen && (
-            <div className="w-full h-fit max-h-96 overflow-auto absolute right-0 mt-2 shadow-lg border-2 border-primary-500">
+            <div className="w-full h-fit max-h-96 overflow-auto z-10 absolute right-0 mt-2 shadow-lg border-2 border-primary-500">
               <div
-                className="py-1 z-10 bg-background-color"
+                className="py-1 bg-background-color"
                 role="menu"
                 aria-orientation="vertical"
                 aria-labelledby="options-menu"
@@ -164,7 +171,7 @@ const MapFilters = (props) => {
             className="border border-primary-900 rounded-md py-2 px-4 w-full text-base focus:outline-none focus:border-primary-500"
           />
           {isDropdownTypeOpen && (
-            <div className="w-full h-fit max-h-96 overflow-auto absolute right-0 mt-2 shadow-lg border-2 border-primary-500">
+            <div className="w-full h-fit max-h-96 overflow-auto z-10 absolute right-0 mt-2 shadow-lg border-2 border-primary-500">
               <div
                 className="py-1 z-10 bg-background-color"
                 role="menu"

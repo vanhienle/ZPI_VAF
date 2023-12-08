@@ -13,6 +13,8 @@ const Map = (props) => {
     handlePagination,
     setIsMoreButtonDisabled,
     setChosenPlace,
+    placeClicked,
+    chosenPlace,
   } = props;
   const [center, setCenter] = useState({ lat: DEFAULT_LAT, lng: DEFAULT_LNG });
   const [map, setMap] = useState(null);
@@ -41,6 +43,7 @@ const Map = (props) => {
 
   const getPlacesByFilter = (location) => {
     setIsLoading(true);
+    setIsMoreButtonDisabled(false);
     const request = {
       location: location,
       radius: 7000,
@@ -106,9 +109,15 @@ const Map = (props) => {
           <Marker
             key={place.placeId}
             position={place.geometry.location}
-            icon={{
-              url: "http://maps.google.com/mapfiles/ms/micons/blue.png",
-            }}
+            icon={
+              place === placeClicked || place === chosenPlace
+                ? {
+                    url: "http://maps.google.com/mapfiles/ms/micons/red.png",
+                  }
+                : {
+                    url: "http://maps.google.com/mapfiles/ms/micons/blue.png",
+                  }
+            }
             onClick={() => {
               setPlaceClicked(place);
               setChosenPlace(null);

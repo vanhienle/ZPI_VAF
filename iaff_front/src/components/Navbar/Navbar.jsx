@@ -115,7 +115,7 @@ const Navbar = ({ isLogin }) => {
                 onClick={() => setIsOpen(!isOpen)}
               />
               {isOpen && (
-                <div className="z-10 absolute right-0 top-16 bg-background-color border-accent-900 border-t-2 border-e-2 rounded-md shadow-xl">
+                <div className="z-50 absolute right-0 top-16 bg-background-color border-accent-900 border-t-2 border-e-2 rounded-md shadow-xl">
                   <ul className="py-6 px-6 space-y-4 flex flex-col items-center">
                     <Link
                       to="/change-profile"
@@ -177,7 +177,7 @@ const Navbar = ({ isLogin }) => {
 
             {/* Toggle Menu */}
             {toggleMenu && (
-              <div className="bg-background-color py-6 px-6 max-md:py-4 max-md:px-4 max-sm:py-2 max-sm:px-2 rounded-md shadow-lg top-20 right-0 absolute z-10 w-80 border-t-2 border-accent-900 animate-slide-right-to-left ease-in-out duration-300">
+              <div className="z-50 bg-background-color py-6 px-6 max-md:py-4 max-md:px-4 max-sm:py-2 max-sm:px-2 rounded-md shadow-lg top-20 right-0 absolute w-80 border-t-2 border-accent-900 animate-slide-right-to-left ease-in-out duration-300">
                 <ul className="ml-0 px-0 space-y-6 max-md:space-y-4 mt-6 text-center">
                   {NAV_LINKS.map((item) => (
                     <li key={item.label}>
