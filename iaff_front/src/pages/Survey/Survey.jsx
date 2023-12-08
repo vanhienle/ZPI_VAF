@@ -47,6 +47,10 @@ function SurveyForm() {
         ...prevData,
         [name]: value === "true",
       }));
+    } else if (type === "number") {
+      const cleanedValue = value.replace(/\D/g, "");
+      console.log(cleanedValue);
+      setFormData({ ...formData, [name]: cleanedValue });
     } else {
       setFormData({ ...formData, [name]: value });
     }
@@ -61,7 +65,9 @@ function SurveyForm() {
   };
 
   const handleSubmit = async () => {
-    if (formData.age === "" || formData.documents === "") {
+    if (formData.age === "") {
+    }
+    if (formData.documents === "") {
       setError(true);
       handleBack();
       return;
