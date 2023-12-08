@@ -75,6 +75,7 @@ const ChangeSurvey = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+
     if (type === "checkbox") {
       setFormData((prevData) => ({
         ...prevData,
@@ -85,6 +86,10 @@ const ChangeSurvey = () => {
         ...prevData,
         [name]: value === "true",
       }));
+    } else if (type === "number") {
+      const cleanedValue = value.replace(/\D/g, "");
+      console.log(cleanedValue);
+      setFormData({ ...formData, [name]: cleanedValue });
     } else {
       setFormData({ ...formData, [name]: value });
     }
