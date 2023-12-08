@@ -35,7 +35,7 @@ const ChangeProfile = () => {
 
   const validateName = (value) => {
     const pattern = /^[A-Za-z-]+$/;
-    if (value.length < 2 || value.length > 100 || !pattern.test(value)) {
+    if (value.length < 1 || value.length > 100 || !pattern.test(value)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         name: ERROR_NAME_VALIDATION,
