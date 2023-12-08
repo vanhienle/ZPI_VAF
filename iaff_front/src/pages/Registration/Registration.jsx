@@ -48,7 +48,7 @@ const Registration = () => {
 
   const validateName = (value) => {
     const pattern = /^[A-Za-z-]+$/;
-    if (value.length < 1 || value.length > 100 || !pattern.test(value)) {
+    if (value.length < 1 || value.length > 50 || !pattern.test(value)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         name: ERROR_NAME_VALIDATION,
@@ -308,34 +308,31 @@ const Registration = () => {
               </p>
             )}
           </div>
-
-          {/* Submit Block */}
-          <div>
-            {/* Link to Sign In */}
-            <div>
-              <p className="text-center text-sm">
-                Already have an account?
-                <Link
-                  to="/login"
-                  className="text-primary-500 hover:text-primary-900 ease-in-out duration-150 ml-2"
-                >
-                  {SIGN_IN_CONSTANT}
-                </Link>
-              </p>
-            </div>
-
-            {/* Confirm Button */}
-            <div className="flex items-center justify-between mt-4">
-              <button
-                className="bg-primary-900 w-full hover:bg-primary-700 text-background-color py-2 px-4 text-lg max-2xl:text-base rounded-lg ease-in-out duration-150 focus:drop-shadow-sm-primary-900 focus:outline-none focus:shadow-outline"
-                type="submit"
-                onClick={handleSubmit}
-              >
-                Confirm
-              </button>
-            </div>
-          </div>
         </form>
+        {/* Submit Block */}
+        <div className="mt-6">
+          {/* Link to Sign In */}
+          <div>
+            <p className="text-center text-sm">
+              Already have an account?
+              <Link
+                to="/login"
+                className="text-primary-500 hover:text-primary-900 ease-in-out duration-150 ml-2"
+              >
+                {SIGN_IN_CONSTANT}
+              </Link>
+            </p>
+          </div>
+          {/* Confirm Button */}
+          <div className="flex items-center justify-between mt-4">
+            <button
+              className="bg-primary-900 w-full hover:bg-primary-700 text-background-color py-2 px-4 text-lg max-2xl:text-base rounded-lg ease-in-out duration-150 focus:drop-shadow-sm-primary-900 focus:outline-none focus:shadow-outline"
+              onClick={handleSubmit}
+            >
+              Confirm
+            </button>
+          </div>
+        </div>
 
         {/* Footer */}
         <div className="mt-2">

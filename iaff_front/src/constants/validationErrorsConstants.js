@@ -15,9 +15,11 @@ export const ERROR_FORM_VALIDATION = "Please input all fields correctly";
 
 export const ERROR_SIGN_UP = "We have a problem with sign up!";
 
-export const ERROR_CHANGE_PASSWORD = "Please fill all data correctly!";
+export const ERROR_CHANGE_PASSWORD =
+  "Please fill all data correctly! Age must contain only numbers";
 
 export const ERROR_CHANGE_PROFILE =
   "Current password is incorrect or your fields are in invalid format!";
 
-export const ERROR_SURVEY_MESSAGE = "Please fill all required inputs!";
+export const ERROR_SURVEY_MESSAGE =
+  "Please fill all required inputs correctly!";
