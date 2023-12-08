@@ -31,6 +31,7 @@ const MapPlaceDetails = (props) => {
     <Loading />
   ) : (
     <div className="rounded-md w-full p-4 flex flex-col items-center justify-center gap-4 shadow-lg">
+      {/* Header */}
       <div className="flex items-center justify-between w-full gap-4">
         <button
           onClick={() => handleBackButtonClick()}
@@ -40,6 +41,8 @@ const MapPlaceDetails = (props) => {
         </button>
         <p className="text-lg font-semibold text-right">{chosenPlace.name}</p>
       </div>
+
+      {/* Image */}
       <div className="w-full">
         <img
           src={
@@ -54,6 +57,8 @@ const MapPlaceDetails = (props) => {
           className="w-full rounded-md h-64 object-cover"
         />
       </div>
+
+      {/* Address */}
       {chosenPlace.vicinity && (
         <div className="flex justify-between w-full items-center">
           <FaMapMarkerAlt className="text-accent-300" />
@@ -62,6 +67,8 @@ const MapPlaceDetails = (props) => {
           </p>
         </div>
       )}
+
+      {/* Price */}
       {chosenPlace.price_level && (
         <div className="flex justify-between w-full items-center">
           <p className="text-base text-accent-300 font-bold">Price:</p>
@@ -74,6 +81,8 @@ const MapPlaceDetails = (props) => {
           </div>
         </div>
       )}
+
+      {/* Rating */}
       {chosenPlace.rating !== 0 && (
         <div className="flex justify-between w-full items-center">
           <p className="text-base text-accent-300 font-bold">Rating:</p>
@@ -83,6 +92,8 @@ const MapPlaceDetails = (props) => {
           </p>
         </div>
       )}
+
+      {/* Voted Users */}
       {chosenPlace.user_ratings_total !== 0 && (
         <div className="flex justify-between w-full items-center">
           <p className="text-base text-accent-300 font-bold">Ranked by:</p>
@@ -91,6 +102,8 @@ const MapPlaceDetails = (props) => {
           </p>
         </div>
       )}
+
+      {/* Types of Place */}
       {chosenPlace.types && (
         <div className="flex flex-wrap gap-6 justify-center w-full items-center">
           {chosenPlace.types.map((type) => (
@@ -103,6 +116,8 @@ const MapPlaceDetails = (props) => {
           ))}
         </div>
       )}
+
+      {/* Link to Google Maps */}
       <div className="flex justify-center w-full">
         <a
           href={`https://www.google.com/maps?q=${chosenPlace.vicinity},${chosenPlace.name}`}

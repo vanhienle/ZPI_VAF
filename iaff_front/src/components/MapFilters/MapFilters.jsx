@@ -62,7 +62,7 @@ const MapFilters = (props) => {
   const handleOptionTypeClick = (type) => {
     if (type !== null) {
       setInputType(type.name);
-      setChosenType(type.name);
+      setChosenType(type.value);
       setIsDropdownTypeOpen(false);
       setChosenPlace(null);
     } else {
@@ -113,6 +113,7 @@ const MapFilters = (props) => {
       <h3 className="w-full text-center text-lg font-semibold text-primary-900 mb-4">
         Filters & Details:
       </h3>
+
       <hr className="border border-primary-900 rounded-full" />
 
       {/* Filters Block */}
