@@ -78,8 +78,8 @@ const Accommodation = () => {
   return (
     <div className="flex flex-col items-center px-20 max-sm:px-6 py-6">
       <div>
-        <h1 className="text-2xl max-xl:text-xl max-lg:text-lg text-primary-900">
-          ACCOMMODATION
+        <h1 className="text-primary-900 text-2xl max-xl:text-xl max-md:text-base font-semibold ease-in-out duration-300">
+          Accommodation
         </h1>
       </div>
       <div className="">

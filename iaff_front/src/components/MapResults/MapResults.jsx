@@ -13,30 +13,31 @@ const MapResults = (props) => {
     setIsLoading,
     handleMoreButtonClick,
     isMoreButtonDisabled,
+    setPlaceClicked,
   } = props;
 
   const placeClickedRef = useRef(null);
 
   useEffect(() => {
-    // Check if there is a chosen place and the ref is defined
     if (placeClicked && placeClickedRef.current) {
-      // Scroll the chosen place into view
       placeClickedRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [placeClicked]);
+  }, [placeClicked, chosenPlace]);
 
   const handleChoosingPlace = (place) => {
     setChosenPlace(place);
+    setPlaceClicked(null);
   };
 
   return (
-    <div className="overflow-y-auto h-[28.875rem] p-2">
+    <div className="overflow-y-auto h-[28.875rem] p-2 max-md:hidden">
       {chosenPlace !== null ? (
         <MapPlaceDetails
           chosenPlace={chosenPlace}
           setChosenPlace={setChosenPlace}
           isLoading={isLoading}
           setIsLoading={setIsLoading}
+          setPlaceClicked={setPlaceClicked}
         />
       ) : isLoading ? (
         <Loading />

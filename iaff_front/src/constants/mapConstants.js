@@ -2,31 +2,33 @@ export const DEFAULT_LAT = 52.23;
 
 export const DEFAULT_LNG = 21.0111;
 
+export const CANT_FIND_CITY =
+  "If you can't find your city in the list, don't worry! You can still search for it.";
+
+export const CANT_FIND_TYPE = "Please, choose one from types in list!";
+
 export const FILTERS = [
-  { id: 1, name: "Restaurant" },
-  { id: 2, name: "Cafe" },
-  { id: 3, name: "Bar" },
-  { id: 4, name: "Park" },
-  { id: 5, name: "Gym" },
-  { id: 6, name: "Movie Theater" },
-  { id: 7, name: "Museum" },
-  { id: 8, name: "Supermarket" },
-  { id: 9, name: "Clothing Store" },
-  { id: 10, name: "Department Store" },
-  { id: 11, name: "Electronics Store" },
-  { id: 12, name: "Shopping Mall" },
-  { id: 13, name: "Primary School" },
-  { id: 14, name: "Secondary School" },
-  { id: 15, name: "University" },
-  { id: 16, name: "ATM" },
-  { id: 17, name: "Tourist Attraction" },
-  { id: 18, name: "Laundry" },
-  { id: 19, name: "Post Office" },
-  { id: 20, name: "Library" },
-  { id: 21, name: "Hospital" },
-  { id: 22, name: "Police" },
-  { id: 23, name: "Fire Station" },
-  { id: 24, name: "Hotels" },
+  { id: 1, name: "Hospital", value: "Przychodnia" },
+  { id: 2, name: "Police", value: "Police" },
+  { id: 3, name: "Fire Station", value: "Fire Station" },
+  { id: 4, name: "Hotels", value: "Hotel" },
+  { id: 5, name: "University", value: "University" },
+  { id: 6, name: "Secondary School", value: "Gimnazjum" },
+  { id: 7, name: "Primary School", value: "Szkoła podstawowa" },
+  { id: 8, name: "Post Office", value: "Poczta" },
+  { id: 9, name: "Department / Office", value: "Urząd" },
+  { id: 10, name: "Park", value: "Park" },
+  { id: 11, name: "Museum", value: "Museum" },
+  { id: 12, name: "Movie Theater", value: "Kino" },
+  { id: 13, name: "Tourist Attraction", value: "Tourist Attraction" },
+  { id: 14, name: "Gym", value: "Gym" },
+  { id: 15, name: "Restaurant", value: "Restaurant" },
+  { id: 16, name: "Cafe", value: "Cafe" },
+  { id: 17, name: "Bar", value: "Bar" },
+  { id: 18, name: "Supermarket", value: "Sklep spożywczy" },
+  { id: 19, name: "Department Store", value: "Dom handlowy" },
+  { id: 20, name: "Shopping Mall", value: "Galeria" },
+  { id: 21, name: "Library", value: "Biblioteka" },
 ];
 
 export const CITIES = [

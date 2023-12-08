@@ -1,6 +1,7 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { GoogleMap, Marker } from "@react-google-maps/api";
+import React, { useState, useCallback, useEffect, useRef } from "react";
+import { GoogleMap, InfoWindow, Marker } from "@react-google-maps/api";
 import { DEFAULT_LAT, DEFAULT_LNG } from "../../constants/mapConstants";
+import mapImage from "../../assets/images/map.jpg";
 
 const Map = (props) => {
   const {
@@ -13,9 +14,15 @@ const Map = (props) => {
     handlePagination,
     setIsMoreButtonDisabled,
     setChosenPlace,
+    placeClicked,
+    chosenPlace,
   } = props;
+
+  const infoWindowRef = useRef();
+
   const [center, setCenter] = useState({ lat: DEFAULT_LAT, lng: DEFAULT_LNG });
   const [map, setMap] = useState(null);
+  const [selectedMarker, setSelectedMarker] = useState(null);
 
   const onLoad = useCallback(function callback(map) {
     setMap(map);
@@ -41,6 +48,7 @@ const Map = (props) => {
 
   const getPlacesByFilter = (location) => {
     setIsLoading(true);
+    setIsMoreButtonDisabled(false);
     const request = {
       location: location,
       radius: 7000,
@@ -87,6 +95,31 @@ const Map = (props) => {
     }
   }, [filter, map]);
 
+  const handleOutsideInfoWindowClick = useCallback(
+    (e) => {
+      const infoWindowElement = document.querySelector(".gm-style-iw");
+
+      if (
+        selectedMarker &&
+        infoWindowElement &&
+        !infoWindowElement.contains(e.target)
+      ) {
+        setSelectedMarker(null);
+        setPlaceClicked(null);
+        setChosenPlace(null);
+      }
+    },
+    [selectedMarker]
+  );
+
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideInfoWindowClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideInfoWindowClick);
+    };
+  }, [handleOutsideInfoWindowClick]);
+
   return (
     <>
       <GoogleMap
@@ -106,15 +139,61 @@ const Map = (props) => {
           <Marker
             key={place.placeId}
             position={place.geometry.location}
-            icon={{
-              url: "http://maps.google.com/mapfiles/ms/micons/blue.png",
-            }}
+            icon={
+              place === placeClicked || place === chosenPlace
+                ? {
+                    url: "http://maps.google.com/mapfiles/ms/micons/red.png",
+                  }
+                : {
+                    url: "http://maps.google.com/mapfiles/ms/micons/blue.png",
+                  }
+            }
             onClick={() => {
               setPlaceClicked(place);
               setChosenPlace(null);
+              setSelectedMarker(place);
             }}
           />
         ))}
+        {selectedMarker && (
+          <InfoWindow
+            ref={infoWindowRef}
+            position={selectedMarker.geometry.location}
+            mapContainerClassName="hidden max-md:block w-feet h-feet"
+            onCloseClick={() => {
+              setSelectedMarker(null);
+              setPlaceClicked(null);
+              setChosenPlace(null);
+            }}
+          >
+            <div className="p-4 flex flex-col gap-3">
+              <h1 className="text-base font-semibold text-primary-900 text-center">
+                {selectedMarker.name}
+              </h1>
+              <img
+                src={
+                  selectedMarker.photos
+                    ? selectedMarker.photos[0].getUrl({
+                        maxWidth: 500,
+                        maxHeight: 500,
+                      })
+                    : mapImage
+                }
+                alt="place"
+                className="w-full rounded-md h-44 object-cover"
+              />
+              <p className="text-left">{selectedMarker.vicinity}</p>
+              <a
+                href={`https://www.google.com/maps?q=${selectedMarker.vicinity},${selectedMarker.name}`}
+                className="text-left hover:text-primary-500"
+                target="_blank"
+                rel="noreferrer"
+              >
+                See on Google Maps
+              </a>
+            </div>
+          </InfoWindow>
+        )}
       </GoogleMap>
     </>
   );
