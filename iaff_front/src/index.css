@@ -12,13 +12,12 @@
 /* Common styles for all browsers */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #000072 #f1f1f1;
+  scrollbar-color: #d9d9d9 #f1f1f1;
 }
 
 /* Scroll bar stylings */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 6px;
 }
 
 /* Track */
@@ -28,17 +27,20 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #000072;
+  background: #d9d9d9;
   border-radius: 0px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #0000ae;
+  background: #d9d9d9;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
+  display: flex;
+}
+
+#root {
+  flex-grow: 1;
+  min-height: 100vh;
 }

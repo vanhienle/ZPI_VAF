@@ -30,7 +30,7 @@ const MapResults = (props) => {
   };
 
   return (
-    <div className="overflow-y-auto h-[28.875rem] p-2 max-md:hidden">
+    <div className="overflow-y-auto h-[80vh] min-h-[500px] p-2 max-md:hidden">
       {chosenPlace !== null ? (
         <MapPlaceDetails
           chosenPlace={chosenPlace}
