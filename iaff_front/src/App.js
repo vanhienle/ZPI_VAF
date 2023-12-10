@@ -24,8 +24,8 @@ import LoggedUserRoutes from "./routes/LoggedUserRoutes";
 import GuestRoutes from "./routes/GuestRoutes";
 
 const App = () => {
-  const [isLogin, setIsLogin] = useState(false);
-  const [isFilled, setIsFilled] = useState(false);
+  const [isLogin, setIsLogin] = useState(null);
+  const [isFilled, setIsFilled] = useState(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -53,11 +53,7 @@ const App = () => {
       }
     };
 
-    setTimeout(() => {
-      if (isLogin) {
-        handleIsFilled();
-      }
-    }, 500);
+    handleIsFilled();
   }, [isLogin]);
 
   return (
@@ -78,11 +74,17 @@ const App = () => {
         <Route element={<DocumentPage />} path="documents/:id" />
 
         <Route element={<LoggedUserRoutes isLogin={isLogin} />}>
-          <Route element={<ChangeProfile />} path="/change-profile" />
-          <Route element={<ChangePassword />} path="/change-password" />
+          <Route
+            element={<ChangeProfile isLogin={isLogin} />}
+            path="/change-profile"
+          />
+          <Route
+            element={<ChangePassword isLogin={isLogin} />}
+            path="/change-password"
+          />
 
           <Route
-            element={isFilled ? <ChangeSurvey /> : <Survey />}
+            element={isFilled ? <ChangeSurvey isLogin={isLogin} /> : <Survey />}
             path="/survey"
           />
         </Route>

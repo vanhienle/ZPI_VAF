@@ -92,7 +92,9 @@ function SurveyForm() {
     try {
       const result = await sendSurvey(surveyData);
       if (result) {
-        window.location.href = "/";
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1000);
       } else {
         alert(SURVEY_FAILED);
       }
