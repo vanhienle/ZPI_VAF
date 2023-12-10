@@ -118,7 +118,12 @@ const ChangeSurvey = ({ isLogin }) => {
   };
 
   const handleSubmit = async () => {
-    if (formData.age === "" || formData.documenttype === "") {
+    if (
+      formData.age === "" ||
+      isNaN(formData.age) ||
+      parseInt(formData.age, 10) <= 15 ||
+      formData.documenttype === ""
+    ) {
       setError(true);
       return;
     } else {
