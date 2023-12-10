@@ -17,11 +17,14 @@ import {
   ERROR_CHANGE_PROFILE,
 } from "../../constants/validationErrorsConstants";
 
+import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
+
 const ChangeProfile = ({ isLogin }) => {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email_address: "",
@@ -222,15 +225,22 @@ const ChangeProfile = ({ isLogin }) => {
                 </div>
 
                 {/* Current Password Input */}
-                <div className="flex flex-col space-y-2">
-                  <p className="text-primary-900 font-bold">Current password</p>
+                <div className="flex flex-col space-y-2 relative">
+                  <p className="text-primary-900 font-bold">Current Password</p>
                   <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
+                    type={showPassword ? "text" : "password"}
+                    name="current_password"
+                    value={formData.current_password}
                     onChange={handleChange}
-                    className="border border-accent-700 text-text-color focus:border-primary-900 leading-tight focus:outline-none text-lg max-2xl:text-base rounded-lg w-full py-2 px-4 focus:shadow-outline"
+                    className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
                   />
+                  <button
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    type="button"
+                    className="absolute inset-y-0 top-7 right-0 pr-3 flex items-center text-base leading-5 py-2"
+                  >
+                    {showPassword ? <HiOutlineEyeOff /> : <HiOutlineEye />}
+                  </button>
                 </div>
               </div>
 

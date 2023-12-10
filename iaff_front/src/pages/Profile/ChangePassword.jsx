@@ -17,12 +17,17 @@ import {
   ERROR_CHANGE_PASSWORD,
 } from "../../constants/validationErrorsConstants";
 
+import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
+
 const ChangePassword = ({ isLogin }) => {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState({});
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
   const [formData, setFormData] = useState({
     current_password: "",
     new_password: "",
@@ -166,19 +171,30 @@ const ChangePassword = ({ isLogin }) => {
                 </p>
 
                 {/* Current Password Input */}
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2 relative">
                   <p className="text-primary-900 font-bold">Current Password</p>
                   <input
-                    type="password"
+                    type={showCurrentPassword ? "text" : "password"}
                     name="current_password"
                     value={formData.current_password}
                     onChange={handleChange}
                     className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
                   />
+                  <button
+                    onClick={() => setShowCurrentPassword((prev) => !prev)}
+                    type="button"
+                    className="absolute inset-y-0 top-7 right-0 pr-3 flex items-center text-base leading-5 py-2"
+                  >
+                    {showCurrentPassword ? (
+                      <HiOutlineEyeOff />
+                    ) : (
+                      <HiOutlineEye />
+                    )}
+                  </button>
                 </div>
 
                 {/* New Password Input */}
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2 relative">
                   <p
                     className={`${
                       errors.new_password
@@ -189,7 +205,7 @@ const ChangePassword = ({ isLogin }) => {
                     New Password
                   </p>
                   <input
-                    type="password"
+                    type={showNewPassword ? "text" : "password"}
                     name="new_password"
                     value={formData.new_password}
                     onChange={(e) => {
@@ -205,6 +221,13 @@ const ChangePassword = ({ isLogin }) => {
                     }}
                     className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
                   />
+                  <button
+                    onClick={() => setShowNewPassword((prev) => !prev)}
+                    type="button"
+                    className="absolute inset-y-0 top-7 right-0 pr-3 flex items-center text-base leading-5 py-2"
+                  >
+                    {showNewPassword ? <HiOutlineEyeOff /> : <HiOutlineEye />}
+                  </button>
                 </div>
 
                 {/* New Password Error */}
@@ -217,7 +240,7 @@ const ChangePassword = ({ isLogin }) => {
                 </p>
 
                 {/* Repeat New Password Input */}
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2 relative">
                   <p
                     className={`${
                       errors.repeat_new_password
@@ -228,7 +251,7 @@ const ChangePassword = ({ isLogin }) => {
                     Repeat New Password
                   </p>
                   <input
-                    type="password"
+                    type={showRepeatPassword ? "text" : "password"}
                     name="repeat_new_password"
                     value={formData.repeat_new_password}
                     onChange={(e) => {
@@ -244,6 +267,17 @@ const ChangePassword = ({ isLogin }) => {
                     }}
                     className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
                   />
+                  <button
+                    onClick={() => setShowRepeatPassword((prev) => !prev)}
+                    type="button"
+                    className="absolute inset-y-0 top-7 right-0 pr-3 flex items-center text-base leading-5 p-3"
+                  >
+                    {showRepeatPassword ? (
+                      <HiOutlineEyeOff />
+                    ) : (
+                      <HiOutlineEye />
+                    )}
+                  </button>
                 </div>
 
                 {/* Repeat New Password Input */}

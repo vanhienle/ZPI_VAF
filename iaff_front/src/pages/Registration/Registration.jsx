@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 import { signup } from "../../utils/User/signupAPI";
 
+import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
+
 import {
   COPYRIGHT,
   SIGN_IN_CONSTANT,
@@ -25,6 +27,9 @@ const Registration = () => {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [errors, setErrors] = useState({});
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
 
   const isFieldsFilledValidate = () => {
     if (
@@ -238,32 +243,41 @@ const Registration = () => {
           </div>
 
           {/* Password Input */}
-          <div>
-            <input
-              className={`${
-                errors.password
-                  ? "border-error-900 text-error-900"
-                  : "border-accent-900 text-text-color"
-              } border rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
-              id="password"
-              type="password"
-              placeholder="Password"
-              required
-              value={password}
-              onChange={(e) => {
-                let inputValue = e.target.value;
-                setPassword(inputValue);
-                if (errors.password) {
-                  validatePassword(inputValue);
-                }
-              }}
-              onBlur={(e) => {
-                let inputValue = e.target.value;
-                if (!errors.password) {
-                  validatePassword(inputValue);
-                }
-              }}
-            />
+          <div className="flex flex-col">
+            <div className="relative">
+              <input
+                className={`${
+                  errors.password
+                    ? "border-error-900 text-error-900"
+                    : "border-accent-900 text-text-color"
+                } border rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                required
+                value={password}
+                onChange={(e) => {
+                  let inputValue = e.target.value;
+                  setPassword(inputValue);
+                  if (errors.password) {
+                    validatePassword(inputValue);
+                  }
+                }}
+                onBlur={(e) => {
+                  let inputValue = e.target.value;
+                  if (!errors.password) {
+                    validatePassword(inputValue);
+                  }
+                }}
+              />
+              <button
+                onClick={() => setShowPassword((prev) => !prev)}
+                type="button"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-base leading-5 p-3"
+              >
+                {showPassword ? <HiOutlineEyeOff /> : <HiOutlineEye />}
+              </button>
+            </div>
 
             {/* Password Error */}
             {errors.password && (
@@ -273,33 +287,42 @@ const Registration = () => {
             )}
           </div>
 
-          {/* Repeat Password Input */}
-          <div>
-            <input
-              className={`${
-                errors.repeatPassword
-                  ? "border-error-900 text-error-900"
-                  : "border-accent-900 text-text-color"
-              } border rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
-              id="repeat-password"
-              type="password"
-              placeholder="Repeat Password"
-              required
-              value={repeatPassword}
-              onChange={(e) => {
-                let inputValue = e.target.value;
-                setRepeatPassword(inputValue);
-                if (errors.repeatPassword) {
-                  validatePasswordMatch(inputValue);
-                }
-              }}
-              onBlur={(e) => {
-                let inputValue = e.target.value;
-                if (!errors.repeatPassword) {
-                  validatePasswordMatch(inputValue);
-                }
-              }}
-            />
+          <div className="flex flex-col">
+            {/* Repeat Password Input */}
+            <div className="relative">
+              <input
+                className={`${
+                  errors.repeatPassword
+                    ? "border-error-900 text-error-900"
+                    : "border-accent-900 text-text-color"
+                } border rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900`}
+                id="repeat-password"
+                type={showRepeatPassword ? "text" : "password"}
+                placeholder="Repeat Password"
+                required
+                value={repeatPassword}
+                onChange={(e) => {
+                  let inputValue = e.target.value;
+                  setRepeatPassword(inputValue);
+                  if (errors.repeatPassword) {
+                    validatePasswordMatch(inputValue);
+                  }
+                }}
+                onBlur={(e) => {
+                  let inputValue = e.target.value;
+                  if (!errors.repeatPassword) {
+                    validatePasswordMatch(inputValue);
+                  }
+                }}
+              />
+              <button
+                onClick={() => setShowRepeatPassword((prev) => !prev)}
+                type="button"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-base leading-5 p-3"
+              >
+                {showRepeatPassword ? <HiOutlineEyeOff /> : <HiOutlineEye />}
+              </button>
+            </div>
 
             {/* Repeat Password Error */}
             {errors.repeatPassword && (
