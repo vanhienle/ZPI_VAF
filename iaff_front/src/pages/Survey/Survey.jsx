@@ -65,7 +65,14 @@ function SurveyForm() {
   };
 
   const handleSubmit = async () => {
-    if (formData.age === "") {
+    if (
+      formData.age === "" ||
+      isNaN(formData.age) ||
+      parseInt(formData.age, 10) <= 15
+    ) {
+      setError(true);
+      handleBack();
+      return;
     }
     if (formData.documents === "") {
       setError(true);
