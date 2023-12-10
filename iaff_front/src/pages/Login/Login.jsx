@@ -12,12 +12,14 @@ import {
 
 import logo from "../../assets/images/logo.png";
 
+import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 const Login = () => {
   const [formData, setFormData] = useState({
     email_address: "",
     password: "",
     login_failed: false,
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -86,9 +88,9 @@ const Login = () => {
           </div>
 
           {/* Password Input */}
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               placeholder="Password"
               minLength="8"
@@ -97,6 +99,13 @@ const Login = () => {
               onChange={handleChange}
               className="border border-accent-900 text-text-color rounded-lg w-full py-2 px-4 text-lg max-2xl:text-base leading-tight focus:outline-none focus:border-primary-900"
             />
+            <button
+              onClick={() => setShowPassword((prev) => !prev)}
+              type="button"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-base leading-5 p-3"
+            >
+              {showPassword ? <HiOutlineEyeOff /> : <HiOutlineEye />}
+            </button>
           </div>
 
           {/* Link to Sign Up */}
