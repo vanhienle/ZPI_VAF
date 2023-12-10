@@ -17,7 +17,7 @@ import {
   ERROR_CHANGE_PROFILE,
 } from "../../constants/validationErrorsConstants";
 
-const ChangeProfile = () => {
+const ChangeProfile = ({ isLogin }) => {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -65,16 +65,18 @@ const ChangeProfile = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      getUserData().then((result) => {
-        setFormData((formData) => ({
-          ...formData,
-          name: result.name,
-          email_address: result.email,
-        }));
-        setIsLoading(false);
-      });
+      if (isLogin) {
+        getUserData().then((result) => {
+          setFormData((formData) => ({
+            ...formData,
+            name: result.name,
+            email_address: result.email,
+          }));
+          setIsLoading(false);
+        });
+      }
     }, 500);
-  }, []);
+  }, [isLogin]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

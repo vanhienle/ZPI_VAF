@@ -22,7 +22,7 @@ import {
   CHANGE_TARGETS_LIST,
 } from "../../constants/surveyConstants";
 
-const ChangeSurvey = () => {
+const ChangeSurvey = ({ isLogin }) => {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -65,13 +65,15 @@ const ChangeSurvey = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      getSurveyData().then((result) => {
-        const data = getSurveyFromAPI(result);
-        setFormData(data);
-        setIsLoading(false);
-      });
+      if (isLogin) {
+        getSurveyData().then((result) => {
+          const data = getSurveyFromAPI(result);
+          setFormData(data);
+          setIsLoading(false);
+        });
+      }
     }, 1000);
-  }, []);
+  }, [isLogin]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;

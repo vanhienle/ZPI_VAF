@@ -17,7 +17,7 @@ import {
   ERROR_CHANGE_PASSWORD,
 } from "../../constants/validationErrorsConstants";
 
-const ChangePassword = () => {
+const ChangePassword = ({ isLogin }) => {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -31,12 +31,14 @@ const ChangePassword = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      getUserData().then((result) => {
-        setEmail(result.email);
-        setIsLoading(false);
-      });
+      if (isLogin) {
+        getUserData().then((result) => {
+          setEmail(result.email);
+          setIsLoading(false);
+        });
+      }
     }, 500);
-  }, []);
+  }, [isLogin]);
 
   const validatePassword = (value) => {
     const passwordRegex =
