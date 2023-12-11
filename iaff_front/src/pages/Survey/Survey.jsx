@@ -65,7 +65,14 @@ function SurveyForm() {
   };
 
   const handleSubmit = async () => {
-    if (formData.age === "") {
+    if (
+      formData.age === "" ||
+      isNaN(formData.age) ||
+      parseInt(formData.age, 10) <= 15
+    ) {
+      setError(true);
+      handleBack();
+      return;
     }
     if (formData.documents === "") {
       setError(true);
@@ -92,7 +99,9 @@ function SurveyForm() {
     try {
       const result = await sendSurvey(surveyData);
       if (result) {
-        window.location.href = "/";
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1000);
       } else {
         alert(SURVEY_FAILED);
       }

@@ -17,7 +17,7 @@ export const source_ = `Learn more: `;
 const suggestedQuestionsForGuests = [
   "How can I apply for a Poland visa?",
   "How can I get a PESEL number?",
-  "Where can I find accomodation?",
+  "What are the ways to obtain Polish citizenship?",
   "Are there any student programs?",
 ];
 

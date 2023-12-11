@@ -106,7 +106,7 @@ const Navbar = ({ isLogin }) => {
           ) : isLogin ? (
             <div
               ref={dropdownRef}
-              className="relative max-lg:hidden flex animate-fade-in w-40 justify-center"
+              className="relative z-10 max-lg:hidden flex animate-fade-in w-40 justify-center"
             >
               {/* Logged User Right Menu */}
               <HiUser

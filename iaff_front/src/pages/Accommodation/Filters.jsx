@@ -60,14 +60,16 @@ const Filters = ({ handleSearchHotels, handleSetInformation }) => {
     const fetchData = async () => {
       const nearestDestinations = getDestinations(e.target.value);
       nearestDestinations.then((result) => {
-        const fetchedPlaces = result.map(({ name, dest_id, dest_type }) => ({
-          name,
-          dest_id,
-          dest_type,
-        }));
-        setSuggestedDestinationList(fetchedPlaces);
-        if (!isSelectedDestination) {
-          setIsOpenSuggestionBox(true);
+        if (result) {
+          const fetchedPlaces = result.map(({ name, dest_id, dest_type }) => ({
+            name,
+            dest_id,
+            dest_type,
+          }));
+          setSuggestedDestinationList(fetchedPlaces);
+          if (!isSelectedDestination) {
+            setIsOpenSuggestionBox(true);
+          }
         }
       });
     };
@@ -82,20 +84,20 @@ const Filters = ({ handleSearchHotels, handleSetInformation }) => {
   };
 
   const handleSetGuestCount = (e) => {
-    const value = e.target.value;
-    if (/^[1-9]\d*$/.test(value)) {
-      setGuestCount(Number(value));
-    } else if (value === "") {
-      setGuestCount(value);
+    const value = parseInt(e.target.value, 10);
+    if (!isNaN(value)) {
+      setGuestCount(Math.max(1, value));
+    } else {
+      setGuestCount(null);
     }
   };
 
   const handleSetRoomCount = (e) => {
-    const value = e.target.value;
-    if (/^[1-9]\d*$/.test(value)) {
-      setRoomCount(Number(value));
-    } else if (value === "") {
-      setRoomCount(value);
+    const value = parseInt(e.target.value, 10);
+    if (!isNaN(value)) {
+      setRoomCount(Math.max(1, value));
+    } else {
+      setRoomCount(null);
     }
   };
 
@@ -313,7 +315,8 @@ const Filters = ({ handleSearchHotels, handleSetInformation }) => {
             </label>
             <input
               className="border border-accent-900 focus:border-primary-700 outline-none p-3 w-full rounded-lg"
-              type="text"
+              type="number"
+              min="1"
               value={guestCount}
               onChange={handleSetGuestCount}
             />
@@ -324,14 +327,15 @@ const Filters = ({ handleSearchHotels, handleSetInformation }) => {
             </label>
             <input
               className="border border-accent-900 focus:border-primary-700 outline-none p-3 w-full rounded-lg"
-              type="text"
+              type="number"
+              min="1"
               value={roomCount}
               onChange={handleSetRoomCount}
             />
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-4 max-sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-4 max-sm:grid-cols-2 gap-4 max-sm:gap-2">
         <Dropdown
           options={Object.values(priceCategories)}
           single
@@ -356,12 +360,14 @@ const Filters = ({ handleSearchHotels, handleSetInformation }) => {
           selectedOptions={sortBy}
           setSelectedOptions={setSortBy}
         />
-        <button
-          className="bg-primary-900 hover:bg-primary-700 text-background-color p-3 rounded-lg font-medium"
-          onClick={handleClickSearch}
-        >
-          Search
-        </button>
+        <div className="flex items-center">
+          <button
+            className="w-full h-11 bg-primary-900 hover:bg-primary-700 text-background-color p-3 rounded-lg font-medium"
+            onClick={handleClickSearch}
+          >
+            Search
+          </button>
+        </div>
       </div>
     </div>
   );
