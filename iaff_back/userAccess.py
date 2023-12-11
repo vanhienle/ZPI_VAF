@@ -2,8 +2,10 @@ from flask_login import UserMixin
 import pika
 import psycopg2
 
+
 class User(UserMixin):
     pass
+
 
 class Access:
     def __init__(self) -> None:
@@ -11,13 +13,12 @@ class Access:
         self.DBConnection, self.DBCursor = self.createDBCursor()
 
     def createDBCursor(self):
-        conn = psycopg2.connect(host='91.195.53.69',
+        conn = psycopg2.connect(host='diploma-db',
                                 port=5432,
                                 database="ClientDatabase",
                                 user="postgres",
                                 password="!")
         return conn, conn.cursor()
-
 
     def createChannel(self):
         connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
@@ -26,7 +27,7 @@ class Access:
         return connection, channel
 
     def getUser(self, email, password):
-        print('Inside get user: email=', email,' password=',password)
+        print('Inside get user: email=', email, ' password=', password)
         self.DBCursor.execute(
             """SELECT * 
             FROM users 
@@ -53,7 +54,8 @@ class Access:
         return result
 
     def getFromUser(self, email):
-        self.DBCursor.execute("""SELECT UserID,UserPass FROM users WHERE UserEmail = %(UserEmail)s""", {'UserEmail': email})
+        self.DBCursor.execute("""SELECT UserID,UserPass FROM users WHERE UserEmail = %(UserEmail)s""",
+                              {'UserEmail': email})
         result = self.DBCursor.fetchone()
         return result
 
@@ -68,8 +70,9 @@ class Access:
         self.DBConnection.commit()
 
     def updateUserAccount(self, email, name, id):
-        self.DBCursor.execute("""UPDATE users SET UserEmail = %(UserEmail)s, UserName = %(UserName)s WHERE UserID = %(UserID)s""",
-                              {'UserEmail': email, 'UserName': name, 'UserID': id})
+        self.DBCursor.execute(
+            """UPDATE users SET UserEmail = %(UserEmail)s, UserName = %(UserName)s WHERE UserID = %(UserID)s""",
+            {'UserEmail': email, 'UserName': name, 'UserID': id})
         self.DBConnection.commit()
 
     def new_id(self):
@@ -78,18 +81,19 @@ class Access:
         last_id = self.DBCursor.fetchone()[0]
         return last_id + 1
 
-    def signup(self, email, password,name):
+    def signup(self, email, password, name):
         if self.checkExistence(email, False):
             print('User with mail: ', email, ' already exists')
             return None
 
         id = self.new_id()
 
-        self.DBCursor.execute("""INSERT INTO users (UserID,UserEmail,UserPass,UserName) VALUES (%(UserID)s,%(UserEmail)s,%(UserPass)s, %(UserName)s)""",
-                              {'UserID': id, 'UserEmail': email, 'UserPass': password, 'UserName': name})
+        self.DBCursor.execute(
+            """INSERT INTO users (UserID,UserEmail,UserPass,UserName) VALUES (%(UserID)s,%(UserEmail)s,%(UserPass)s, 
+            %(UserName)s)""",
+            {'UserID': id, 'UserEmail': email, 'UserPass': password, 'UserName': name})
         self.DBConnection.commit()
         return self.getUser(email, password)
-
 
     def checkExistence(self, email, password):
         if password:
@@ -98,7 +102,6 @@ class Access:
             self.DBCursor.execute("""SELECT * FROM users WHERE UserEmail = %(UserEmail)s""", {'UserEmail': email})
         result = self.DBCursor.fetchone()
         return not result is None
-
 
     def fin(self):
         self.DBConnection.close()

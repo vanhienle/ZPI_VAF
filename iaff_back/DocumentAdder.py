@@ -7,12 +7,13 @@ import pandas as pd
 from io import BytesIO
 import base64
 
+
 class Documents:
     def __init__(self) -> None:
         self.DBConnection, self.DBCursor = self.createDBCursor()
 
     def createDBCursor(self):
-        conn = psycopg2.connect(host='91.195.53.69',
+        conn = psycopg2.connect(host='diploma-db',
                                 port=5432,
                                 database="ClientDatabase",
                                 user="postgres",
@@ -49,7 +50,7 @@ class Documents:
         return True
 
     def updateDocument(self, category, title, short, info, age, kids, accom, insure, study, job, live, refugee, other,
-                    documenttype, image, links):
+                       documenttype, image, links):
         self.DBCursor.execute(
             """UPDATE documents 
             SET category=%(Category)s,
@@ -87,18 +88,18 @@ class Documents:
         self.DBConnection.commit()
         return True
 
+
 class DocumentAdder:
     def __init__(self, path):
         self.path = path
 
     def getAllFiles(self):
-        files = glob.glob(self.path +'/**/*.xlsx', recursive = True)
+        files = glob.glob(self.path + '/**/*.xlsx', recursive=True)
 
         for i in range(len(files)):
-            files[i] = files[i].replace('\\','/')
+            files[i] = files[i].replace('\\', '/')
 
         return files
-
 
     def getImage(self, path):
         with open(path, "rb") as image:
@@ -137,9 +138,13 @@ class DocumentAdder:
             documentType = None if "documentType" not in df or df["documentType"].isnull else df["documentType"][0]
             image = None if "image" not in df else df["image"][0]
             links = None if "useful_links" not in df else df["useful_links"][0]
-            if inpt == 1: docs.addDocument(category,title,desc,info,age,kids,accom,insure,study,job,live,refugee,other,documentType,image,links)
-            elif inpt == 2: docs.updateDocument(category, title, desc, info, age, kids, accom, insure, study, job, live,
-                                           refugee, other, documentType, image, links)
+            if inpt == 1:
+                docs.addDocument(category, title, desc, info, age, kids, accom, insure, study, job, live, refugee,
+                                 other, documentType, image, links)
+            elif inpt == 2:
+                docs.updateDocument(category, title, desc, info, age, kids, accom, insure, study, job, live,
+                                    refugee, other, documentType, image, links)
+
 
 dc = DocumentAdder('C://Users/vano/Documents/GitHub/ZPI_VAF/iaff_assistant/documents')
 dc.InsertOrUpdateData()

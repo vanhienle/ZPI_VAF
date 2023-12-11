@@ -6,20 +6,25 @@
   <component name="ChangeListManager">
     <list default="true" id="42017070-eea9-4b63-adc2-ae16001f1bca" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/Citizenship/Polish Citizenship.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/Citizenship/Polish Citizenship.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/Insurance/Health Insurance.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/Insurance/Health Insurance.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/PESEL/PESEL.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/PESEL/PESEL.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/Poles Card/Poles Card.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/Poles Card/Poles Card.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/Refugee/Refugee.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/Refugee/Refugee.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/Residence Card/Permanent Residence Permit.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/Residence Card/Permanent Residence Permit.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/Residence Card/Temporary Residence Permit.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/Residence Card/Temporary Residence Permit.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/School/School.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/School/School.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/Student/Cost of living.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/Student/Cost of living.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/Student/Erasmus.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/Student/Erasmus.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/Student/NAWA.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/Student/NAWA.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/Student/Study in Poland.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/Student/Study in Poland.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iaff_assistant/documents/VISA/Poland Visa.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/documents/VISA/Poland Visa.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iaff_front/src/pages/Map/Map.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_front/src/pages/Map/Map.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/.env" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/TranslationAgent.py" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/TranslationAgent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/batch_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/batch_pipeline.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/realtime_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/realtime_pipeline.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_assistant/service.py" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_assistant/service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_back/DocumentAdder.py" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_back/DocumentAdder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_back/RestAssistant.py" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_back/RestAssistant.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_back/RestDocuments.py" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_back/RestDocuments.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_back/RestSurvey.py" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_back/RestSurvey.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_back/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_back/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_back/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_back/auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_back/documents.py" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_back/documents.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_back/module.py" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_back/module.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_back/survey.py" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_back/survey.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_back/userAccess.py" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_back/userAccess.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_front/.env" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_front/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_front/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_front/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iaff_front/src/pages/Registration/Registration.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/iaff_front/src/pages/Registration/Registration.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,21 +57,18 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 8
-}</component>
   <component name="ProjectId" id="2WZpvpxhrK4wnDlbg4A8UulHTvg" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;
-  }
-}</component>
-  <component name="RunManager" selected="Python.batch_pipeline">
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RunManager" selected="Python.app">
     <configuration name="app" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="ZPI_VAF" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -74,10 +76,9 @@
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/iaff_back/app.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />

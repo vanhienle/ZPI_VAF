@@ -1,17 +1,17 @@
 import psycopg2
 
+
 class Documents:
     def __init__(self) -> None:
         self.DBConnection, self.DBCursor = self.createDBCursor()
 
     def createDBCursor(self):
-        conn = psycopg2.connect(host='91.195.53.69',
+        conn = psycopg2.connect(host='diploma-db',
                                 port=5432,
                                 database="ClientDatabase",
                                 user="postgres",
                                 password="!")
         return conn, conn.cursor()
-
 
     def getDocument(self, id):
         self.DBCursor.execute(
@@ -22,7 +22,6 @@ class Documents:
         result = self.DBCursor.fetchone()
         return result
 
-
     def getCategories(self):
         conn, curs = self.createDBCursor()
         curs.execute("""SELECT DISTINCT Category  FROM documents""")
@@ -30,7 +29,6 @@ class Documents:
         curs.close()
         conn.close()
         return result
-
 
     def getAllByCategory(self, category):
         conn, curs = self.createDBCursor()
@@ -44,7 +42,6 @@ class Documents:
         conn.close()
         return result
 
-
     def getAllByName(self, name):
         self.DBCursor.execute(
             """SELECT * 
@@ -53,8 +50,8 @@ class Documents:
             {'Name': name.lower()})
         return self.DBCursor.fetchall()
 
-
-    def addDocument(self, category, title, short, info, age, kids, accom, insure, study, job, live, refugee, other, documenttype, image, links):
+    def addDocument(self, category, title, short, info, age, kids, accom, insure, study, job, live, refugee, other,
+                    documenttype, image, links):
         self.DBCursor.execute(
             """INSERT INTO documents (category, title, info, age, kids, accom, insure, study, job, live, refugee, other, "documentType", image, short, links) 
             VALUES (%(Category)s,%(Title)s,%(Info)s,%(Age)s,%(Accom)s,%(Insure)s,%(Study)s,%(Job)s,%(Live)s,%(Refugee)s,%(Other)s,%(DocumentType)s,%(Image)s,%(Short)s,%(Links)s)""",
@@ -77,8 +74,8 @@ class Documents:
         self.DBConnection.commit()
         return True
 
-
-    def getRecommendations(self, id, age, kids, baby, teen, adult, accom, insure, study, job, live, refugee, other, documenttype):
+    def getRecommendations(self, id, age, kids, baby, teen, adult, accom, insure, study, job, live, refugee, other,
+                           documenttype):
         conn, curs = self.createDBCursor()
         curs.execute(
             """SELECT title,
@@ -105,7 +102,6 @@ class Documents:
         curs.close()
         conn.close()
         return results
-
 
     def fin(self):
         self.DBConnection.close()

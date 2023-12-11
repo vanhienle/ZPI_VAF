@@ -15,7 +15,7 @@ async def translate(text, target_language):
     system_prompt = f"I want you to act as a {target_language} translator. Translate the text below to {target_language}. If the text is unclear, a proper noun, or cannot be translated directly, output it exactly as it is. Do not add any explanations, apologies or ask for additional context."
     user_prompt = f'''Text: \n{text}'''
     response = await openai.ChatCompletion.acreate(
-        engine="iaff_assistant",               
+        engine="TestChat",
         messages=[{"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt}],
         temperature=0.0,

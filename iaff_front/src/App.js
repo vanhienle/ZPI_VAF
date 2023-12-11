@@ -2,7 +2,7 @@ import { React, useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-import { isLogged } from "./utils/User/isLoggedAPI";
+import { isLogged } from "./utils/User/isLoggedApi";
 import { isFilledSurvey } from "./utils/Survey/isFilledSurveyAPI";
 
 import Home from "./pages/Home/Home";

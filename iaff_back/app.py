@@ -6,6 +6,7 @@ from RestDocuments import docs as docs_blueprint
 from RestAssistant import assist as assist_blueprint
 import time
 
+
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'Accordingtoallknownlawsofaviationthereisnowayabeeshouldbeabletofly'
@@ -22,7 +23,8 @@ def create_app():
 
     return app
 
-app= create_app()
+
+app = create_app()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)

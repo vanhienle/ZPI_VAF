@@ -1,4 +1,4 @@
-from flask import  request, jsonify, Blueprint, current_app
+from flask import request, jsonify, Blueprint, current_app
 from flask_cors import cross_origin
 from werkzeug.security import generate_password_hash, check_password_hash
 from userAccess import Access
@@ -8,6 +8,7 @@ import datetime
 
 auth = Blueprint('auth', __name__)
 access = Access()
+
 
 def create_token(user_id):
     payload = {'UserID': user_id,
@@ -71,7 +72,7 @@ def login_post():
     return jsonify({'token': token}), 200
 
 
-@auth.route('/users/signup',methods=['POST'])
+@auth.route('/users/signup', methods=['POST'])
 @cross_origin(supports_credentials=True)
 def signup_post():
     request_data = request.get_json()
@@ -171,7 +172,7 @@ def get_user_data():
         return jsonify({"Error": error_message}), 500
 
 
-@auth.route('/users/change_password',methods=['PUT'])
+@auth.route('/users/change_password', methods=['PUT'])
 @cross_origin()
 def change_password():
     request_data = request.get_json()
@@ -204,7 +205,7 @@ def change_password():
         return jsonify({"Error": error_message}), 500
 
 
-@auth.route('/users/change_account',methods=['PUT'])
+@auth.route('/users/change_account', methods=['PUT'])
 @cross_origin()
 def change_account():
     request_data = request.get_json()

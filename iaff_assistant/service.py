@@ -8,11 +8,14 @@ from fastapi.encoders import jsonable_encoder
 from typing import List
 import realtime_pipeline, TranslationAgent, SpeechRecognitionAgent
 
+
 async def get_answer(conversation):
     return await realtime_pipeline.query(jsonable_encoder(conversation))
 
+
 async def get_translated(content):
     return await TranslationAgent.translate(content.content, content.target_language)
+
 
 app = FastAPI()
 
@@ -23,6 +26,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
@@ -38,25 +42,31 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
         }}),
     )
 
+
 class Message(BaseModel):
     role: str
     content: str
+
 
 class Conversation(BaseModel):
     conversation: List[Message]
     language: str
 
+
 class Content(BaseModel):
     content: str
     target_language: str
 
+
 @app.post("/assistant_service/get_response")
-async def get_response(conversation: Conversation = Body(...)):   
+async def get_response(conversation: Conversation = Body(...)):
     return await get_answer(conversation)
 
+
 @app.post("/assistant_service/translate")
-async def translate(content: Content = Body(...)):   
+async def translate(content: Content = Body(...)):
     return await get_translated(content)
+
 
 @app.post("/assistant_service/transcribe")
 async def transcribe_audio(file: UploadFile = File(...), lang: str = Form(...)):
@@ -64,6 +74,8 @@ async def transcribe_audio(file: UploadFile = File(...), lang: str = Form(...)):
     transcription = await SpeechRecognitionAgent.transcribe(content, lang)
     return transcription
 
+
 if __name__ == '__main__':
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8085) 
+
+    uvicorn.run(app, host="0.0.0.0", port=8085)

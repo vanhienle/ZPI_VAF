@@ -1,4 +1,4 @@
-from flask import  request, jsonify, Blueprint
+from flask import request, jsonify, Blueprint
 from flask_cors import cross_origin
 from auth import check_token
 from survey import Survey
@@ -7,6 +7,7 @@ import jwt
 
 surv = Blueprint('survey', __name__)
 survey = Survey()
+
 
 @surv.route('/survey/is_filled_survey', methods=['POST'])
 @cross_origin(supports_credentials=True)
@@ -35,7 +36,7 @@ def get_survey(survId):
     return survey.getSurvey(survId)
 
 
-@surv.route('/survey/get_survey',methods=['POST'])
+@surv.route('/survey/get_survey', methods=['POST'])
 @cross_origin(supports_credentials=True)
 def get_user_survey():
     token = request.headers.get('token')
@@ -63,7 +64,8 @@ def get_user_survey():
         refugee = {"refugee": survey[11]}
         other = {"other": survey[12]}
         documenttype = {"documenttype": survey[13]}
-        res = {**age,**kids,**baby,**teen,**adult,**accom,**insure,**study,**job,**live,**refugee,**documenttype,**other}
+        res = {**age, **kids, **baby, **teen, **adult, **accom, **insure, **study, **job, **live, **refugee,
+               **documenttype, **other}
         return (jsonify(res), 200) if survey else (jsonify({'Error': 'Failed to add data'}), 500)
 
     except jwt.ExpiredSignatureError:
@@ -77,7 +79,7 @@ def get_user_survey():
         return jsonify({"Error": error_message}), 500
 
 
-@surv.route('/survey/add_survey',methods=['POST'])
+@surv.route('/survey/add_survey', methods=['POST'])
 @cross_origin(supports_credentials=True)
 def add_survey():
     token = request.headers.get('token')
@@ -124,7 +126,7 @@ def add_survey():
         return jsonify({"Error": error_message}), 500
 
 
-@surv.route('/survey/update_survey',methods=['PUT'])
+@surv.route('/survey/update_survey', methods=['PUT'])
 @cross_origin(supports_credentials=True)
 def update_survey():
     token = request.headers.get('token')
@@ -151,7 +153,7 @@ def update_survey():
         print('Extracted all data from survey')
 
         survey.updateSurvey(id, age, kids, baby, teen, adult, accom, insure, study, job, live, refugee, other,
-                                  documenttype)
+                            documenttype)
         print('Updated survey in sql database')
         return jsonify("true"), 200
 
