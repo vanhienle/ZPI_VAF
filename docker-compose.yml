@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:latest
+    container_name: diploma-db
+    volumes:
+      - ./iaff_back/postgres_dump.sql:/docker-entrypoint-initdb.d/postgres_dump.sql
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "!"
+      POSTGRES_DB: "ClientDatabase"
+    ports:
+      - "5432:5432"
+    networks:
+      - localnet
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres", "-d", "ClientDatabase", "-t", "5" ]
+      interval: 30s
+      retries: 3
+      start_period: 30s
+
+  backend:
+    build: ./iaff_back
+    ports:
+      - "5001:5001"
+    depends_on:
+      - database
+    networks:
+      - localnet
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://database:5432", "-m", "10" ]
+      interval: 30s
+      retries: 3
+      start_period: 30s
+
+  assistant:
+    build: ./iaff_assistant
+    ports:
+      - "8085:8085"
+    depends_on:
+      - database
+      - backend
+    networks:
+      - localnet
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://database:5432", "-m", "10" ]
+      interval: 30s
+      retries: 3
+      start_period: 30s
+
+  frontend:
+    build: ./iaff_front
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database
+      - backend
+      - assistant
+    networks:
+      - localnet
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://database:5432", "-m", "10" ]
+      interval: 30s
+      retries: 3
+      start_period: 30s
+
+
+networks:
+  localnet:
