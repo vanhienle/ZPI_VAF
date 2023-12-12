@@ -71,7 +71,7 @@ const Maps = () => {
         )}
       </div>
       {isLoaded ? (
-        <div className=" w-2/3 h-full max-md:w-full">
+        <div className="z-0 w-2/3 h-full max-md:w-full">
           <Map
             isLoaded={isLoaded}
             filter={chosenType}
