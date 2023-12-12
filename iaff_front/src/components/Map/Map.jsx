@@ -134,13 +134,13 @@ const Map = (props) => {
         {placeClicked && (
           <InfoWindow
             position={placeClicked.geometry.location}
-            mapContainerClassName="w-feet h-feet"
+            mapContainerClassName="w-fit h-fit"
             onCloseClick={() => {
               setPlaceClicked(null);
             }}
           >
-            <div className="p-4 flex flex-col items-center gap-3 w-feet max-md:w-64">
-              <h1 className="text-xs w-1/2 font-semibold text-primary-900 text-center max-md:text-base">
+            <div className="p-4 max-md:p-2 flex flex-col items-center gap-3 max-md:w-64">
+              <h1 className="text-xs w-1/2 max-md:w-full font-semibold text-primary-900 text-center">
                 {placeClicked.name}
               </h1>
               <img
@@ -153,7 +153,7 @@ const Map = (props) => {
                     : mapImage
                 }
                 alt="place"
-                className="w-64 max-md:w-full rounded-md h-32 max-md:h-44 object-cover"
+                className="w-64 max-md:w-full rounded-md h-32 object-cover"
               />
               <p className="text-center hidden max-md:block">
                 {placeClicked.vicinity}
