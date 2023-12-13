@@ -25,7 +25,7 @@ async def preprocess_docs():
         for file in file_name:
             try:
                 df = pd.read_excel(path + "/" + file)
-                if {'short_description', 'info', 'useful_links'}.issubset(df.columns):
+                if set(['short_description', 'info', 'useful_links']).issubset(df.columns):
                     doc_paths.append(path + "/" + file)
             except Exception:
                 pass

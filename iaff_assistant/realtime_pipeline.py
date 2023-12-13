@@ -22,7 +22,8 @@ system_message = {"role": "system",
 
 max_response_tokens = 1000
 token_limit = 4096
-conversation = [system_message]
+conversation = []
+conversation.append(system_message)
 
 embeddings = HuggingFaceEmbeddings(model_name=HF_EMBEDDINGS)
 no_information_embedding = embeddings.embed_query(no_information)

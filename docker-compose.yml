@@ -14,11 +14,6 @@ services:
       - "5432:5432"
     networks:
       - localnet
-    healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "postgres", "-d", "ClientDatabase", "-t", "5" ]
-      interval: 30s
-      retries: 3
-      start_period: 30s
 
   backend:
     build: ./iaff_back
@@ -28,11 +23,6 @@ services:
       - database
     networks:
       - localnet
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://database:5432", "-m", "10" ]
-      interval: 30s
-      retries: 3
-      start_period: 30s
 
   assistant:
     build: ./iaff_assistant
@@ -43,11 +33,6 @@ services:
       - backend
     networks:
       - localnet
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://database:5432", "-m", "10" ]
-      interval: 30s
-      retries: 3
-      start_period: 30s
 
   frontend:
     build: ./iaff_front
@@ -59,11 +44,21 @@ services:
       - assistant
     networks:
       - localnet
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://database:5432", "-m", "10" ]
-      interval: 30s
-      retries: 3
-      start_period: 30s
+
+  nginx:
+    image: nginx:1.15-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./data/nginx:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
 
 
 networks:
