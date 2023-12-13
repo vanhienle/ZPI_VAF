@@ -88,13 +88,11 @@ const ChangeProfile = ({ isLogin }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setFormData({ ...formData, change_failed: false });
     const { name, email_address, password } = formData;
-    if (
-      !formData.change_failed &&
-      formData.password !== "" &&
-      isFieldsFilledValidate()
-    ) {
+    if (isFieldsFilledValidate()) {
       try {
+        console.log("Here");
         const result = await changeProfile(name, email_address, password);
         if (result) {
           alert(CHANGE_PROFILE_SUCCESSFUL);
@@ -114,7 +112,11 @@ const ChangeProfile = ({ isLogin }) => {
   const isFieldsFilledValidate = () => {
     if (errors.name || errors.email) {
       return false;
-    } else if (formData.name === "" || formData.email === "") {
+    } else if (
+      formData.name === "" ||
+      formData.email === "" ||
+      formData.password === ""
+    ) {
       return false;
     } else {
       return true;
@@ -229,8 +231,8 @@ const ChangeProfile = ({ isLogin }) => {
                   <p className="text-primary-900 font-bold">Current Password</p>
                   <input
                     type={showPassword ? "text" : "password"}
-                    name="current_password"
-                    value={formData.current_password}
+                    name="password"
+                    value={formData.password}
                     onChange={handleChange}
                     className="leading-tight focus:outline-none focus:border-primary-900 text-lg max-2xl:text-base border rounded-lg w-full py-2 px-4 border-accent-700 text-text-color focus:shadow-outline mb-4"
                   />
