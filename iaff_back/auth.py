@@ -5,6 +5,7 @@ from userAccess import Access
 import psycopg2
 import jwt
 import datetime
+import connection_pool
 
 auth = Blueprint('auth', __name__)
 access = Access()
@@ -54,7 +55,6 @@ def verifyId(id, password):
 @cross_origin(supports_credentials=True)
 def login_post():
     request_data = request.get_json()
-
     email = request_data['email']
     password = request_data['password']
 
@@ -67,9 +67,23 @@ def login_post():
     print('user verified with id: ', result[0], ', creating token...')
     token = create_token(result[0])
 
-    access.DBCursor.execute("UPDATE users SET Token = %s WHERE UserID = %s", (token, result[0]))
-    access.DBConnection.commit()
-    return jsonify({'token': token}), 200
+    conn = None
+    try:
+        conn = connection_pool.get_db_connection()
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute("UPDATE users SET Token = %s WHERE UserID = %s", (token, result[0]))
+            conn.commit()
+            cursor.close()
+            return jsonify({'token': token}), 200
+        else:
+            print("Unable to get the connection")
+    except Exception as e:
+        print("Error while updating token in PostgreSQL", e)
+        return jsonify({'Error': 'Internal server error'}), 500
+    finally:
+        if conn:
+            connection_pool.return_db_connection(conn)
 
 
 @auth.route('/users/signup', methods=['POST'])
@@ -80,30 +94,59 @@ def signup_post():
     password = request_data['password']
     name = request_data['name']
 
-    print('(Sign up) verifying user: ', request_data)
+    print('(Sign up) registering user: ', request_data)
     password = generate_password_hash(password, method='sha256')
+
+    # Assuming signup() function handles DB connection internally
     result = access.signup(email=email, password=password, name=name)
     if not result:
         return jsonify({'Error': 'Failed to sign up'}), 500
 
-    print('user verified with id: ', result[0])
+    print('user registered with id: ', result[0])
     token = create_token(result[0])
 
-    access.DBCursor.execute("UPDATE users SET Token = %s WHERE UserID = %s", (token, result[0]))
-    access.DBConnection.commit()
-    return jsonify({'token': token}), 200
-
+    conn = None
+    try:
+        conn = connection_pool.get_db_connection()
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute("UPDATE users SET Token = %s WHERE UserID = %s", (token, result[0]))
+            conn.commit()
+            cursor.close()
+            return jsonify({'token': token}), 200
+        else:
+            print("Unable to get the connection")
+    except Exception as e:
+        print("Error while registering user in PostgreSQL", e)
+        return jsonify({'Error': 'Internal server error'}), 500
+    finally:
+        if conn:
+            connection_pool.return_db_connection(conn)
 
 def check_token(token):
     payload = jwt.decode(token, current_app.config['SECRET_KEY'], algorithms=['HS256'])
-    id = payload['UserID']
-    print('decoded id: ', id, ', checking if token is saved in database')
+    user_id = payload['UserID']
+    print('decoded id: ', user_id, ', checking if token is saved in database')
 
-    access.DBCursor.execute("SELECT Token FROM users WHERE UserID = %s", (id,))
-    stored_token = access.DBCursor.fetchone()
+    # Get connection from the connection pool
+    conn = None
+    try:
+        conn = connection_pool.get_db_connection()
 
-    return id if stored_token and stored_token[0] == token else None
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT Token FROM users WHERE UserID = %s", (user_id,))
+            stored_token = cursor.fetchone()
+            cursor.close()
 
+            # Return user_id if token matches
+            return user_id if stored_token and stored_token[0] == token else None
+        else:
+            print("Unable to get the connection")
+    except Exception as e:
+        print("Error while connecting to PostgreSQL", e)
+    finally:
+        connection_pool.return_db_connection(conn)
 
 @auth.route('/users/is_logged', methods=['POST'])
 @cross_origin(supports_credentials=True)
@@ -137,10 +180,23 @@ def logout():
         if not id:
             return jsonify('false'), 401
 
-        access.DBCursor.execute("UPDATE users SET Token = NULL WHERE UserID = %s", (id,))
-        access.DBConnection.commit()
-
-        return jsonify('true'), 200
+        conn = None
+        try:
+            conn = connection_pool.get_db_connection()
+            if conn:
+                cursor = conn.cursor()
+                cursor.execute("UPDATE users SET Token = NULL WHERE UserID = %s", (id,))
+                conn.commit()
+                cursor.close()
+                return jsonify('true'), 200
+            else:
+                print("Unable to get the connection")
+        except Exception as e:
+            print("Error while logging out in PostgreSQL", e)
+            return jsonify('false'), 500
+        finally:
+            if conn:
+                connection_pool.return_db_connection(conn)
     except jwt.InvalidTokenError:
         print('invalid token: ', token)
         return jsonify('false'), 401

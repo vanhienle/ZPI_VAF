@@ -1,24 +1,24 @@
 from flask_login import UserMixin
 import pika
-import psycopg2
-
+from psycopg2 import pool
 
 class User(UserMixin):
     pass
 
-
 class Access:
     def __init__(self) -> None:
-        # self.connection, self.channel = self.createChannel()
-        self.DBConnection, self.DBCursor = self.createDBCursor()
+        self.connection_pool = pool.SimpleConnectionPool(1, 10, 
+                                                    host='localhost',
+                                                    port=5432,
+                                                    database='ClientDatabase',
+                                                    user='postgres',
+                                                    password='!')
 
-    def createDBCursor(self):
-        conn = psycopg2.connect(host='diploma-db',
-                                port=5432,
-                                database="ClientDatabase",
-                                user="postgres",
-                                password="!")
-        return conn, conn.cursor()
+    def get_connection(self):
+        return self.connection_pool.getconn()
+
+    def release_connection(self, conn):
+        self.connection_pool.putconn(conn)
 
     def createChannel(self):
         connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
@@ -26,83 +26,166 @@ class Access:
         channel.queue_declare(queue='user')
         return connection, channel
 
+    @classmethod
+    def close_all_connections(cls):
+        cls.connection_pool.closeall()
+
+
     def getUser(self, email, password):
-        print('Inside get user: email=', email, ' password=', password)
-        self.DBCursor.execute(
-            """SELECT * 
-            FROM users 
-            WHERE UserEmail = %(UserEmail)s AND UserPass = %(UserPass)s""",
-            {'UserEmail': email, 'UserPass': password})
-        result = self.DBCursor.fetchone()
-        print('After query=', result)
+        conn = self.get_connection()
+        try:
+            with conn.cursor() as curs:
+                curs.execute(
+                    """SELECT * 
+                    FROM users 
+                    WHERE UserEmail = %(UserEmail)s AND UserPass = %(UserPass)s""",
+                    {'UserEmail': email, 'UserPass': password}
+                )
+                result = curs.fetchone()
+        finally:
+            self.release_connection(conn)
         return result
 
     def getUserFromID(self, id):
-        print('Inside get user from ID: id=', id)
-        self.DBCursor.execute(
-            """SELECT * 
-            FROM users 
-            WHERE UserID = %(UserID)s""",
-            {'UserID': id})
-        result = self.DBCursor.fetchone()
-        print('After query=', result)
+        conn = self.get_connection()
+        try:
+            with conn.cursor() as curs:
+                curs.execute(
+                    """SELECT * 
+                    FROM users 
+                    WHERE UserID = %(UserID)s""",
+                    {'UserID': id}
+                )
+                result = curs.fetchone()
+        finally:
+            self.release_connection(conn)
         return result
 
     def getUserName(self, email):
-        self.DBCursor.execute("""SELECT UserName FROM users WHERE UserEmail = %(UserEmail)s""", {'UserEmail': email})
-        result = self.DBCursor.fetchone()
+        conn = self.get_connection()
+        try:
+            with conn.cursor() as curs:
+                curs.execute(
+                    """SELECT UserName 
+                    FROM users 
+                    WHERE UserEmail = %(UserEmail)s""",
+                    {'UserEmail': email}
+                )
+                result = curs.fetchone()
+        finally:
+            self.release_connection(conn)
         return result
 
     def getFromUser(self, email):
-        self.DBCursor.execute("""SELECT UserID,UserPass FROM users WHERE UserEmail = %(UserEmail)s""",
-                              {'UserEmail': email})
-        result = self.DBCursor.fetchone()
+        conn = self.get_connection()
+        try:
+            with conn.cursor() as curs:
+                curs.execute(
+                    """SELECT UserID, UserPass 
+                    FROM users 
+                    WHERE UserEmail = %(UserEmail)s""",
+                    {'UserEmail': email}
+                )
+                result = curs.fetchone()
+        finally:
+            self.release_connection(conn)
         return result
 
     def deleteUser(self, email):
-        self.DBCursor.execute("""DELETE * FROM users WHERE UserEmail = %(UserEmail)s""", {'UserEmail': email})
-        result = self.DBCursor.fetchone()
-        return result
+        conn = self.get_connection()
+        try:
+            with conn.cursor() as curs:
+                curs.execute(
+                    """DELETE FROM users 
+                    WHERE UserEmail = %(UserEmail)s""",
+                    {'UserEmail': email}
+                )
+                conn.commit()
+        finally:
+            self.release_connection(conn)
 
     def updateUserPassword(self, id, password):
-        self.DBCursor.execute("""UPDATE users SET UserPass = %(UserPass)s WHERE UserID = %(UserID)s""",
-                              {'UserID': id, 'UserPass': password})
-        self.DBConnection.commit()
+        conn = self.get_connection()
+        try:
+            with conn.cursor() as curs:
+                curs.execute(
+                    """UPDATE users 
+                    SET UserPass = %(UserPass)s 
+                    WHERE UserID = %(UserID)s""",
+                    {'UserID': id, 'UserPass': password}
+                )
+                conn.commit()
+        finally:
+            self.release_connection(conn)
 
     def updateUserAccount(self, email, name, id):
-        self.DBCursor.execute(
-            """UPDATE users SET UserEmail = %(UserEmail)s, UserName = %(UserName)s WHERE UserID = %(UserID)s""",
-            {'UserEmail': email, 'UserName': name, 'UserID': id})
-        self.DBConnection.commit()
+        conn = self.get_connection()
+        try:
+            with conn.cursor() as curs:
+                curs.execute(
+                    """UPDATE users 
+                    SET UserEmail = %(UserEmail)s, UserName = %(UserName)s 
+                    WHERE UserID = %(UserID)s""",
+                    {'UserEmail': email, 'UserName': name, 'UserID': id}
+                )
+                conn.commit()
+        finally:
+            self.release_connection(conn)
 
     def new_id(self):
-        query = f"SELECT max(UserID) FROM users"
-        self.DBCursor.execute(query)
-        last_id = self.DBCursor.fetchone()[0]
-        return last_id + 1
+        conn = self.get_connection()
+        try:
+            with conn.cursor() as curs:
+                curs.execute("SELECT MAX(UserID) FROM users")
+                last_id = curs.fetchone()[0]
+                return last_id + 1 if last_id is not None else 1
+        finally:
+            self.release_connection(conn)
 
     def signup(self, email, password, name):
         if self.checkExistence(email, False):
-            print('User with mail: ', email, ' already exists')
+            print('User with email:', email, ' already exists')
             return None
 
         id = self.new_id()
-
-        self.DBCursor.execute(
-            """INSERT INTO users (UserID,UserEmail,UserPass,UserName) VALUES (%(UserID)s,%(UserEmail)s,%(UserPass)s, 
-            %(UserName)s)""",
-            {'UserID': id, 'UserEmail': email, 'UserPass': password, 'UserName': name})
-        self.DBConnection.commit()
+        conn = self.get_connection()
+        try:
+            with conn.cursor() as curs:
+                curs.execute(
+                    """INSERT INTO users (UserID, UserEmail, UserPass, UserName) 
+                    VALUES (%(UserID)s, %(UserEmail)s, %(UserPass)s, %(UserName)s)""",
+                    {'UserID': id, 'UserEmail': email, 'UserPass': password, 'UserName': name}
+                )
+                conn.commit()
+        finally:
+            self.release_connection(conn)
         return self.getUser(email, password)
 
     def checkExistence(self, email, password):
-        if password:
-            self.DBCursor.execute("""SELECT * FROM users WHERE UserPass = %(UserPass)s""", {'UserPass': email})
-        else:
-            self.DBCursor.execute("""SELECT * FROM users WHERE UserEmail = %(UserEmail)s""", {'UserEmail': email})
-        result = self.DBCursor.fetchone()
-        return not result is None
+        conn = self.get_connection()
+        try:
+            with conn.cursor() as curs:
+                if password:
+                    curs.execute(
+                        """SELECT * FROM users 
+                        WHERE UserPass = %(UserPass)s""",
+                        {'UserPass': password}
+                    )
+                else:
+                    curs.execute(
+                        """SELECT * FROM users 
+                        WHERE UserEmail = %(UserEmail)s""",
+                        {'UserEmail': email}
+                    )
+                result = curs.fetchone()
+                return result is not None
+        finally:
+            self.release_connection(conn)
 
     def fin(self):
-        self.DBConnection.close()
-        self.connection.close()
+        self.connection_pool.closeall()
+
+        try:
+            self.connection.close()
+        except AttributeError:
+            pass

@@ -28,7 +28,6 @@ def filled_survey():
     except psycopg2.Error as e:
         error_message = str(e)
         print("SQL error:", error_message)
-        survey.DBConnection.commit()
         return jsonify('false'), 500
 
 
@@ -75,7 +74,6 @@ def get_user_survey():
     except psycopg2.Error as e:
         error_message = str(e)
         print("SQL error:", error_message)
-        survey.DBConnection.commit()
         return jsonify({"Error": error_message}), 500
 
 
@@ -122,7 +120,6 @@ def add_survey():
     except psycopg2.Error as e:
         error_message = str(e)
         print("SQL error:", error_message)
-        survey.DBConnection.commit()
         return jsonify({"Error": error_message}), 500
 
 
@@ -164,5 +161,4 @@ def update_survey():
     except psycopg2.Error as e:
         error_message = str(e)
         print("SQL error:", error_message)
-        survey.DBConnection.commit()
         return jsonify({"Error": error_message}), 500

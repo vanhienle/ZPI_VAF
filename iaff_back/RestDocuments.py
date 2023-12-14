@@ -16,17 +16,14 @@ def get_document():
     try:
         request_data = request.get_json()
         docID = request_data['documentId']
-        print('(get_document) extracted id=', docID, ', sending sql query to database')
+        print('(get_document) extracted id=',docID, ', sending sql query to database')
         result = documents.getDocument(docID)
         print('founded: ', result)
-        return (jsonify(
-            {"category": result[0], "title": result[1], "info": result[2], "links": result[-3], "short": result[-4],
-             "image": result[-1]}), 200) if result else (jsonify("false"), 401)
+        return (jsonify({"category": result[0],"title": result[1],"info": result[2],"links": result[-3],"short": result[-4], "image": result[-1]}), 200) if result else (jsonify("false"), 401)
 
     except psycopg2.Error as e:
         error_message = str(e)
         print("SQL error:", error_message)
-        documents.DBConnection.commit()
         return jsonify('false'), 500
     except Exception as e:
         error_message = str(e)
@@ -50,12 +47,12 @@ def get_categories():
     except psycopg2.Error as e:
         error_message = str(e)
         print("SQL error:", error_message)
-        documents.DBConnection.commit()
         return jsonify('false'), 500
     except Exception as e:
         error_message = str(e)
         print("Unknown error:", error_message)
         return jsonify('false'), 500
+
 
 
 @docs.route('/documents/get_by_category', methods=['POST'])
@@ -72,20 +69,21 @@ def get_by_category():
 
         acc = []
         for result in results:
-            acc.append(
-                {"id": result[-2], "category": result[0], "title": result[1], "short": result[-4], "image": result[-1]})
+            acc.append({"id": result[-2], "category": result[0],  "title": result[1], "short": result[-4], "image": result[-1]})
 
         return jsonify({"results": acc}), 200
 
     except psycopg2.Error as e:
         error_message = str(e)
         print("SQL error:", error_message)
-        documents.DBConnection.commit()
         return jsonify('false'), 500
     except Exception as e:
         error_message = str(e)
         print("Unknown error:", error_message)
         return jsonify('false'), 500
+
+
+
 
 
 @docs.route('/documents/get_by_name', methods=['POST'])
@@ -96,20 +94,18 @@ def get_by_name():
         name = request_data['name']
         print('Filtered keyword: ', name)
         results = documents.getAllByName(name)
-        print('Found ', len(results), ' results')
+        print('Found ',len(results),' results')
         if len(results) == 0:
             return jsonify({"results": []}), 200
 
         acc = []
         for result in results:
-            acc.append(
-                {"id": result[-2], "category": result[0], "title": result[1], "short": result[-4], "image": result[-1]})
+            acc.append({"id": result[-2], "category": result[0], "title": result[1], "short": result[-4], "image": result[-1]})
         return jsonify({"results": acc}), 200
 
     except psycopg2.Error as e:
         error_message = str(e)
         print("SQL error:", error_message)
-        documents.DBConnection.commit()
         return jsonify('false'), 500
     except Exception as e:
         error_message = str(e)
@@ -146,16 +142,14 @@ def get_recommendations():
         refugee = int(surv[11])
         other = int(surv[12])
         documentType = surv[13]
-        results = documents.getRecommendations(id, age, kids, baby, teen, adult, accom, insure, study, job, live,
-                                               refugee, other,
-                                               documentType)
+        results = documents.getRecommendations(id, age, kids, baby, teen, adult, accom, insure, study, job, live, refugee, other,
+                                     documentType)
         if len(results) == 0:
             return jsonify([]), 404
 
         acc = []
         for result in results:
-            acc.append(
-                {"title": result[0], "short": result[1], "id": result[3], "category": result[4], "image": result[-1]})
+            acc.append({"title": result[0], "short": result[1], "id": result[3], "category": result[4], "image": result[-1]})
         return jsonify({"results": acc}), 200
 
     except jwt.ExpiredSignatureError:
@@ -165,7 +159,6 @@ def get_recommendations():
     except psycopg2.Error as e:
         error_message = str(e)
         print("SQL error:", error_message)
-        documents.DBConnection.commit()
         return jsonify('false'), 500
     except Exception as e:
         error_message = str(e)
