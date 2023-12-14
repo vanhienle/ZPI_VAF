@@ -3,7 +3,7 @@ from flask_cors import cross_origin
 import requests
 
 assist = Blueprint('assistant', __name__)
-assistant_api_address = "http://assistant:8085"
+assistant_api_address = "http://localhost:8085"
 
 
 @assist.route('/assistant/get_response', methods=['POST'])
