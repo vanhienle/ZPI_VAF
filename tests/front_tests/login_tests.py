@@ -29,19 +29,17 @@ def input_password_incorrect():
     time.sleep(1)
 
 
-#input_email_incorrect()
-#time.sleep(1)
-#input_password_incorrect()
-#time.sleep(1)
+input_email_incorrect()
+time.sleep(1)
+input_password_incorrect()
+time.sleep(1)
 input_correct()
 time.sleep(1)
 login_button.click()
-#signup_button.click()
+signup_button.click()
 
-'''
 error_login = driver.find_element(By.ID, "not_correct")
 assert "Email or password is not correct!" in error_login.text, "Error not found"
-'''
 
 time.sleep(1)
 

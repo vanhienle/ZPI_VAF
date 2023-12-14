@@ -44,19 +44,18 @@ def input_repeat_incorrect():
     time.sleep(1)
 
 
-#input_name_incorrect()
-#time.sleep(1)
-#input_email_incorrect()
-#time.sleep(1)
-#input_password_incorrect()
-#time.sleep(1)
-#input_repeat_incorrect()
-#time.sleep(1)
+input_name_incorrect()
+time.sleep(1)
+input_email_incorrect()
+time.sleep(1)
+input_password_incorrect()
+time.sleep(1)
+input_repeat_incorrect()
+time.sleep(1)
 input_correct()
 time.sleep(1)
 submit_button.click()
 
-'''
 error_name = driver.find_element(By.ID, "error_name")
 error_email = driver.find_element(By.ID, "error_email")
 error_password = driver.find_element(By.ID, "error_password")
@@ -68,7 +67,6 @@ assert "Email must be between 3 and 50 characters and have a valid format!" in e
 assert "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, " \
        "one number, and one special character!" in error_password.text, "Password is correct"
 assert "Passwords do not match!" in error_repeat.text, "Repeated password is correct"
-'''
 
 time.sleep(1)
 

@@ -22,7 +22,7 @@ def convert_webm_bytes_to_wav_bytes(webm_bytes):
         with open(wav_path, 'rb') as temp_wav:
             wav_bytes = temp_wav.read()
             return wav_bytes
-    except ffmpeg.Error as e:
+    except Exception as e:
         print("Error:", e.stderr.decode())
         return None
     finally:
@@ -51,10 +51,13 @@ async def transcribe(content, lang):
     transcription = ""
     async with aiohttp.ClientSession() as session:
         async with session.post(azure_endpoint, headers=headers, data=audio_io) as response:
-            if response.status == 200:
-                result = await response.json()
-                transcription = result.get('DisplayText', '')
-            else:
-                error_details = await response.text()
-                print(f"Error: {response.status}, Details: {error_details}")
+            try:
+                if response.status == 200:
+                    result = await response.json()
+                    transcription = result.get('DisplayText', '')
+                else:
+                    error_details = await response.text()
+                    print(f"Error: {response.status}, Details: {error_details}")
+            except Exception as e:
+                print(f"An error occured: {e}")
     return transcription

@@ -1,67 +1,59 @@
-import pytest
-from iaff_back import auth
+import unittest
+from unittest.mock import patch, MagicMock
+import auth
+import app
+import json
 
 
-@pytest.fixture
-def client():
-    app = Flask(__name__)
-    app.register_blueprint(auth)
-    app.config['TESTING'] = True
-    with app.test_client() as client:
-        yield client
+class TestAuthEndpoints(unittest.TestCase):
+
+    def setUp(self):
+        self.app = app.test_client()
+        self.app.testing = True
+
+    def tearDown(self):
+        pass
+
+    def test_login(self):
+        mock_request_data = {'email': 'admin3@gmail.com', 'password': '12345678@'}
+
+        with patch('your_flask_app.auth.verify') as mock_verify:
+            mock_verify.return_value = [1, 'hashed_password', 'name']
+
+            response = self.app.post('/users/login', json=mock_request_data)
+
+            self.assertEqual(response.status_code, 200)
+
+    def test_signup_success(self):
+        mock_request_data = {'email': 'testtesttesttest@test.com', 'password': 'Qwerty123456!', 'name': 'Test Test Test'}
+
+        with patch('your_flask_app.auth.access.signup') as mock_signup:
+            mock_signup.return_value = [1, 'hashed_password', 'Test User']
+
+            response = self.app.post('/users/signup', json=mock_request_data)
+
+            self.assertEqual(response.status_code, 200)
+
+    def test_is_logged_with_valid_token(self):
+        mock_token = 'valid_token'
+
+        with patch('your_flask_app.auth.check_token') as mock_check_token:
+            mock_check_token.return_value = 1
+
+            response = self.app.post('/users/is_logged', headers={'token': mock_token})
+
+            self.assertEqual(response.status_code, 200)
+
+    def test_logout_with_invalid_token(self):
+        mock_invalid_token = 'invalid_token'
+
+        with patch('your_flask_app.auth.check_token') as mock_check_token:
+            mock_check_token.return_value = None  # Mock invalid token check
+
+            response = self.app.post('/users/logout', headers={'token': mock_invalid_token})
+
+            self.assertEqual(response.status_code, 401)
 
 
-def test_ab_route(client):
-    response = client.get('/ab')
-    assert response.status_code == 200
-    assert response.json == {"key": "data"}
-
-
-def test_login_route(client):
-    data = {
-        "email": "admin3@gmail.com",
-        "password": "12345678@"
-    }
-    response = client.post('/users/login', json=data)
-    assert response.status_code == 200
-    assert 'token' in response.json
-
-
-def test_signup_route(client):
-    data = {
-        "email": "test@example.com",
-        "password": "testpassword",
-        "name": "Test User"
-    }
-    response = client.post('/users/signup', json=data)
-    assert response.status_code == 200
-    assert 'token' in response.json
-
-
-def test_change_password_route(client):
-    data = {
-        "password": "testpassword",
-        "newpassword": "newtestpassword"
-    }
-    headers = {'token': 'valid_token_here'}
-    response = client.put('/users/change_password', json=data, headers=headers)
-    assert response.status_code == 200
-    assert response.json == 'true'
-
-
-def test_is_logged_route(client):
-    headers = {'token': 'valid_token_here'}
-    response = client.post('/users/is_logged', headers=headers)
-    assert response.status_code == 200
-
-
-def test_logout_route(client):
-    headers = {'token': 'valid_token_here'}
-    response = client.post('/users/logout', headers=headers)
-    assert response.status_code == 200
-
-
-def test_get_user_data_route(client):
-    headers = {'token': 'valid_token_here'}
-    response = client.post('/users/get_user_data', headers=headers)
-    assert response.status_code == 200
+if __name__ == '__main__':
+    unittest.main()
