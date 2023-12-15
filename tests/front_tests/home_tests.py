@@ -4,15 +4,15 @@ import time
 
 driver = webdriver.Firefox()
 
-driver.get("https://assistant.westeurope.cloudapp.azure.com/login")
+driver.get("https://iaff.nocservice.biz/")
 
 home_button = driver.find_element(By.ID, "home_button")
-question_input = driver.find_element(By.ID, "question_input")
-ask_me_button = driver.find_element(By.ID, "ask_me_button")
-first_question_button = driver.find_element(By.ID, "first_question_button")
-first_banner_button = driver.find_element(By.ID, "first_banner_button")
-login_banner_button = driver.find_element(By.ID, "login_banner_button")
-signup_banner_button = driver.find_element(By.ID, "signup_banner_button")
+question_input = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[3]/div/div[2]/input')
+ask_me_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[3]/div/div[2]/button')
+first_question_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[5]/div/button[1]/div')
+first_banner_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[7]/div[1]/div[1]')
+login_banner_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[9]/div/div[2]/a[1]')
+signup_banner_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[9]/div/div[2]/a[2]')
 
 
 def input_question():
