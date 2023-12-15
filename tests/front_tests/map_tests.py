@@ -4,17 +4,18 @@ import time
 
 driver = webdriver.Firefox()
 
-driver.get("https://assistant.westeurope.cloudapp.azure.com/login")
+driver.get("https://iaff.nocservice.biz/map")
 
-map_button = driver.find_element(By.ID, "map_button")
-
-city_input = driver.find_element(By.ID, "city_input")
-filter_field = driver.find_element(By.ID, "filter_field")
-filter_choose_input = driver.find_element(By.ID, "filter_choose_input")
-choose_place = driver.find_element(By.ID, "choose_place")
-click_link = driver.find_element(By.ID, "click_link")
+city_input = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[1]/div[1]/div/div[1]/input')
+city_choice = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[1]/div[1]/div/div[1]/div/div/div')
+filter_field = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[1]/div[1]/div/div[2]/input')
+filter_choose_input = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[1]/div[1]/div/div[2]/div/div/div[6]')
+choose_place = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[1]/div[2]/div/div[1]/div')
+click_link = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[1]/div[2]/div/div[7]/a')
 
 city_input.sendKeys("Gdynia")
+time.sleep(2)
+city_choice.click()
 time.sleep(2)
 filter_field.click()
 time.sleep(2)
