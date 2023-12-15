@@ -6,7 +6,6 @@ driver = webdriver.Firefox()
 
 driver.get("https://iaff.nocservice.biz/")
 
-home_button = driver.find_element(By.ID, "home_button")
 question_input = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[3]/div/div[2]/input')
 ask_me_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[3]/div/div[2]/button')
 first_question_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[5]/div/button[1]/div')
