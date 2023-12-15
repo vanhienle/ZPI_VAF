@@ -4,14 +4,13 @@ import time
 
 driver = webdriver.Firefox()
 
-driver.get("https://assistant.westeurope.cloudapp.azure.com/login")
+driver.get("https://iaff.nocservice.biz/assistant")
 
-assistant_button = driver.find_element(By.ID, "assistant_button")
-first_question_button = driver.find_element(By.ID, "first_question_button")
-input_question = driver.find_element(By.ID, "input_question")
-send_button = driver.find_element(By.ID, "send_button")
-language_button = driver.find_element(By.ID, "language_button")
-polish_button = driver.find_element(By.ID, "polish_button")
+first_question_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[1]/div/div[1]/div[2]/div[2]/div/button[1]')
+input_question = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[2]/div[1]/textarea')
+send_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[2]/svg')
+language_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[2]/div[2]/div/button')
+polish_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[2]/div[2]/div[2]/div[5]/button')
 
 
 def question_input_english():
