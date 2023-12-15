@@ -4,13 +4,13 @@ import time
 
 driver = webdriver.Firefox()
 
-driver.get("https://assistant.westeurope.cloudapp.azure.com/sign-up")
+driver.get("https://iaff.nocservice.biz/sign-up")
 
-username_input = driver.find_element(By.ID, "name")
-email_input = driver.find_element(By.ID, "email")
-password_input = driver.find_element(By.ID, "password")
-confirm_password_input = driver.find_element(By.ID, "repeat_password")
-submit_button = driver.find_element(By.ID, "submit_button")
+username_input = driver.find_element(By.XPATH, '//*[@id="name"]')
+email_input = driver.find_element(By.XPATH, '//*[@id="email"]')
+password_input = driver.find_element(By.XPATH, '//*[@id="password"]')
+confirm_password_input = driver.find_element(By.XPATH, '//*[@id="repeat-password"]')
+submit_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div/div[2]/div[2]/button')
 
 
 def input_correct():
