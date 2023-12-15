@@ -237,6 +237,7 @@ const Filters = ({ handleSearchHotels, handleSetInformation }) => {
           </label>
           <div className="relative">
             <input
+              id="destination_input"
               className={`border border-accent-900 focus:border-primary-700 outline-none p-3 w-full rounded-lg ${
                 isSelectedDestination ? "font-semibold" : ""
               }`}
@@ -256,6 +257,7 @@ const Filters = ({ handleSearchHotels, handleSetInformation }) => {
             {suggestedDestinationList.length > 0 && isOpenSuggestionBox && (
               <ul
                 ref={suggestionBoxRef}
+                id="city_dropdown"
                 className="absolute top-12 z-10 bg-background-color border border-accent-700 rounded-md mt-1 max-h-32 w-full overflow-auto"
               >
                 {suggestedDestinationList.map((suggestion, index) => (
