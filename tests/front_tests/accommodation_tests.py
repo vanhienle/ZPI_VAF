@@ -10,7 +10,6 @@ driver.get("https://iaff.nocservice.biz/accommodation")
 
 destination_input = driver.find_element(By.ID, "destination_input")
 dropdown = driver.find_element(By.ID, "city_dropdown")
-'''
 check_in_button = driver.find_element(By.ID, "check_in_button")
 check_out_button = driver.find_element(By.ID, "check_out_button")
 guest_input = driver.find_element(By.ID, "guest_input")
@@ -23,14 +22,12 @@ sort_button = driver.find_element(By.ID, "sort_button")
 sort_choice_button = driver.find_element(By.ID, "sort_choice_button")
 search_button = driver.find_element(By.ID, "search_button")
 first_choice_button = driver.find_element(By.ID, "first_choice_button")
-'''
 
 destination_input.sendKeys("Warsaw")
 time.sleep(2)
 select = Select(dropdown)
 select.select_by_visible_text("Warsaw")
 time.sleep(1)
-'''
 check_in_button.click()
 time.sleep(1)
 check_out_button.click()
@@ -55,6 +52,5 @@ search_button.click()
 time.sleep(1)
 first_choice_button.click()
 time.sleep(1)
-'''
 
 driver.quit()
