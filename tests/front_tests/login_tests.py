@@ -13,9 +13,9 @@ signup_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div/form/
 
 
 def input_correct():
-    email_input.send_keys("youremail@example.com")
+    email_input.send_keys("admin3@hmail.com")
     time.sleep(1)
-    password_input.send_keys("YourPassword!1")
+    password_input.send_keys("12345678@")
     time.sleep(1)
 
 
