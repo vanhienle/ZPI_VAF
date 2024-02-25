@@ -144,5 +144,5 @@ class DocumentAdder:
                                     refugee, other, documentType, image, links)
 
 
-dc = DocumentAdder('C://Users/vano/Documents/GitHub/ZPI_VAF/iaff_assistant/documents')
+dc = DocumentAdder('./documents')
 dc.InsertOrUpdateData()
