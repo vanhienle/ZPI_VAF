@@ -7,6 +7,7 @@ on:
   push:
     paths:
       - "iaff_front/**"
+      - ".github/workflows/dev_front_hien_iaff.yml"
     branches:
       - dev_front_hien
   workflow_dispatch:
