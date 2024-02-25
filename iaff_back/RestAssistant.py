@@ -1,9 +1,15 @@
 from flask import request, jsonify, Blueprint
 from flask_cors import cross_origin
 import requests
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+ASSISTANT_URL = os.getenv("ASSISTANT_URL")
 
 assist = Blueprint('assistant', __name__)
-assistant_api_address = "http://localhost:8085"
+assistant_api_address = ASSISTANT_URL
 
 
 @assist.route('/assistant/get_response', methods=['POST'])

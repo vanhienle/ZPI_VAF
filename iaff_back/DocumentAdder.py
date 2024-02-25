@@ -4,14 +4,24 @@ from psycopg2 import pool
 import pandas as pd
 from io import BytesIO
 import base64
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+DB_HOST = os.getenv("DB_HOST")
+DB_PORT = os.getenv("DB_PORT")
+DB_NAME = os.getenv("DB_NAME")
+DB_USER = os.getenv("DB_USER")
+DB_PW = os.getenv("DB_PW")
 
 class Documents:
     connection_pool = pool.SimpleConnectionPool(1, 10, 
-                                                host='localhost',
-                                                port=5432,
-                                                database='ClientDatabase',
-                                                user='postgres',
-                                                password='!')
+                                                host=DB_HOST,
+                                                port=DB_PORT,
+                                                database=DB_NAME,
+                                                user=DB_USER,
+                                                password=DB_PW)
 
     def get_connection(self):
         return self.connection_pool.getconn()
