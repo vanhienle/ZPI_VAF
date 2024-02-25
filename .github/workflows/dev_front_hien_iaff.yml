@@ -9,12 +9,6 @@ on:
       - "iaff_front/**"
     branches:
       - dev_front_hien
-  pull_request:
-    paths:
-      - "iaff_front/**"
-    types: [opened, synchronize, reopened, closed]
-    branches:
-      - dev_front_hien
   workflow_dispatch:
 
 jobs:
