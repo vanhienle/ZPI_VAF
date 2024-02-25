@@ -28,6 +28,11 @@ jobs:
         run: |
           cd iaff_front
           npm install
+
+          echo "REACT_APP_BACK_END_URL=${{ secrets.REACT_APP_BACK_END_URL }}" > .env
+          echo "REACT_APP_BOOKINGCOM_URL=${{ secrets.REACT_APP_BOOKINGCOM_URL }}" >> .env
+          echo "REACT_APP_BOOKINGCOM_KEY=${{ secrets.REACT_APP_BOOKINGCOM_KEY }}" >> .env
+
           npm run build --if-present
 
       - name: Zip artifact for deployment
