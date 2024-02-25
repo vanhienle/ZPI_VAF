@@ -51,7 +51,6 @@ async def ingest_doc(doc_path):
         chunk_overlap=50
     )
     df = pd.read_excel(doc_path)
-
     links = df['useful_links'][0]
     article = df['title'][0]
     content = df['info'][0]

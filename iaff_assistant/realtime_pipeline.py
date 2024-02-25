@@ -79,7 +79,7 @@ async def query(conv):
         conv_history_tokens = num_tokens_from_messages(messages)
 
     response = await openai.ChatCompletion.acreate(
-        engine="TestChat",
+        engine="iaff_assistant",
         messages=messages,
         temperature=0.0,
         max_tokens=max_response_tokens,
