@@ -32,8 +32,8 @@ jobs:
 
       - name: Zip artifact for deployment
         run: |
-          cd iaff_front/build
-          zip release.zip ./* -r
+          cd iaff_front
+          zip release.zip ./build/* -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
