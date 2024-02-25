@@ -16,12 +16,13 @@ DB_USER = os.getenv("DB_USER")
 DB_PW = os.getenv("DB_PW")
 
 class Documents:
-    connection_pool = pool.SimpleConnectionPool(1, 10, 
-                                                host=DB_HOST,
-                                                port=DB_PORT,
-                                                database=DB_NAME,
-                                                user=DB_USER,
-                                                password=DB_PW)
+    def __init__(self) -> None:
+        self.connection_pool = pool.SimpleConnectionPool(1, 10, 
+                                                    host=DB_HOST,
+                                                    port=DB_PORT,
+                                                    database=DB_NAME,
+                                                    user=DB_USER,
+                                                    password=DB_PW)
 
     def get_connection(self):
         return self.connection_pool.getconn()
