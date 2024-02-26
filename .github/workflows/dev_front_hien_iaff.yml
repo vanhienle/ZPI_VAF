@@ -32,6 +32,7 @@ jobs:
           echo "REACT_APP_BACK_END_URL=${{ secrets.REACT_APP_BACK_END_URL }}" > .env
           echo "REACT_APP_BOOKINGCOM_URL=${{ secrets.REACT_APP_BOOKINGCOM_URL }}" >> .env
           echo "REACT_APP_BOOKINGCOM_KEY=${{ secrets.REACT_APP_BOOKINGCOM_KEY }}" >> .env
+          echo "REACT_APP_GOOGLE_MAPS_API_KEY=${{ secrets.REACT_APP_GOOGLE_MAPS_API_KEY }}" >> .env
 
           npm run build --if-present
 
