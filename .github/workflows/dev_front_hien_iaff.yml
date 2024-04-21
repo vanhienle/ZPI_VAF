@@ -9,7 +9,7 @@ on:
       - "iaff_front/**"
       - ".github/workflows/dev_front_hien_iaff.yml"
     branches:
-      - dev_front_hien
+      - feature-flowise
   workflow_dispatch:
 
 jobs:
@@ -22,7 +22,7 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: '20.11.1'
+          node-version: "20.11.1"
 
       - name: npm install, build, and test
         run: |
@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Production'
+      name: "Production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -63,11 +63,11 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
 
-      - name: 'Deploy to Azure Web App'
+      - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'iaff'
-          slot-name: 'Production'
+          app-name: "iaff"
+          slot-name: "Production"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2DBDFA0A01CC49328CA6B6A1C8C512C7 }}
           package: .

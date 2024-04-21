@@ -379,7 +379,9 @@ const Assistant = () => {
                                       <a
                                         className="flex items-center gap-2 rounded-lg border border-accent-900 hover:border-accent-700 bg-background-color px-2 py-1.5 leading-none"
                                         href={
-                                          "documents/" + documentIDs[article]
+                                          window.location.origin +
+                                          "/documents/" +
+                                          documentIDs[article]
                                         }
                                         target="_blank"
                                         rel="noreferrer"
