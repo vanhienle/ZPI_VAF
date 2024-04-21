@@ -15,6 +15,28 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <script type="module">
+      import Chatbot from "https://cdn.jsdelivr.net/gh/vanhienle/FlowiseChatEmbed@main/dist/web.js"
+      Chatbot.init({
+          chatflowid: "7c45f4ab-c557-48df-8406-809832ac7a07",
+          apiHost: "https://flowise.iaff.site",
+          theme: {
+              button: {
+                  backgroundColor: "#020569",
+                  right: 35,
+                  bottom: 20,
+                  size: "medium",
+                  iconColor: "white",
+              },
+              chatWindow: {
+                  welcomeMessage: "Hello, I will help you navigate through. What are you looking for?",
+                  backgroundColor: "#ffffff",
+                  width: 400,
+                  fontSize: 16
+              }
+          }
+      })
+  </script>
     <div id="root"></div>
   </body>
 </html>
